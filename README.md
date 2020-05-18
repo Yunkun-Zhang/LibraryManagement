@@ -1,2 +1,2 @@
-# Library-Seat-Reservation-System
+# LibraryManagement
 Final project for Software Engineering
