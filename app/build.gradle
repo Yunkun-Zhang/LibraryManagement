@@ -46,4 +46,3 @@ dependencies {
     implementation("com.louiscad.splitties:splitties-fun-pack-android-base:3.0.0-alpha06")
     implementation "me.liuwj.ktorm:ktorm-core:2.7.2"
 }
-
