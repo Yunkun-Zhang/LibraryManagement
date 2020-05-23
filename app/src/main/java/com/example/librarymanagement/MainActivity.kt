@@ -41,9 +41,7 @@ class MainActivity : AppCompatActivity() {
         var x = sDao.getStudent(3)
 
         btn_object_date.setOnClickListener {
-            //以下方法调用自DateUtil.kt，采取了单例对象的方式
-            btn_object_date.text = "单例对象： 当前日期时间为${x}"
-
+            btn_object_date.text = "当前数据${x}, 当前日期时间为${DateUtil.nowDateTime}"
         }
     }
 }
