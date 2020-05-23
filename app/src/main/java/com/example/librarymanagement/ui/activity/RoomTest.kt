@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.librarymanagement.MainActivity
 import com.example.librarymanagement.R
+import com.example.librarymanagement.extension.DateUtil
 import com.example.librarymanagement.model.User
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_room_test.*
@@ -20,6 +21,7 @@ class RoomTest : AppCompatActivity() {
         //test_info.text = intent.getIntExtra("info",0).toString()
 
         //按类接收参数
+
         var user = intent.getParcelableExtra("user") as User //as User 确保是个User类型
         test_bar.text = user.bar
         test_info.text = user.info.toString() // 转换为string
@@ -28,5 +30,6 @@ class RoomTest : AppCompatActivity() {
             //startActivity(intent)
             Intent(this, MainActivity::class.java).apply { startActivity(this) }
         }
+
     }
 }

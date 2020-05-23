@@ -12,6 +12,8 @@ class MyApplication: Application() {
         var instance: MyApplication by Delegates.notNull()
 
         fun instance() = instance
+
+
     }
 
     override fun onCreate() {
