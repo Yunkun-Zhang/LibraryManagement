@@ -7,8 +7,12 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
+    <!-- 注意右上角三个图标可以更改显示模式    -->
+    <!-- 设置块性质  -->
     <TextView
+
             android:id="@+id/index"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hello World!"
