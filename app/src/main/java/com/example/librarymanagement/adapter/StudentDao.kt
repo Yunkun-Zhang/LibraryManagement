@@ -13,7 +13,7 @@ interface StudentDao:BaseDao<Student> {
     fun getAllStudents():MutableList<Student>
 
     @Query("select * from Student where studentID = :studentID")
-    fun getStudnet(studentID:Int): Student
+    fun getStudent(studentID:Int): Student
 
     @Query("select * from Student order by studentID desc ")
     fun getAllByDateDesc():MutableList<Student>

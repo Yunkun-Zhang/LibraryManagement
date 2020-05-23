@@ -41,11 +41,7 @@ class MyApplication: Application() {
         //可以直接把list传进去，也可以一个一个单独添加
         sDao.insertAll(sList)
 
-        var sList_select_1: MutableList<Student> = sDao.getAllStudents()
-
-        for (i in sList_select_1.indices) {
-            println(sList_select_1.get(i))
-        }
+        println(sDao.getStudent(1))
 
     }
 

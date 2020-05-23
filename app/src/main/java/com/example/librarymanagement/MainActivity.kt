@@ -6,6 +6,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.librarymanagement.Application.MyApplication
+import com.example.librarymanagement.adapter.StudentDao
+import com.example.librarymanagement.database.AppDataBase
 import com.example.librarymanagement.extension.DateUtil
 import com.example.librarymanagement.model.User
 import com.example.librarymanagement.ui.activity.RoomTest
@@ -34,9 +36,13 @@ class MainActivity : AppCompatActivity() {
                 // startActivityForResult()    可传回数据
             }
         }
+
+        val sDao: StudentDao = AppDataBase.instance.getStudentDao()
+        var x = sDao.getStudent(3)
+
         btn_object_date.setOnClickListener {
             //以下方法调用自DateUtil.kt，采取了单例对象的方式
-            btn_object_date.text = "单例对象： 当前日期时间为${DateUtil.nowDateTime}"
+            btn_object_date.text = "单例对象： 当前日期时间为${x}"
 
         }
     }
