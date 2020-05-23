@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
                 putExtra("user", User())
                 // 设置跳转
                 startActivity(this)
-                // startActivityForResult()    可传回数据 还不知道怎么用
+                // startActivityForResult()    可传回数据
             }
         }
     }
