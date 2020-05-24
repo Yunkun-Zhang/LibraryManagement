@@ -10,13 +10,15 @@ data class Order(
     @PrimaryKey(autoGenerate = true)
     var orderID: Int?,
     @ColumnInfo(name = "order_name")
-    var ordertime: String?,
+    var userID: Int?,
+    @ColumnInfo(name = "order_name")
+    var ordertime: Int?,
     @ColumnInfo(name = "begin_time")
-    var begintime: String?,
+    var begintime: Int?,
     @ColumnInfo(name = "end_time")
-    var endtime: String?,
+    var endtime: Int?,
     @ColumnInfo(name = "order_status")
-    var orderstatus:String?,
+    var orderstatus:Boolean, //finished or not
     @ColumnInfo(name = "pair_status")
     var pairstatus:Boolean?,
     @ColumnInfo(name = "subject")
