@@ -21,4 +21,9 @@ interface UserDao:BaseDao<User> {
     @Query("delete from User")
     fun deleteAll()
 
+    @Query("select * from User where nickname = :nickname")
+    fun getByNickname(nickname: String):MutableList<User>?
+
+    @Query("select IFNULL(MAX(userID),0) from User")
+    fun getMAXUserID():Int
 }

@@ -10,15 +10,12 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doAfterTextChanged
 import com.example.librarymanagement.MainActivity
 import com.example.librarymanagement.R
 import com.example.librarymanagement.adapter.UserDao
 import com.example.librarymanagement.database.AppDataBase
 import kotlinx.android.synthetic.main.activity_book.*
-import org.jetbrains.anko.sdk25.coroutines.onTimeChanged
-import org.jetbrains.anko.sdk25.coroutines.textChangedListener
+
 import splitties.resources.int
 
 

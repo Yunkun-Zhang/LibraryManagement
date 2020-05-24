@@ -8,8 +8,6 @@ import com.example.librarymanagement.Application.MyApplication
 import com.example.librarymanagement.R
 import kotlinx.android.synthetic.main.activity_seat_info.*
 import com.example.librarymanagement.control.*
-import org.jetbrains.anko.backgroundDrawable
-import org.jetbrains.anko.backgroundResource
 import splitties.bundle.putExtras
 
 class SeatInfoActivity : AppCompatActivity() {
@@ -19,7 +17,7 @@ class SeatInfoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_seat_info)
         var app = MyApplication.instance()
         var seatControl = app.seatControl
-
+        var orderControl  =app.orderControl
         var start = intent.getIntExtra("start", 7)
         var end = intent.getIntExtra("end", 23)
 
@@ -37,6 +35,7 @@ class SeatInfoActivity : AppCompatActivity() {
                 seatID = 0
             }
         }
+
 
         btn_b.setOnClickListener {
             val intent = Intent(this, SeatInfoBActivity::class.java)

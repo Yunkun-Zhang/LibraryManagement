@@ -18,6 +18,6 @@ data class User(
     @ColumnInfo(name = "email")
     var email:String?,
     @ColumnInfo(name = "gender")
-    var gender:Boolean
+    var gender:Boolean?
 
 )
