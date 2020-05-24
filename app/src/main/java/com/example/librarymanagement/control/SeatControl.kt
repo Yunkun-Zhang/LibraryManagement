@@ -28,19 +28,24 @@ class SeatControl {
         }
     }
 
-    fun querySeatByTime(seatID: Int, startTime:Int, endTime:Int){
+    fun checkSeatStatusWhenBook(seatID: Int, startTime:Int, endTime:Int):Boolean {
+        var s = querySeatByTime(startTime, endTime)
+        return seatID in s
+    }
+
+    fun querySeatByTime(startTime:Int, endTime:Int): Set<Int>{
         var s = seatBookStatus[startTime-8].union(seatBookStatus[startTime-7]).toMutableSet()
         for (index in (startTime-7) until (endTime-8)) {
             s = s.union(seatBookStatus[index]).toMutableSet()
         }
         var resultSet = allSeats.subtract(s)
+        return resultSet
     }
 
     fun findAdjacent(seatID:Int, startTime: Int, endTime: Int): Int {
         var adjacentSeatID:Int = 0
         adjacentSeatID = if (seatID % 2 == 1) seatID + 1 else seatID - 1
-
-
+        return if (checkSeatStatusWhenBook(adjacentSeatID, startTime, endTime)) adjacentSeatID else 0
     }
 
 
