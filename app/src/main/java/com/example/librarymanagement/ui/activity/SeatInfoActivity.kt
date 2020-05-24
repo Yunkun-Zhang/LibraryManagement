@@ -20,7 +20,7 @@ class SeatInfoActivity : AppCompatActivity() {
         var app = MyApplication.instance()
         var seatControl = app.seatControl
 
-        var start = intent.getIntExtra("start", 7)
+        var start = intent.getIntExtra("start", 8)
         var end = intent.getIntExtra("end", 23)
 
         var seat_list = seatControl.querySeatByTime(start, end)
