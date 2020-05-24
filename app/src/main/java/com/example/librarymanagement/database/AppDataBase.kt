@@ -26,7 +26,7 @@ abstract class AppDataBase : RoomDatabase() {
         val sin :AppDataBase= Room.databaseBuilder(
             MyApplication.instance(),
             AppDataBase::class.java,
-            "User2.db"
+            "use"
         )
             .allowMainThreadQueries()
             .build()

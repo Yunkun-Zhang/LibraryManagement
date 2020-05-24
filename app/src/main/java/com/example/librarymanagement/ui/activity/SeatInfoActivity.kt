@@ -9,6 +9,7 @@ import com.example.librarymanagement.R
 import kotlinx.android.synthetic.main.activity_seat_info.*
 import com.example.librarymanagement.control.*
 import org.jetbrains.anko.backgroundDrawable
+import org.jetbrains.anko.backgroundResource
 import splitties.bundle.putExtras
 
 class SeatInfoActivity : AppCompatActivity() {
@@ -19,16 +20,22 @@ class SeatInfoActivity : AppCompatActivity() {
         var app = MyApplication.instance()
         var seatControl = app.seatControl
 
-        var start = intent.extras.getInt("start")
-        var end = intent.extras.getInt("end")
+        var start = intent.getIntExtra("start", 7)
+        var end = intent.getIntExtra("end", 23)
 
         var seat_list = seatControl.querySeatByTime(start, end)
 
-        var seatID = 1081
+        var seatID = 0
 
         s1081.setOnClickListener {
-            if (seatID != 1081) s1081.setBackgroundColor(R.drawable.shape_chosen)
-            else s1081.setBackgroundColor(R.drawable.shape_green)
+            if (seatID != 1081) {
+                s1081.setBackgroundResource(R.drawable.shape_chosen)
+                seatID = 1081
+            }
+            else {
+                s1081.setBackgroundResource(R.drawable.shape_green)
+                seatID = 0
+            }
         }
 
         btn_b.setOnClickListener {
