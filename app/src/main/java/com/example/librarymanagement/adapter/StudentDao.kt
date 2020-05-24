@@ -21,4 +21,7 @@ interface StudentDao:BaseDao<Student> {
     @Query("delete from Student")
     fun deleteAll()
 
+    @Query("select * from Student where studentID > :studentID")
+    fun getStudentidg(studentID:Int):MutableList<Student>
+
 }
