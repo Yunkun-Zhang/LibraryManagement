@@ -1,19 +1,16 @@
 package com.example.librarymanagement
 
-import android.app.Application
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.librarymanagement.Application.MyApplication
 import com.example.librarymanagement.adapter.StudentDao
 import com.example.librarymanagement.database.AppDataBase
 import com.example.librarymanagement.extension.DateUtil
-import com.example.librarymanagement.model.UserTest
+import com.example.librarymanagement.model.User
+import com.example.librarymanagement.ui.activity.Login
 import com.example.librarymanagement.ui.activity.RoomTest
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_room_test.*
-import org.jetbrains.anko.dip
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,10 +27,16 @@ class MainActivity : AppCompatActivity() {
                 //putExtra("info", 33)
 
                 //传递一个整体(类）参数
-                putExtra("user", UserTest())
+                // putExtra("user", User())
                 // 设置跳转
                 startActivity(this)
                 // startActivityForResult()    可传回数据
+            }
+        }
+
+        to_login.setOnClickListener {
+            Intent(this, Login::class.java).apply {
+                startActivity(this)
             }
         }
 
