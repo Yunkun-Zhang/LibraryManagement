@@ -1,28 +1,26 @@
 package com.example.librarymanagement.control
 
 import com.example.librarymanagement.database.AppDataBase
-import com.example.librarymanagement.entity.Seat
 import com.example.librarymanagement.extension.DateUtil
 import com.example.librarymanagement.model.Order
 
 class OrderControl {
-    val seatcontrol = SeatControl()
+    val oBao = AppDataBase.instance.getOrderDao()
 
-    fun pair(subject:String, starttime:Int, endtime:Int): Array<Int> {
-        val oBao = AppDataBase.instance.getOrderDao()
-        val orders = oBao.getOrderBySubject(subject)
-        for(order in orders){
-            val free_seat_around = seatcontrol.findAdjacent(order.seatID,order.beginTime,order.endTime)
-            if (free_seat_around != 0 && ((starttime >= order.beginTime) or (endtime <= order.endTime))){
-                return arrayOf(free_seat_around, order.userID)
+    fun findPairedSeats(subject:String?, male: Boolean?, startTime:Int, endTime:Int): MutableList<Int> {
+
+        return if (subject == null) {
+            if (male == null) {
+                oBao.getOrderByTimePeriod(startTime, endTime)
+            } else {
+                oBao.getOrderByGenderAndTimePeriod(male, startTime, endTime)
             }
-        }
-        return arrayOf(0,0)
+        } else if (male == null) {
+            oBao.getOrderBySubjectAndTimePeriod(subject, startTime, endTime)
+        } else oBao.getOrderBySubjectAndTimePeriodAndGender(subject,startTime,endTime,male)
     }
 
-    fun reserve(order:Order){
-        seatcontrol.setSeatBooked(order.seatID, order.beginTime,order.endTime)
-        val oBao = AppDataBase.instance.getOrderDao()
+    fun confirmOrder(order:Order){
         oBao.insert(order)
     }
 
