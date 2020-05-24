@@ -5,10 +5,11 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#ffffff"
         tools:context=".MainActivity">
 
     <!-- 注意右上角三个图标可以更改显示模式    -->
-    <!-- 设置块性质  -->
+    <!-- 设置块性质
     <TextView
 
             android:id="@+id/index"
@@ -38,6 +39,110 @@
             android:layout_height="50dp"
             android:background="@drawable/btn_selector"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"/>-->
+
+    <ImageView
+            android:adjustViewBounds="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00ffffff"
+            app:srcCompat="@drawable/bg"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/bg"/>
+
+    <LinearLayout
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/bg"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="10dp"
+            android:id="@+id/empty_text">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="现有空位："
+                android:textSize="25sp"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="50"
+                android:textSize="25sp"/>
+    </LinearLayout>
+    <LinearLayout
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/empty_text"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:id="@+id/empty_text2">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="当前状态："
+                android:textSize="25sp"/>
+        <TextView
+                android:id="@+id/login_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="未登录"
+                android:textSize="25sp"/>
+    </LinearLayout>
+
+    <!-- 扫码 -->
+    <ImageView
+            android:id="@+id/main_to_scan"
+            android:adjustViewBounds="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxHeight="150dp"
+            android:src="@drawable/scan"
+            app:layout_constraintTop_toBottomOf="@+id/empty_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+    <!-- 预订 -->
+    <ImageView
+            android:id="@+id/main_to_book"
+            android:adjustViewBounds="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxHeight="80dp"
+            android:src="@drawable/book"
+            app:layout_constraintTop_toBottomOf="@id/empty_text2"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="40dp"/>
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginBottom="10dp">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="登录"
+                android:textSize="20sp"
+                android:id="@+id/main_to_login"
+                android:textColor="#55eedd"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 或 "
+                android:textSize="20sp"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="注册"
+                android:textSize="20sp"
+                android:id="@+id/main_to_signup"
+                android:textColor="#cc77ee"/>
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
