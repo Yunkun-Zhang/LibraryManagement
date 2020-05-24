@@ -14,7 +14,7 @@ data class Order(
     @ColumnInfo(name = "seat_id")
     var seatID:Int,
     @ColumnInfo(name = "order_time")
-    var orderTime: Int,
+    var orderTime: String,
     @ColumnInfo(name = "begin_time")
     var beginTime: Int,
     @ColumnInfo(name = "end_time")

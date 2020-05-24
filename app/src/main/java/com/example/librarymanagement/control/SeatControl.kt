@@ -26,15 +26,17 @@ class SeatControl {
     fun setSeatBooked(seatID: Int, startTime:Int, endTime:Int) {
         for (s in startTime until endTime) {
             seatBookStatus[s-8].add(seatID) //-8 indicates 8am is index 0 in the list
-            var period = sDao.getSeatID(seatID).orderPeriodTomorrow
-            period?.add(mutableListOf(startTime, endTime))
+            var start = sDao.getSeatID(seatID).orderStartTime
+            var end = sDao.getSeatID(seatID).orderEndTime
+            start += startTime.toString()
+            end += endTime.toString()
             sDao.update(
                 com.example.librarymanagement.model.Seat(
                     seatID = seatID,
                     seatStatus = null,
                     isFree = false,
-                    orderPeriodToday = null,
-                    orderPeriodTomorrow = mutableListOf<MutableList<Int>>(mutableListOf(1, 2))
+                    orderStartTime = start,
+                    orderEndTime = end
                 )
             )
         }

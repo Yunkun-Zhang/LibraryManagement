@@ -14,9 +14,9 @@ data class Seat(
     var seatStatus: String?,
     @ColumnInfo(name = "is_free")
     var isFree: Boolean,
-    @ColumnInfo(name = "order_period_today")
-    var orderPeriodToday: MutableList<MutableList<Int>>?,
-    @ColumnInfo(name = "order_period_tomorrow")
-    var orderPeriodTomorrow: MutableList<MutableList<Int>>?
+    @ColumnInfo(name = "order_start_time")
+    var orderStartTime: String?,
+    @ColumnInfo(name = "order_end_time")
+    var orderEndTime: String?
 
 )
