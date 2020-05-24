@@ -2,11 +2,14 @@ package com.example.librarymanagement.Application
 
 import android.app.Application
 import com.example.librarymanagement.adapter.OrderDao
+import com.example.librarymanagement.control.SeatControl
 import com.example.librarymanagement.database.AppDataBase
 import com.example.librarymanagement.model.Order
 import kotlin.properties.Delegates
 
 class MyApplication: Application() {
+    var seatControl:SeatControl = SeatControl()
+
     companion object {
 
         var instance: MyApplication by Delegates.notNull()
@@ -17,7 +20,7 @@ class MyApplication: Application() {
     }
     override fun onCreate() {
         super.onCreate()
-
+        seatControl = SeatControl()
         instance = this
         val oDao: OrderDao = AppDataBase.instance.getOrderDao()
 
