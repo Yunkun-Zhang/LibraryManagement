@@ -12,6 +12,7 @@
             android:theme="@style/AppTheme">
         <activity android:name=".ui.activity.RoomTest">
         </activity>
+        <activity android:name=".ui.activity.Login"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
