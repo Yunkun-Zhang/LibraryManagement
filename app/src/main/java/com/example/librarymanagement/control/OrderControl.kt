@@ -27,7 +27,7 @@ class OrderControl {
     }
 
     //订单的创建
-    fun creat_order(userID:Int, seatID:Int, beginTime:Int, endTime:Int, pairStatus:Boolean, subject:String, gender:Boolean):Order{
+    fun create_order(userID:Int, seatID:Int, beginTime:Int, endTime:Int, pairStatus:Boolean, subject:String, gender:Boolean?):Order{
         val time = DateUtil.nowDateTime
         val oBao = AppDataBase.instance.getOrderDao()
         val orderID = oBao.getMAXOrderID()

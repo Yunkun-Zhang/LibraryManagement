@@ -18,7 +18,9 @@ class SeatInfoActivity : AppCompatActivity() {
         var app = MyApplication.instance()
         var seatControl = app.seatControl
         var orderControl  =app.orderControl
-        var start = intent.getIntExtra("start", 7)
+        var start = intent.getIntExtra("start", 8)
+
+
         var end = intent.getIntExtra("end", 23)
 
         var seat_list = seatControl.querySeatByTime(start, end)
@@ -35,7 +37,6 @@ class SeatInfoActivity : AppCompatActivity() {
                 seatID = 0
             }
         }
-
 
         btn_b.setOnClickListener {
             val intent = Intent(this, SeatInfoBActivity::class.java)

@@ -122,6 +122,7 @@
 
 
     <EditText
+            android:id="@+id/subject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -132,5 +133,39 @@
             android:layout_marginRight="28dp"
             android:textAlignment="textEnd"
             android:background="@null"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="性别"
+            android:textSize="20sp"
+            app:layout_constraintTop_toBottomOf="@id/subject"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"/>
+
+    <Spinner
+            android:id="@+id/gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:entries="@array/data"
+            app:layout_constraintTop_toBottomOf="@id/subject"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp"/>
+
+    <TextView
+            android:id="@+id/confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="确定"
+            android:textSize="20sp"
+            android:textColor="#55eedd"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
