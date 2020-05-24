@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val sDao: StudentDao = AppDataBase.instance.getStudentDao()
-        var x = sDao.getStudentidg(3)
+        var x = sDao.getStudent(3)
 
         btn_object_date.setOnClickListener {
             btn_object_date.text = "当前数据${x}, \n 当前日期时间为${DateUtil.nowDateTime}"
