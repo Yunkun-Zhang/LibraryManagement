@@ -11,7 +11,7 @@ data class Seat(
     @PrimaryKey(autoGenerate = true)
     var seatID: Int,
     @ColumnInfo(name = "seat_status")
-    var seatStatus: SeatStatus?,
+    var seatStatus: String?,
     @ColumnInfo(name = "is_free")
     var isFree: Boolean,
     @ColumnInfo(name = "order_period_today")
