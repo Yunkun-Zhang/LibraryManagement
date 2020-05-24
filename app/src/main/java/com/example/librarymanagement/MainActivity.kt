@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
                 //传递一个整体(类）参数
                 // putExtra("user", User())
                 // 设置跳转
+
                 startActivity(this)
                 // startActivityForResult()    可传回数据
             }

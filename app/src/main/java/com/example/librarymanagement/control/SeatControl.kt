@@ -1,10 +1,11 @@
 package com.example.librarymanagement.control
 
+import com.example.librarymanagement.database.AppDataBase
 import com.example.librarymanagement.entity.Seat
 
 class SeatControl {
 
-
+    val sDao = AppDataBase.instance.getSeatDao()
     //全部座位，可变集合
     var allSeats:MutableSet<Int> = mutableSetOf()
     init {
@@ -22,9 +23,20 @@ class SeatControl {
         mutableSetOf(),mutableSetOf(),mutableSetOf(),mutableSetOf(),mutableSetOf(),mutableSetOf(),
         mutableSetOf())
 
-    fun setSeatBooked(seatID:Int, startTime:Int, endTime:Int) {
+    fun setSeatBooked(seatID: Int, startTime:Int, endTime:Int) {
         for (s in startTime until endTime) {
-            seatBookStatus[s-8].add(seatID)
+            seatBookStatus[s-8].add(seatID) //-8 indicates 8am is index 0 in the list
+            var period = sDao.getSeatID(seatID).orderPeriodTomorrow
+            period?.add(mutableListOf(startTime, endTime))
+            sDao.update(
+                com.example.librarymanagement.model.Seat(
+                    seatID = seatID,
+                    seatStatus = null,
+                    isFree = false,
+                    orderPeriodToday = null,
+                    orderPeriodTomorrow = mutableListOf<MutableList<Int>>(mutableListOf(1, 2))
+                )
+            )
         }
     }
 

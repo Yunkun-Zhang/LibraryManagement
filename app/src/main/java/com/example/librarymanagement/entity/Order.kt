@@ -3,6 +3,7 @@ package com.example.librarymanagement.entity
 
 class Order(var OrderID:Int) {
     var userID: Int = 0
+    var seatID: Int = 0
     var orderTime: Int = 0
     var beginTime: Int = 0
     var endTime: Int = 0

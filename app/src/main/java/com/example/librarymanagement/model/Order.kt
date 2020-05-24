@@ -14,7 +14,7 @@ data class Order(
     @ColumnInfo(name = "seat_id")
     var seatID:Int,
     @ColumnInfo(name = "order_time")
-    var orderTime: String,
+    var orderTime: Int,
     @ColumnInfo(name = "begin_time")
     var beginTime: Int,
     @ColumnInfo(name = "end_time")
@@ -24,8 +24,8 @@ data class Order(
     @ColumnInfo(name = "pair_status")
     var pairStatus:Boolean,
     @ColumnInfo(name = "subject")
-    var subject:String,
+    var subject:String?,
     @ColumnInfo(name = "gender")
-    var gender:Boolean //true for male
+    var gender:Boolean? //true for male
 
 )
