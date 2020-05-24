@@ -13,7 +13,7 @@ data class User(
     var nickname: String?,
     @ColumnInfo(name = "pwd")
     var password: String?,
-    @ColumnInfo(name = "phnum")
+    @ColumnInfo(name = "ph_num")
     var phonenumber: String?,
     @ColumnInfo(name = "email")
     var email:String?,

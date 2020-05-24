@@ -3,9 +3,9 @@ package com.example.librarymanagement
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.librarymanagement.Application.MyApplication
 import com.example.librarymanagement.database.AppDataBase
 import com.example.librarymanagement.extension.DateUtil
-// import com.example.librarymanagement.database.AppDataBase
 import com.example.librarymanagement.ui.activity.Book
 import com.example.librarymanagement.ui.activity.Login
 import com.example.librarymanagement.ui.activity.Signup
@@ -19,7 +19,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main) //鼠标点在紫色字体上ctrl+B可以进入xml设置
-
+        var app = MyApplication.instance()
+        var seatControl = app.seatControl
         var userID = intent.extras?.getInt("userID")
         if (userID == 1) login_state.text = "空闲"
         else login_state.text = "未登录"
@@ -71,6 +72,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val oDao = AppDataBase.instance.getOrderDao()
+
         var x = oDao.getOrderByGender(male = true)
         var y = oDao.getOrderByTimePeriod(6,9)
 

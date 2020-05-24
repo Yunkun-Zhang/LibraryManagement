@@ -9,7 +9,7 @@ data class Order(
 
     @PrimaryKey(autoGenerate = true)
     var orderID: Int,
-    @ColumnInfo(name = "order_id")
+    @ColumnInfo(name = "user_id")
     var userID: Int,
     @ColumnInfo(name = "seat_id")
     var seatID:Int,
@@ -22,9 +22,9 @@ data class Order(
     @ColumnInfo(name = "order_status")
     var orderStatus:Boolean, //finished or not
     @ColumnInfo(name = "pair_status")
-    var pairStatus:Boolean,
+    var pairStatus:Boolean, //finished or not
     @ColumnInfo(name = "subject")
-    var subject:String?,
+    var subject:String?, // 科目选择
     @ColumnInfo(name = "gender")
     var gender:Boolean? //true for male
 
