@@ -37,6 +37,24 @@ class Book : AppCompatActivity() {
         val uDao: UserDao = AppDataBase.instance.getUserDao()
         var user = uDao.getUserID(userID)
 
+        var seatID = intent.getIntExtra("seatID", 0)
+
+
+        var orderControl = OrderControl()
+
+        confirm.setOnClickListener {
+            var start = start_time.text.toString().toInt()
+            var end = end_time.text.toString().toInt()
+            var sub = subject.text.toString()
+            var g : Boolean?
+
+            if (gender.selectedItem == "男") g = true
+            else if (gender.selectedItem == " ") g = null
+            else g = false
+            orderControl.findPairedSeats(sub, g, start, end)
+            var order = orderControl.create_order(userID, seatID, start, end, false, sub, g)
+            orderControl.confirmOrder(order)
+        }
 
         // 取消
         book_back.setOnClickListener {
@@ -68,21 +86,6 @@ class Book : AppCompatActivity() {
             }
         }
 
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        var seatID = data!!.getIntExtra("seatID", 0)
-        var start = start_time.text.toString().toInt()
-        var end = end_time.text.toString().toInt()
-
-        var orderControl = OrderControl()
-
-        confirm.setOnClickListener {
-            var sub = subject.text.toString()
-            var g = gender.selectedItem == "男"
-            orderControl.findPairedSeats(sub, g, start, end)
-        }
     }
 
 }
