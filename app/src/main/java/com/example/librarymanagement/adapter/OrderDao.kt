@@ -2,7 +2,6 @@ package com.example.librarymanagement.adapter
 
 import androidx.room.*
 import com.example.librarymanagement.model.Order
-import javax.security.auth.Subject
 
 @Dao
 interface OrderDao:BaseDao<Order> {

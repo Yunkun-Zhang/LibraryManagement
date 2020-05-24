@@ -3,7 +3,6 @@ package com.example.librarymanagement.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.librarymanagement.extension.SeatStatus
 
 @Entity(tableName = "Seat")
 data class Seat(

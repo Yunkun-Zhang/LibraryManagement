@@ -1,16 +1,23 @@
 package com.example.librarymanagement.model
 
-class User(var id: Int, var name:String) {
-    var password: String = ""
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-    var phonenumber: String = ""
+@Entity(tableName = "User")
+data class User(
 
-    var email: String = ""
+    @PrimaryKey(autoGenerate = true)
+    var userID: Int?,
+    @ColumnInfo(name = "nickname")
+    var nickname: String?,
+    @ColumnInfo(name = "pwd")
+    var password: String?,
+    @ColumnInfo(name = "phnum")
+    var phonenumber: String?,
+    @ColumnInfo(name = "email")
+    var email:String?,
+    @ColumnInfo(name = "gender")
+    var gender:Boolean
 
-    var introduction: String = ""
-
-    val gender:Boolean = true // true for male, false for female
-
-
-
-}
+)

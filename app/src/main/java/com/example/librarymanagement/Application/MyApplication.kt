@@ -2,8 +2,6 @@ package com.example.librarymanagement.Application
 
 import android.app.Application
 import com.example.librarymanagement.adapter.OrderDao
-import com.example.librarymanagement.adapter.SeatDao
-import com.example.librarymanagement.control.SeatControl
 import com.example.librarymanagement.database.AppDataBase
 import com.example.librarymanagement.model.Order
 import kotlin.properties.Delegates

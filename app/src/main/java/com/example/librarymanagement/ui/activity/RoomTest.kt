@@ -5,9 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.librarymanagement.MainActivity
 import com.example.librarymanagement.R
-import com.example.librarymanagement.extension.DateUtil
-import com.example.librarymanagement.model.UserTest
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_room_test.*
 import org.jetbrains.anko.dip
 
