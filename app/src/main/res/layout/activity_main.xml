@@ -116,6 +116,7 @@
             android:layout_marginRight="40dp"/>
 
     <LinearLayout
+            android:id="@+id/log_or_sign"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -143,6 +144,19 @@
                 android:id="@+id/main_to_signup"
                 android:textColor="#cc77ee"/>
     </LinearLayout>
+
+    <TextView
+            android:id="@+id/logout"
+            android:visibility="invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="退出"
+            android:textSize="20sp"
+            android:textColor="#fb897a"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginBottom="10dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

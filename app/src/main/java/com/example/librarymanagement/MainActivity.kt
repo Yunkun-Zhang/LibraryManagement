@@ -3,9 +3,11 @@ package com.example.librarymanagement
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.example.librarymanagement.Application.MyApplication
 import com.example.librarymanagement.database.AppDataBase
 import com.example.librarymanagement.extension.DateUtil
+// import com.example.librarymanagement.database.AppDataBase
 import com.example.librarymanagement.ui.activity.Book
 import com.example.librarymanagement.ui.activity.Login
 import com.example.librarymanagement.ui.activity.Signup
@@ -19,11 +21,24 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main) //鼠标点在紫色字体上ctrl+B可以进入xml设置
+
+        // 获取userID
+        var userID  = 0
+        userID = intent.extras.getInt("userID")
+
+        // 界面的一些显示更改
+        if (userID != 0) {
+            login_state.text = "空闲"
+            log_or_sign.visibility = View.GONE
+            logout.visibility = View.VISIBLE
+        }
+        else {
+            login_state.text = "未登录"
+            log_or_sign.visibility = View.VISIBLE
+            logout.visibility = View.GONE
+        }
         var app = MyApplication.instance()
         var seatControl = app.seatControl
-        var userID = intent.extras?.getInt("userID")
-        if (userID == 1) login_state.text = "空闲"
-        else login_state.text = "未登录"
 
         /*
         index.setOnClickListener {
@@ -65,14 +80,19 @@ class MainActivity : AppCompatActivity() {
             }
             else {
                 Intent(this, Book::class.java).apply {
-                    putExtra("userID", 12345)
+                    putExtra("userID", userID)
                     startActivity(this)
                 }
             }
         }
 
-        val oDao = AppDataBase.instance.getOrderDao()
+        logout.setOnClickListener {
+            Intent(this, MainActivity::class.java).apply {
+                startActivity(this)
+            }
+        }
 
+        val oDao = AppDataBase.instance.getOrderDao()
         var x = oDao.getOrderByGender(male = true)
         var y = oDao.getOrderByTimePeriod(6,9)
 

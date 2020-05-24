@@ -32,7 +32,7 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="登录"
+            android:text="预订"
             android:textColor="#000000"
             android:textSize="20sp"
             app:layout_constraintTop_toTopOf="@id/bar"
@@ -41,6 +41,7 @@
             app:layout_constraintRight_toRightOf="parent"
             android:fontFamily="sans-serif"/>
 
+    <!--
     <TimePicker
             android:id="@+id/time"
             android:layout_width="wrap_content"
@@ -49,28 +50,87 @@
             app:layout_constraintTop_toBottomOf="@id/password"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
+    -->
 
-    <EditText
-            android:id="@+id/username"
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/bar"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:text="时间"
+            android:textSize="20sp"/>
+    <LinearLayout
+            android:id="@+id/time_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/bar"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+        <EditText
+                android:id="@+id/start_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:hint="开始"
+                android:inputType="number"
+                android:maxLength="2"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":00 至 "
+                android:textSize="20sp"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:hint="结束"
+                android:inputType="number"
+                android:maxLength="2"
+                app:layout_constraintTop_toBottomOf="@id/start_time"
+                android:id="@+id/end_time"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":00"
+                android:textSize="20sp"/>
+    </LinearLayout>
+
+    <TextView
+            android:id="@+id/choose_seat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择座位"
+            android:textSize="20sp"
+            app:layout_constraintTop_toBottomOf="@id/time_layout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"/>
+
+    <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:text="科目"
             android:textSize="20sp"
-            android:hint="用户名"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="80dp"/>
+            app:layout_constraintTop_toBottomOf="@id/choose_seat"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"/>
+
 
     <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
             android:textSize="20sp"
-            android:hint="密码"
-            android:inputType="textPassword"
-            app:layout_constraintTop_toBottomOf="@id/username"
-            android:id="@+id/password"/>
-
+            app:layout_constraintTop_toBottomOf="@id/choose_seat"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="28dp"
+            android:layout_marginRight="28dp"
+            android:textAlignment="textEnd"
+            android:background="@null"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

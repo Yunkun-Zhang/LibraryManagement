@@ -2,6 +2,7 @@ package com.example.librarymanagement.Application
 
 import android.app.Application
 import com.example.librarymanagement.adapter.OrderDao
+import com.example.librarymanagement.adapter.UserDao
 import com.example.librarymanagement.control.SeatControl
 import com.example.librarymanagement.database.AppDataBase
 import com.example.librarymanagement.model.Order
@@ -23,6 +24,7 @@ class MyApplication: Application() {
         seatControl = SeatControl()
         instance = this
         val oDao: OrderDao = AppDataBase.instance.getOrderDao()
+        val uDao: UserDao = AppDataBase.instance.getUserDao()
 
 
         var s_1 = Order(1, 1, 1101,"5",8,13,false,false,"English", true)

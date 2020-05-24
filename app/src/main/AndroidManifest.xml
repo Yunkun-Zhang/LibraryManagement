@@ -13,6 +13,9 @@
         <activity android:name=".ui.activity.Login"/>
         <activity android:name=".ui.activity.Signup"/>
         <activity android:name=".ui.activity.Book"/>
+        <activity android:name=".ui.activity.SeatInfoActivity"/>
+        <activity android:name=".ui.activity.SeatInfoBActivity"/>
+        <activity android:name=".ui.activity.SeatInfoCActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
