@@ -13,12 +13,18 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.librarymanagement.MainActivity
 import com.example.librarymanagement.R
 import kotlinx.android.synthetic.main.activity_book.*
+import org.jetbrains.anko.sdk25.coroutines.onTimeChanged
 
 
 class Book : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book)
+
+        time.setIs24HourView(true)
+        time.setOnTimeChangedListener { TimePicker, i, i2 ->
+
+        }
 
         book_back.setOnClickListener {
             finish()
