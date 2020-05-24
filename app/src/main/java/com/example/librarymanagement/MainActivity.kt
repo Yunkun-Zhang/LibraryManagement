@@ -9,11 +9,11 @@ import com.example.librarymanagement.Application.MyApplication
 import com.example.librarymanagement.adapter.StudentDao
 import com.example.librarymanagement.database.AppDataBase
 import com.example.librarymanagement.extension.DateUtil
-import com.example.librarymanagement.model.User
+import com.example.librarymanagement.model.UserTest
 import com.example.librarymanagement.ui.activity.RoomTest
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_room_test.*
-
+import org.jetbrains.anko.dip
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
                 //putExtra("info", 33)
 
                 //传递一个整体(类）参数
-                putExtra("user", User())
+                putExtra("user", UserTest())
                 // 设置跳转
                 startActivity(this)
                 // startActivityForResult()    可传回数据

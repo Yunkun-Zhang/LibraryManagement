@@ -1,39 +1,16 @@
 package com.example.librarymanagement.model
 
-//不建议使用Serializable
-import android.os.Parcel
-import android.os.Parcelable
-import java.io.Serializable
+class User(var id: Int, var name:String) {
+    var password: String = ""
 
-//可以通过alt+Enter自动实现Parcelable的接口
-class User() : Parcelable {
+    var phonenumber: String = ""
 
-    var bar: String? = "test_bar"
-    var info: Int = 101
+    var email: String = ""
+
+    var introduction: String = ""
+
+    val gender:Boolean = true // true for male, false for female
 
 
-    constructor(parcel: Parcel) : this() {
-        bar = parcel.readString()
-        info = parcel.readInt()
-    }
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(bar)
-        parcel.writeInt(info)
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<User> {
-        override fun createFromParcel(parcel: Parcel): User {
-            return User(parcel)
-        }
-
-        override fun newArray(size: Int): Array<User?> {
-            return arrayOfNulls(size)
-        }
-    }
 
 }
