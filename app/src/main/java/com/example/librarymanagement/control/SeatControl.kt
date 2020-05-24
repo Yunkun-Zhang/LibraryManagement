@@ -1,17 +1,17 @@
 package com.example.librarymanagement.control
 
 import com.example.librarymanagement.entity.Seat
-import kotlin.math.abs
 
 class SeatControl {
+
+
     //全部座位，可变集合
     var allSeats:MutableSet<Int> = mutableSetOf()
     init {
         for (floor in 1..4) {
             for (table in 1..20) {
                 for (seat in 1..4) {
-                    var seatID = floor*1000 + table*10 + seat
-                    allSeats.add(seatID)
+                        allSeats.add((floor*1000 + table*10 + seat))
                 }
             }
         }
@@ -38,8 +38,7 @@ class SeatControl {
         for (index in (startTime-7) until (endTime-8)) {
             s = s.union(seatBookStatus[index]).toMutableSet()
         }
-        var resultSet = allSeats.subtract(s)
-        return resultSet
+        return allSeats.subtract(s)
     }
 
     fun findAdjacent(seatID:Int, startTime: Int, endTime: Int): Int {

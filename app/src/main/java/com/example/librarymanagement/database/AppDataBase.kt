@@ -4,17 +4,14 @@ import androidx.room.*
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.librarymanagement.Application.MyApplication
-import com.example.librarymanagement.adapter.OrderDao
-import com.example.librarymanagement.adapter.StudentDao
-import com.example.librarymanagement.adapter.TeacherDao
+import com.example.librarymanagement.adapter.*
 import com.example.librarymanagement.model.*
 
-@Database(entities = [Student::class, Teacher::class, Order::class], version = 2)
+@Database(entities = [User::class, Order::class], version = 1)
 abstract class AppDataBase : RoomDatabase() {
 
-    abstract fun getStudentDao(): StudentDao
 
-    abstract fun getTeacherDao(): TeacherDao
+    abstract fun getUserDao(): UserDao
 
     abstract fun getOrderDao(): OrderDao
 
@@ -29,7 +26,7 @@ abstract class AppDataBase : RoomDatabase() {
         val sin :AppDataBase= Room.databaseBuilder(
             MyApplication.instance(),
             AppDataBase::class.java,
-            "User1.db"
+            "User.db"
         )
             .allowMainThreadQueries()
             .build()
