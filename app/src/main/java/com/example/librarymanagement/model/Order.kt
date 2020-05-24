@@ -9,18 +9,18 @@ data class Order(
 
     @PrimaryKey(autoGenerate = true)
     var orderID: Int?,
-    @ColumnInfo(name = "order_name")
+    @ColumnInfo(name = "order_id")
     var userID: Int?,
-    @ColumnInfo(name = "order_name")
-    var ordertime: Int?,
+    @ColumnInfo(name = "order_time")
+    var orderTime: Int?,
     @ColumnInfo(name = "begin_time")
-    var begintime: Int?,
+    var beginTime: Int?,
     @ColumnInfo(name = "end_time")
-    var endtime: Int?,
+    var endTime: Int?,
     @ColumnInfo(name = "order_status")
-    var orderstatus:Boolean, //finished or not
+    var orderStatus:Boolean, //finished or not
     @ColumnInfo(name = "pair_status")
-    var pairstatus:Boolean?,
+    var pairStatus:Boolean?,
     @ColumnInfo(name = "subject")
     var subject:String?,
     @ColumnInfo(name = "gender")

@@ -42,8 +42,7 @@ class SeatControl {
     }
 
     fun findAdjacent(seatID:Int, startTime: Int, endTime: Int): Int {
-        var adjacentSeatID:Int = 0
-        adjacentSeatID = if (seatID % 2 == 1) seatID + 1 else seatID - 1
+        var adjacentSeatID:Int = if (seatID % 2 == 1) seatID + 1 else seatID - 1
         return if (checkSeatStatusWhenBook(adjacentSeatID, startTime, endTime)) adjacentSeatID else 0
     }
 

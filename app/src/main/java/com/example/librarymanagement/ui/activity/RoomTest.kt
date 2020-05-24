@@ -17,9 +17,9 @@ class RoomTest : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room_test)
         //接收参数
-        //val name = intent.extras?.getString("bar")
-        //test_bar.text = name
-        //test_info.text = intent.getIntExtra("info",0).toString()
+        val name = intent.extras?.getString("bar")
+        test_bar.text = name
+        test_info.text = intent.getIntExtra("info",0).toString()
 
         //按类接收参数
 

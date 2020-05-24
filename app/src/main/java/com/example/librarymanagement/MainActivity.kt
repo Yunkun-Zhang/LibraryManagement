@@ -23,8 +23,8 @@ class MainActivity : AppCompatActivity() {
             //startActivity(intent)
             Intent(this, RoomTest::class.java).apply {
                 // 传递参数
-                //putExtra("bar", "Peter")
-                //putExtra("info", 33)
+                putExtra("bar", "Peter")
+                putExtra("info", 33)
 
                 //传递一个整体(类）参数
                 // putExtra("user", User())
@@ -34,17 +34,20 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        to_login.setOnClickListener {
-            Intent(this, Login::class.java).apply {
+        /*to_login.setOnClickListener {
+            Intent(this, RoomTest::class.java).apply {
+                putExtra("bar", "Peter")
+                putExtra("info", 33)
                 startActivity(this)
             }
-        }
+        }*/
 
-        val sDao: StudentDao = AppDataBase.instance.getStudentDao()
-        var x = sDao.getStudent(3)
+        val oDao = AppDataBase.instance.getOrderDao()
+        var x = oDao.getOrderByGender(male = true)
+        var y = oDao.getOrderByTimePeriod(6,9)
 
         btn_object_date.setOnClickListener {
-            btn_object_date.text = "当前数据${x}, \n 当前日期时间为${DateUtil.nowDateTime}"
+            btn_object_date.text = "当前数据${y}, \n 当前日期时间为${DateUtil.nowDateTime}"
         }
     }
 }
