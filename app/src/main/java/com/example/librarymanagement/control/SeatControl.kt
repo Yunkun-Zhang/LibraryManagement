@@ -1,6 +1,5 @@
 package com.example.librarymanagement.control
 
-import com.example.librarymanagement.database.AppDataBase
 
 class SeatControl {
 

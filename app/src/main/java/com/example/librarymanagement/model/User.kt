@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "User")
 data class User(
+
     @PrimaryKey(autoGenerate = true)
     var userID: Int?,
     @ColumnInfo(name = "nickname")
@@ -15,7 +16,8 @@ data class User(
     @ColumnInfo(name = "phnum")
     var phonenumber: String?,
     @ColumnInfo(name = "email")
-    var email: String?,
+    var email:String?,
     @ColumnInfo(name = "gender")
-    var gender: Boolean  // true for male, false for female
+    var gender:Boolean
+
 )

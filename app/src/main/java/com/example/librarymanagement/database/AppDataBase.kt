@@ -1,8 +1,6 @@
 package com.example.librarymanagement.database
 
 import androidx.room.*
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.librarymanagement.Application.MyApplication
 import com.example.librarymanagement.adapter.*
 import com.example.librarymanagement.model.*
