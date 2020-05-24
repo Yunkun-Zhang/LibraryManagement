@@ -22,7 +22,7 @@ class MyApplication: Application() {
 
         instance = this
         val oDao: OrderDao = AppDataBase.instance.getOrderDao()
-        val sDao: SeatDao = AppDataBase.instance.getSeatDao()
+
 
         var s_1 = Order(1, 1, 1101,"5",8,13,false,false,"English", true)
         var s_2 = Order(2, 5, 1204,"4",10,14,false,false,"Maths", true)

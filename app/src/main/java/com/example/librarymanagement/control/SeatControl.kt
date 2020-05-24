@@ -5,7 +5,7 @@ import com.example.librarymanagement.entity.Seat
 
 class SeatControl {
 
-    val sDao = AppDataBase.instance.getSeatDao()
+    //val sDao = AppDataBase.instance.getSeatDao()
     //全部座位，可变集合
     var allSeats:MutableSet<Int> = mutableSetOf()
     init {
@@ -26,7 +26,7 @@ class SeatControl {
     fun setSeatBooked(seatID: Int, startTime:Int, endTime:Int) {
         for (s in startTime until endTime) {
             seatBookStatus[s-8].add(seatID) //-8 indicates 8am is index 0 in the list
-            var start = sDao.getSeatID(seatID).orderStartTime
+            /* var start = sDao.getSeatID(seatID).orderStartTime
             var end = sDao.getSeatID(seatID).orderEndTime
             start += startTime.toString()
             end += endTime.toString()
@@ -38,12 +38,12 @@ class SeatControl {
                     orderStartTime = start,
                     orderEndTime = end
                 )
-            )
+            ) */
         }
     }
 
     fun checkSeatStatusWhenBook(seatID: Int, startTime:Int, endTime:Int):Boolean {
-        var s = querySeatByTime(startTime, endTime)
+        val s = querySeatByTime(startTime, endTime)
         return seatID in s
     }
 
@@ -56,7 +56,7 @@ class SeatControl {
     }
 
     fun findAdjacent(seatID:Int, startTime: Int, endTime: Int): Int {
-        var adjacentSeatID:Int = if (seatID % 2 == 1) seatID + 1 else seatID - 1
+        val adjacentSeatID:Int = if (seatID % 2 == 1) seatID + 1 else seatID - 1
         return if (checkSeatStatusWhenBook(adjacentSeatID, startTime, endTime)) adjacentSeatID else 0
     }
 
