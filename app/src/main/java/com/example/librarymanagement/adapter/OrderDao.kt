@@ -28,4 +28,7 @@ interface OrderDao:BaseDao<Order> {
     @Query("delete from `Order`")
     fun deleteAll()
 
+    @Query("select IFNULL(MAX(orderID),0) from `Order`")
+    fun getMAXOrderID():Int
+
 }

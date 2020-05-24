@@ -8,22 +8,24 @@ import androidx.room.PrimaryKey
 data class Order(
 
     @PrimaryKey(autoGenerate = true)
-    var orderID: Int?,
+    var orderID: Int,
     @ColumnInfo(name = "order_id")
-    var userID: Int?,
+    var userID: Int,
+    @ColumnInfo(name = "seat_id")
+    var seatID:Int,
     @ColumnInfo(name = "order_time")
-    var orderTime: Int?,
+    var orderTime: String,
     @ColumnInfo(name = "begin_time")
-    var beginTime: Int?,
+    var beginTime: Int,
     @ColumnInfo(name = "end_time")
-    var endTime: Int?,
+    var endTime: Int,
     @ColumnInfo(name = "order_status")
     var orderStatus:Boolean, //finished or not
     @ColumnInfo(name = "pair_status")
-    var pairStatus:Boolean?,
+    var pairStatus:Boolean,
     @ColumnInfo(name = "subject")
-    var subject:String?,
+    var subject:String,
     @ColumnInfo(name = "gender")
-    var gender:Boolean?
+    var gender:Boolean //true for male
 
 )
