@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.librarymanagement.Application.MyApplication
+import com.example.librarymanagement.adapter.OrderDao
 import com.example.librarymanagement.adapter.StudentDao
 import com.example.librarymanagement.database.AppDataBase
 import com.example.librarymanagement.extension.DateUtil
@@ -37,8 +38,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val sDao: StudentDao = AppDataBase.instance.getStudentDao()
-        var x = sDao.getStudent(3)
+        val oDao: OrderDao = AppDataBase.instance.getOrderDao()
+        var x = oDao.getOrder(1)
 
         btn_object_date.setOnClickListener {
             btn_object_date.text = "当前数据${x}, \n 当前日期时间为${DateUtil.nowDateTime}"
