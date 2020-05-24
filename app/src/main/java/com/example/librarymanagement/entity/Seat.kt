@@ -3,10 +3,12 @@ package com.example.librarymanagement.entity
 import com.example.librarymanagement.extension.SeatStatus
 import java.security.KeyStore
 
-class Seat(val seatId:Int) {
+class Seat(val seatID:Int) {
     var isfree:Boolean = true
-
+    var isbooked:Boolean = true
     var status:SeatStatus = SeatStatus.Free
+    var orderPeriodToday: MutableList<MutableList<Int>>? = null
+    var orderPeriodTomorrow: MutableList<MutableList<Int>>? = null
 
     fun leave() {
         status = SeatStatus.Leave
