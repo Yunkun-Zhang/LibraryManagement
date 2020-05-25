@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.example.librarymanagement.Application.MyApplication
 import com.example.librarymanagement.R
 import kotlinx.android.synthetic.main.activity_seat_info.*
@@ -18,9 +19,11 @@ class SeatInfoActivity : AppCompatActivity() {
         var app = MyApplication.instance()
         var seatControl = app.seatControl
         // var orderControl  =app.orderControl
+
+        val userID = intent.getIntExtra("userID", 0)
+
+
         var start = intent.getIntExtra("start", 8)
-
-
         var end = intent.getIntExtra("end", 23)
 
         var seat_list = seatControl.querySeatByTime(start, end)
@@ -29,13 +32,13 @@ class SeatInfoActivity : AppCompatActivity() {
 
         s1081.setOnClickListener {
             if (seatID != 1081) {
-                s1081.setBackgroundResource(R.drawable.shape_chosen)
+                ss1081.visibility = View.VISIBLE
                 seatID = 1081
             }
-            else {
-                s1081.setBackgroundResource(R.drawable.shape_green)
-                seatID = 0
-            }
+        }
+        ss1081.setOnClickListener {
+            ss1081.visibility = View.GONE
+            seatID = 0
         }
 
         btn_b.setOnClickListener {
@@ -46,11 +49,17 @@ class SeatInfoActivity : AppCompatActivity() {
             val intent = Intent(this, SeatInfoCActivity::class.java)
             startActivity(intent)
         }
-        btn_back.setOnClickListener {
-            val data = Intent()
+        confirm.setOnClickListener {
+            val data = Intent(this, Book::class.java)
 
+            data.putExtra("start", start)
+            data.putExtra("end", end)
             data.putExtra("seatID", seatID)
-            setResult(Activity.RESULT_OK, data)
+            data.putExtra("userID", userID)
+
+            startActivity(data)
+        }
+        btn_back.setOnClickListener {
             finish()
         }
     }

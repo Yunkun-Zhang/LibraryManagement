@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         var seat = intent.getIntExtra("seat", -1)
         if (seat != -1) {
             var alertDialog = AlertDialog.Builder(this)
-            alertDialog.setMessage("至少预订1个小时！")
+            alertDialog.setMessage("预订$seat 座位成功！")
             alertDialog.setNeutralButton("确定", null)
             alertDialog.show()
         }

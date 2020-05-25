@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="#ffd524">
+        android:background="#ffffff">
 
         <ImageView
             android:id="@+id/btn_back"
@@ -126,11 +126,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="32dp"
         android:background="@drawable/frame"
         android:orientation="vertical">
-
 
         <!--第一排-->
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -609,6 +608,14 @@
                         android:src="@drawable/shape_green" />
 
                     <ImageView
+                            android:id="@+id/ss1081"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginTop="10dp"
+                            android:visibility="gone"
+                            android:src="@drawable/shape_chosen" />
+
+                    <ImageView
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:layout_alignParentBottom="true"
@@ -896,4 +903,15 @@
 
     </LinearLayout>
 
+    <TextView
+            android:id="@+id/confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="确定"
+            android:textSize="20sp"
+            android:textColor="#55eedd"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"/>
+
 </LinearLayout>
+
