@@ -32,12 +32,13 @@ class Book : AppCompatActivity() {
 
         // 进入该页面前一定处于登录状态
         var userID = intent.getIntExtra("userID", -1)
-        var seatID = intent.getIntExtra("seatID", 0)
+        var seatID = intent.getIntExtra("seatID", -1)
         var start = intent.getIntExtra("start", 8)
         var end = intent.getIntExtra("end", 23)
 
         start_time.text = Editable.Factory.getInstance().newEditable(start.toString())
         end_time.text = Editable.Factory.getInstance().newEditable(end.toString())
+        if (seatID != -1) seat.text = seatID.toString()
 
         // 取消
         book_back.setOnClickListener {
