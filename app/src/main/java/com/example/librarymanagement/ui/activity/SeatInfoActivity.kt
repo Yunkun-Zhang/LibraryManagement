@@ -17,7 +17,7 @@ class SeatInfoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_seat_info)
         var app = MyApplication.instance()
         var seatControl = app.seatControl
-        var orderControl  =app.orderControl
+        // var orderControl  =app.orderControl
         var start = intent.getIntExtra("start", 8)
 
 

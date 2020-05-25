@@ -4,16 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import com.example.librarymanagement.Application.MyApplication
 import com.example.librarymanagement.database.AppDataBase
-import com.example.librarymanagement.extension.DateUtil
-// import com.example.librarymanagement.database.AppDataBase
 import com.example.librarymanagement.ui.activity.Book
 import com.example.librarymanagement.ui.activity.Login
 import com.example.librarymanagement.ui.activity.Signup
 import kotlinx.android.synthetic.main.activity_main.*
-import java.lang.Exception
-import kotlin.reflect.jvm.internal.impl.types.AbstractTypeCheckerContext
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +21,13 @@ class MainActivity : AppCompatActivity() {
 
         // 获取userID
         var userID = intent.getIntExtra("userID", 0)
+        var seat = intent.getIntExtra("seat", -1)
+        if (seat != -1) {
+            var alertDialog = AlertDialog.Builder(this)
+            alertDialog.setMessage("至少预订1个小时！")
+            alertDialog.setNeutralButton("确定", null)
+            alertDialog.show()
+        }
 
         // 界面的一些显示更改
         if (userID != 0) {

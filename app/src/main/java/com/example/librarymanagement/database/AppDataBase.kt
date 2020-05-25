@@ -14,7 +14,6 @@ abstract class AppDataBase : RoomDatabase() {
     abstract fun getOrderDao(): OrderDao
 
 
-
     companion object {
 
         val instance = Single.sin
@@ -26,7 +25,7 @@ abstract class AppDataBase : RoomDatabase() {
         val sin :AppDataBase= Room.databaseBuilder(
             MyApplication.instance(),
             AppDataBase::class.java,
-            "use"
+            "qzh"
         )
             .allowMainThreadQueries()
             .build()

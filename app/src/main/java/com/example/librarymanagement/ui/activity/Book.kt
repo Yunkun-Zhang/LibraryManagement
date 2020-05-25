@@ -47,12 +47,19 @@ class Book : AppCompatActivity() {
             var g : Boolean?
 
             if (gender.selectedItem == "男") g = true
-            else if (gender.selectedItem == " ") g = null
-            else g = false
-            orderControl.findPairedSeats(sub, g, start, end)
+            else if (gender.selectedItem == "女") g = false
+            else g = null
+            var valid_seats = orderControl.findPairedSeats(sub, g, start, end)
             var order = orderControl.create_order(userID, seatID, start, end, false, sub, g)
             orderControl.confirmOrder(order)
+
+            Intent(this, MainActivity::class.java).apply {
+                putExtra("seat", valid_seats!![0])
+                putExtra("userID", userID)
+                startActivity(this)
+            }
         }
+
 
         // 取消
         book_back.setOnClickListener {

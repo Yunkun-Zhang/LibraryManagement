@@ -11,7 +11,7 @@ import kotlin.properties.Delegates
 
 class MyApplication: Application() {
     var seatControl:SeatControl = SeatControl()
-    var orderControl: OrderControl = OrderControl()
+    // var orderControl: OrderControl = OrderControl()
     companion object {
 
         var instance: MyApplication by Delegates.notNull()
@@ -25,9 +25,9 @@ class MyApplication: Application() {
         seatControl = SeatControl()
         instance = this
         val oDao: OrderDao = AppDataBase.instance.getOrderDao()
-        val uDao: UserDao = AppDataBase.instance.getUserDao()
-        var seatControl:SeatControl = SeatControl()
-        var orderControl: OrderControl = OrderControl()
+        // val uDao: UserDao = AppDataBase.instance.getUserDao()
+        var seatControl: SeatControl = SeatControl()
+        // var orderControl: OrderControl = OrderControl()
 
         var s_1 = Order(1, 1, 1101,"5",8,13,false,false,"English", true)
         var s_2 = Order(2, 5, 1204,"4",10,14,false,false,"Maths", true)
