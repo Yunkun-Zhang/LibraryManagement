@@ -15,6 +15,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        //multiDex
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -45,4 +47,9 @@ dependencies {
     implementation("com.louiscad.splitties:splitties-fun-pack-android-base-with-views-dsl:3.0.0-alpha06")
     implementation("com.louiscad.splitties:splitties-fun-pack-android-base:3.0.0-alpha06")
     implementation "me.liuwj.ktorm:ktorm-core:2.7.2"
+    //融云
+    implementation 'cn.rongcloud.sdk:im_lib:2.10.5'
+    implementation 'cn.rongcloud.sdk:im_kit:2.10.5'
+    //multiDex
+    implementation 'com.android.support:multidex:1.0.3'
 }

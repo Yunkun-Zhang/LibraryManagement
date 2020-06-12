@@ -1,9 +1,8 @@
 package com.example.librarymanagement.Application
 
 import android.app.Application
+import androidx.multidex.MultiDex
 import com.example.librarymanagement.adapter.OrderDao
-import com.example.librarymanagement.adapter.UserDao
-import com.example.librarymanagement.control.OrderControl
 import com.example.librarymanagement.control.SeatControl
 import com.example.librarymanagement.database.AppDataBase
 import com.example.librarymanagement.model.Order
@@ -22,6 +21,8 @@ class MyApplication: Application() {
     }
     override fun onCreate() {
         super.onCreate()
+        //multiDex
+        MultiDex.install(this)
         seatControl = SeatControl()
         instance = this
         val oDao: OrderDao = AppDataBase.instance.getOrderDao()
@@ -42,5 +43,4 @@ class MyApplication: Application() {
         //可以直接把list传进去，也可以一个一个单独添加
         oDao.insertAll(sList)
     }
-
 }
