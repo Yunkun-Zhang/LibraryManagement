@@ -89,14 +89,15 @@
                 android:textSize="25sp"/>
     </LinearLayout>
 
-    <!-- 扫码 -->
+    <!-- 扫码 --><!--android:id="@+id/main_to_scan"-->
     <ImageView
-            android:id="@+id/main_to_scan"
+
             android:adjustViewBounds="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxHeight="150dp"
             android:src="@drawable/scan"
+            android:onClick="newViewBtnClick"
             app:layout_constraintTop_toBottomOf="@+id/empty_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

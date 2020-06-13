@@ -1,20 +1,30 @@
 package com.example.librarymanagement
 
+import android.Manifest
+import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.example.librarymanagement.Application.MyApplication
-import com.example.librarymanagement.database.AppDataBase
+import androidx.appcompat.app.AppCompatActivity
 import com.example.librarymanagement.extension.StartConversation
 import com.example.librarymanagement.ui.activity.*
-import com.example.librarymanagement.ui.activity.ConversationActivity
-import com.example.librarymanagement.ui.activity.ConversationListActivity
+import com.huawei.hms.hmsscankit.ScanUtil
+import com.huawei.hms.ml.scan.HmsScan
+import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
+
+    //扫码需要参数
+    private val REQUEST_CODE_SCAN = 0X01
+    val DEFAULT_VIEW = 0x22
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,6 +100,65 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+    /**
+     * 扫码实现开始
+     */
+    fun newViewBtnClick(view: View?) {
+        //DEFAULT_VIEW为用户自定义用于接收权限校验结果
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(
+                arrayOf(
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ),
+                DEFAULT_VIEW
+            )
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        if (permissions == null || grantResults == null || grantResults.size < 2 || grantResults[0] != PackageManager.PERMISSION_GRANTED || grantResults[1] != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        if (requestCode == DEFAULT_VIEW) {
+            //调用DefaultView扫码界面
+            ScanUtil.startScan(
+                this@MainActivity,
+                REQUEST_CODE_SCAN,
+                HmsScanAnalyzerOptions.Creator().setHmsScanTypes(HmsScan.ALL_SCAN_TYPE).create()
+            )
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        //当扫码页面结束后，处理扫码结果
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK || data == null) {
+            return
+        }
+        //从onActivityResult返回data中，用 ScanUtil.RESULT作为key值取到HmsScan返回值
+        if (requestCode == REQUEST_CODE_SCAN) {
+            val obj: Any = data.getParcelableExtra(ScanUtil.RESULT)
+            if (obj is HmsScan) {
+                if (!TextUtils.isEmpty(obj.getOriginalValue())) {
+                    //obj.getOriginalValue()就是扫码出来的信息，类型为String
+                    //这行代码是扫码后的提示框，可以考虑删掉
+                    Toast.makeText(this, obj.getOriginalValue(), Toast.LENGTH_SHORT).show()
+                    //这个是在logcat显示相关信息的，可以删掉
+                    Log.i("resultscan",obj.getOriginalValue())
+                }
+                return
+            }
+        }
+
+    }
+    /**扫码实现结束*/
 
 }
 
