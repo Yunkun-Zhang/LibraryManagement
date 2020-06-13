@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.librarymanagement.R
+import com.example.librarymanagement.control.setUserInfo
 import io.rong.imkit.fragment.ConversationFragment
 
 internal class ConversationActivity : FragmentActivity() {
@@ -18,5 +19,7 @@ internal class ConversationActivity : FragmentActivity() {
         val transaction: FragmentTransaction = manager.beginTransaction()
         transaction.replace(R.id.container, conversationFragment)
         transaction.commit()
+
+        setUserInfo().setUserInfo()
     }
 }

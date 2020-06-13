@@ -35,10 +35,22 @@ class Login : AppCompatActivity() {
                 intent.putExtra("userID", 1)
                 startActivity(intent)
 
-                //连接融云
+                //连接融云 taken应该从数据库中获得
+                //123 lBtrd3/pQ5QJnDqa6Wpdv97p0X2K3LuP7+GIbIClnM4=@52ky.cn.rongnav.com;52ky.cn.rongcfg.com
+                //1234 m7aYlJ1VQwOIxdU4jucRs8No886C7K5DMC/ypFDuoGs=@52ky.cn.rongnav.com;52ky.cn.rongcfg.com
                 IMcontroler().connect("lBtrd3/pQ5QJnDqa6Wpdv97p0X2K3LuP7+GIbIClnM4=@52ky.cn.rongnav.com;52ky.cn.rongcfg.com")
             }
-            else {
+            else if(username.text.toString() == "w" && password.text.toString() == "1"){
+                var intent = Intent(this, MainActivity::class.java)
+                // 搞一个userID
+                intent.putExtra("userID", 1)
+                startActivity(intent)
+
+                //连接融云 taken应该从数据库中获得
+                //123 lBtrd3/pQ5QJnDqa6Wpdv97p0X2K3LuP7+GIbIClnM4=@52ky.cn.rongnav.com;52ky.cn.rongcfg.com
+                //1234 m7aYlJ1VQwOIxdU4jucRs8No886C7K5DMC/ypFDuoGs=@52ky.cn.rongnav.com;52ky.cn.rongcfg.com
+                IMcontroler().connect("m7aYlJ1VQwOIxdU4jucRs8No886C7K5DMC/ypFDuoGs=@52ky.cn.rongnav.com;52ky.cn.rongcfg.com")
+                }else{
                 var alertDialog = AlertDialog.Builder(this)
                 alertDialog.setTitle("登陆失败")
                 alertDialog.setMessage("用户名或密码错误！")
@@ -52,7 +64,6 @@ class Login : AppCompatActivity() {
                 startActivity(this)
             }
         }
-
     }
 
 

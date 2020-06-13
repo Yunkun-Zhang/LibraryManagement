@@ -162,13 +162,24 @@
             android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="对话列表"
+            android:text="对话列表（登录后使用）"
             android:textSize="20sp"
             android:textColor="#fb897a"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginBottom="100dp"/>
-
+    <TextView
+            android:id="@+id/conversation"
+            android:visibility="visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="对话（登录后使用）"
+            android:textSize="20sp"
+            android:textColor="#fb897a"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginBottom="50dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

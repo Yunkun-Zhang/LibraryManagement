@@ -7,10 +7,10 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.example.librarymanagement.Application.MyApplication
 import com.example.librarymanagement.database.AppDataBase
-import com.example.librarymanagement.ui.activity.Book
+import com.example.librarymanagement.extension.StartConversation
+import com.example.librarymanagement.ui.activity.*
+import com.example.librarymanagement.ui.activity.ConversationActivity
 import com.example.librarymanagement.ui.activity.ConversationListActivity
-import com.example.librarymanagement.ui.activity.Login
-import com.example.librarymanagement.ui.activity.Signup
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -79,6 +79,13 @@ class MainActivity : AppCompatActivity() {
         conversationlist.setOnClickListener {
             Intent(this, ConversationListActivity::class.java).apply {
                 startActivity(this)
+            }
+        }
+
+        //创建新对话
+        conversation.setOnClickListener {
+            Intent(this, ConversationActivity::class.java).apply {
+                StartConversation().startConversation("1234",this@MainActivity)
             }
         }
 

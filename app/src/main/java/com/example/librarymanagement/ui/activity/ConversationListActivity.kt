@@ -43,5 +43,6 @@ internal class ConversationListActivity : FragmentActivity() {
         val transaction: FragmentTransaction = manager.beginTransaction()
         transaction.replace(R.id.container, conversationListFragment)
         transaction.commit()
+
     }
 }
