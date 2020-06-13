@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.librarymanagement.MainActivity
 import com.example.librarymanagement.R
+import com.example.librarymanagement.control.IMcontroler
 import kotlinx.android.synthetic.main.activity_login.*
 
 
@@ -33,6 +34,9 @@ class Login : AppCompatActivity() {
                 // 搞一个userID
                 intent.putExtra("userID", 1)
                 startActivity(intent)
+
+                //连接融云
+                IMcontroler().connect("lBtrd3/pQ5QJnDqa6Wpdv97p0X2K3LuP7+GIbIClnM4=@52ky.cn.rongnav.com;52ky.cn.rongcfg.com")
             }
             else {
                 var alertDialog = AlertDialog.Builder(this)

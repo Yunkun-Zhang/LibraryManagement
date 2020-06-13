@@ -3,6 +3,7 @@ package com.example.librarymanagement.Application
 import android.app.Application
 import androidx.multidex.MultiDex
 import com.example.librarymanagement.adapter.OrderDao
+import com.example.librarymanagement.control.IMcontroler
 import com.example.librarymanagement.control.SeatControl
 import com.example.librarymanagement.database.AppDataBase
 import com.example.librarymanagement.model.Order
@@ -42,5 +43,8 @@ class MyApplication: Application() {
 
         //可以直接把list传进去，也可以一个一个单独添加
         oDao.insertAll(sList)
+
+        //初始化融云
+        IMcontroler().init(this)
     }
 }

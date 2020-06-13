@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import com.example.librarymanagement.Application.MyApplication
 import com.example.librarymanagement.database.AppDataBase
 import com.example.librarymanagement.ui.activity.Book
+import com.example.librarymanagement.ui.activity.ConversationListActivity
 import com.example.librarymanagement.ui.activity.Login
 import com.example.librarymanagement.ui.activity.Signup
 import kotlinx.android.synthetic.main.activity_main.*
@@ -74,6 +75,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        //融云
+        conversationlist.setOnClickListener {
+            Intent(this, ConversationListActivity::class.java).apply {
+                startActivity(this)
+            }
+        }
 
     }
 

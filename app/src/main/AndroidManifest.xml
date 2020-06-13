@@ -16,6 +16,7 @@
         <activity android:name=".ui.activity.SeatInfoActivity"/>
         <activity android:name=".ui.activity.SeatInfoBActivity"/>
         <activity android:name=".ui.activity.SeatInfoCActivity"/>
+        <activity android:name=".ui.activity.ConversationListActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -23,6 +24,21 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+                android:name=".ui.activity.ConversationActivity"
+                android:screenOrientation="fullSensor"
+                android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                        android:host="${applicationId}"
+                        android:pathPrefix="/conversation/"
+                        android:scheme="rong" />
+            </intent-filter>
+        </activity>
+
+
     </application>
 
 </manifest>
