@@ -47,6 +47,7 @@ class Book : AppCompatActivity() {
 
         // 确定
         var orderControl = OrderControl()
+
         confirm.setOnClickListener {
             start = start_time.text.toString().toInt()
             end = end_time.text.toString().toInt()
@@ -96,7 +97,5 @@ class Book : AppCompatActivity() {
 
     }
 
-        //val app = MyApplication.instance()
-        //var orderControl = app.orderControl
 
 }

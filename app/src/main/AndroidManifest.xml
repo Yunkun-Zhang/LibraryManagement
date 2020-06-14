@@ -2,24 +2,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="com.example.librarymanagement">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
             android:name=".Application.MyApplication"
-            android:usesCleartextTraffic="true"
-            android:networkSecurityConfig="@xml/net_config"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:theme="@style/AppTheme"
-            tools:targetApi="n">
+            android:theme="@style/AppTheme">
         <activity android:name=".ui.activity.Login"/>
         <activity android:name=".ui.activity.Signup"/>
         <activity android:name=".ui.activity.Book"/>
         <activity android:name=".ui.activity.SeatInfoActivity"/>
         <activity android:name=".ui.activity.SeatInfoBActivity"/>
         <activity android:name=".ui.activity.SeatInfoCActivity"/>
+        <activity android:name=".ui.activity.ConversationListActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -27,6 +25,28 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+                android:name=".ui.activity.ConversationActivity"
+                android:screenOrientation="fullSensor"
+                android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                        android:host="${applicationId}"
+                        android:pathPrefix="/conversation/"
+                        android:scheme="rong" />
+            </intent-filter>
+        </activity>
+
+
     </application>
+    <!--相机权限-->
+    <uses-permission android:name="android.permission.CAMERA"
+                     tools:ignore="ManifestOrder"/>
+    <!--读文件权限-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
 </manifest>
