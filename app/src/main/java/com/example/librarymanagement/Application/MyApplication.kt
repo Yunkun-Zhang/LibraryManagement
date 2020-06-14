@@ -6,7 +6,10 @@ import com.example.librarymanagement.adapter.OrderDao
 import com.example.librarymanagement.control.IMcontroler
 import com.example.librarymanagement.control.SeatControl
 import com.example.librarymanagement.database.AppDataBase
+import com.example.librarymanagement.httputil.addUser
+import com.example.librarymanagement.httputil.getAllUsers
 import com.example.librarymanagement.model.Order
+import com.example.librarymanagement.model.Users
 import kotlin.properties.Delegates
 
 class MyApplication: Application() {
@@ -30,6 +33,12 @@ class MyApplication: Application() {
         // val uDao: UserDao = AppDataBase.instance.getUserDao()
         var seatControl: SeatControl = SeatControl()
         // var orderControl: OrderControl = OrderControl()
+
+
+        // testing http connection
+        getAllUsers()
+        val user = Users("jj", "ihavejj", 20)
+        addUser(user)
 
         var s_1 = Order(1, 1, 1101,"5",8,13,false,false,"English", true)
         var s_2 = Order(2, 5, 1204,"4",10,14,false,false,"Maths", true)
