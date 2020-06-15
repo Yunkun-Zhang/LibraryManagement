@@ -7,11 +7,15 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.librarymanagement.R
 import com.example.librarymanagement.control.setUserInfo
 import io.rong.imkit.fragment.ConversationFragment
+import kotlinx.android.synthetic.main.activity_conversation.*
 
 internal class ConversationActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         super.setContentView(R.layout.activity_conversation)
+
+        // 返回
+        btn_back.setOnClickListener { finish() }
 
         // 添加会话界面
         val conversationFragment = ConversationFragment()

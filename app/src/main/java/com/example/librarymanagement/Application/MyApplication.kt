@@ -10,6 +10,7 @@ import com.example.librarymanagement.httputil.addUser
 import com.example.librarymanagement.httputil.getAllUsers
 import com.example.librarymanagement.model.Order
 import com.example.librarymanagement.model.Users
+import com.stormkid.okhttpkt.core.Okkt
 import kotlin.properties.Delegates
 
 class MyApplication: Application() {
@@ -33,6 +34,16 @@ class MyApplication: Application() {
         // val uDao: UserDao = AppDataBase.instance.getUserDao()
         var seatControl: SeatControl = SeatControl()
         // var orderControl: OrderControl = OrderControl()
+
+        Okkt.instance
+            .setBase("http://192.168.1.5:8080")
+            .isLogShow(true)
+            .setErr("Bad Internet Connection!")
+            .setClientType(Okkt.FACTORY_CLIENT)
+            .setNetClientType(Okkt.HTTP_TYPE)
+            .setTimeOut(1000L)
+            .isNeedCookie(false)
+            .initHttpClient()
 
 
         // testing http connection

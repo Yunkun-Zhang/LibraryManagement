@@ -18,6 +18,9 @@
         <activity android:name=".ui.activity.SeatInfoBActivity"/>
         <activity android:name=".ui.activity.SeatInfoCActivity"/>
         <activity android:name=".ui.activity.ConversationListActivity"/>
+        <activity android:name=".ui.activity.FriendActivity"/>
+        <activity android:name=".ui.activity.GroupBookActivity"/>
+        <activity android:name=".ui.activity.PersonInfoActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
