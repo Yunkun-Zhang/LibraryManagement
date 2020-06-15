@@ -122,13 +122,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        //融云
-        conversationlist.setOnClickListener {
-            Intent(this, ConversationListActivity::class.java).apply {
-                startActivity(this)
-            }
-        }
-
         //创建新对话
         conversation.setOnClickListener {
             Intent(this, ConversationActivity::class.java).apply {
