@@ -9,17 +9,18 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="#ffffff">
+        android:layout_height="50dp">
 
-        <ImageView
-            android:id="@+id/btn_back"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_centerVertical="true"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/ic_keyboard_arrow_left_black_24dp" />
+        <ImageButton
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:srcCompat="?attr/homeAsUpIndicator"
+                android:id="@+id/btn_back"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_centerVertical="true"
+                android:tint="#000000"
+                android:layout_marginLeft="10dp"
+                android:background="#00FFFFFF"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -87,8 +88,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:paddingLeft="48dp"
-        android:paddingRight="48dp">
+        android:gravity="center">
 
         <TextView
             android:layout_width="wrap_content"
@@ -98,7 +98,7 @@
             android:gravity="center"
             android:text="可用"
             android:textColor="#1e1e1e"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -109,7 +109,7 @@
             android:gravity="center"
             android:text="被占用"
             android:textColor="#1e1e1e"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <TextView
                 android:layout_width="wrap_content"
@@ -120,10 +120,10 @@
                 android:gravity="center"
                 android:text="已选择"
                 android:textColor="#1e1e1e"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
     </LinearLayout>
-
+<!--
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -131,7 +131,7 @@
         android:background="@drawable/frame"
         android:orientation="vertical">
 
-        <!--第一排-->
+        <!-第一排->
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="wrap_content"
@@ -320,7 +320,7 @@
 
 
 
-        <!--第二排-->
+        <!-第二排->
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="wrap_content"
@@ -518,7 +518,7 @@
 
 
 
-        <!--第三排-->
+        <!-第三排->
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="wrap_content"
@@ -715,7 +715,7 @@
 
 
 
-        <!--第四排-->
+        <!-第四排->
         <LinearLayout
             android:id="@+id/LinearLayout1"
             android:layout_width="wrap_content"
@@ -912,6 +912,6 @@
             android:textColor="#55eedd"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"/>
-
+    -->
 </LinearLayout>
 

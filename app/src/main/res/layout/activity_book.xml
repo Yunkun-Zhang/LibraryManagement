@@ -10,7 +10,7 @@
 
     <ImageView
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:id="@+id/bar"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -171,11 +171,23 @@
             android:layout_height="wrap_content"
             android:text="确定"
             android:textSize="20sp"
-            android:textColor="#55eedd"
+            android:textColor="#87e3cf"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginBottom="20dp"
             android:layout_marginRight="20dp"/>
+    <TextView
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消"
+            android:textSize="20sp"
+            android:textColor="#fb897a"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:enabled="false"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

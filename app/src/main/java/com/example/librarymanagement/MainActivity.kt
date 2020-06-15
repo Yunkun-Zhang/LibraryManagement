@@ -18,6 +18,7 @@ import com.huawei.hms.hmsscankit.ScanUtil
 import com.huawei.hms.ml.scan.HmsScan
 import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.toast
 
 
 class MainActivity : AppCompatActivity() {
@@ -39,10 +40,12 @@ class MainActivity : AppCompatActivity() {
             alertDialog.setNeutralButton("确定", null)
             alertDialog.show()
         }
+        var orderID = intent.getIntExtra("orderID", 0)
 
         // 界面的一些显示更改
         if (userID != 0) {
-            login_state.text = "空闲"
+            if (orderID != 0) login_state.text = "已预订"
+            else login_state.text = "空闲"  // 后面加入“占座中”、“暂离”等
             log_or_sign.visibility = View.GONE
             logout.visibility = View.VISIBLE
         }
@@ -66,7 +69,8 @@ class MainActivity : AppCompatActivity() {
 
         main_to_book.setOnClickListener {
             // 先判断是否登录
-            if (login_state.text.toString() == "未登录") {
+            if (userID == 0) {
+                toast("请先登录！")
                 Intent(this, Login::class.java).apply {
                     startActivity(this)
                 }
@@ -74,11 +78,44 @@ class MainActivity : AppCompatActivity() {
             else {
                 Intent(this, Book::class.java).apply {
                     putExtra("userID", userID)
+                    putExtra("orderID", orderID)
                     startActivity(this)
                 }
             }
         }
-
+        // 去好友页面，该页面应当包括好友列表和对话列表
+        main_to_friends.setOnClickListener {
+            // 先判断是否登录
+            if (userID == 0) {
+                toast("请先登录！")
+                Intent(this, Login::class.java).apply {
+                    startActivity(this)
+                }
+            }
+            else {
+                Intent(this, FriendActivity::class.java).apply {
+                    putExtra("userID", userID)
+                    startActivity(this)
+                }
+            }
+        }
+        // 去个人信息页面
+        main_to_personal.setOnClickListener {
+            // 先判断是否登录
+            if (userID == 0) {
+                toast("请先登录！")
+                Intent(this, Login::class.java).apply {
+                    startActivity(this)
+                }
+            }
+            else {
+                Intent(this, PersonInfoActivity::class.java).apply {
+                    putExtra("userID", userID)
+                    startActivity(this)
+                }
+            }
+        }
+        // 登出
         logout.setOnClickListener {
             Intent(this, MainActivity::class.java).apply {
                 startActivity(this)

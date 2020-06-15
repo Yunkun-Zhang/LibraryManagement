@@ -1,7 +1,13 @@
 package com.example.librarymanagement.ui.activity
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.IBinder
+import android.view.MotionEvent
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.librarymanagement.MainActivity
@@ -106,4 +112,6 @@ class Login : AppCompatActivity() {
             }
         }
     }
+
+
 }
