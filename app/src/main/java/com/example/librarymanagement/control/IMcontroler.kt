@@ -5,8 +5,6 @@ import android.util.Log
 import io.rong.imkit.RongIM
 import io.rong.imlib.RongIMClient.*
 import io.rong.imlib.model.Message
-import io.rong.imlib.model.UserInfo
-import android.net.Uri
 
 
 class IMcontroler {
