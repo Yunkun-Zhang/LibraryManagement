@@ -11,6 +11,9 @@ import com.example.librarymanagement.Application.MyApplication
 import com.example.librarymanagement.MainActivity
 import com.example.librarymanagement.R
 import com.example.librarymanagement.control.OrderControl
+import com.example.librarymanagement.model.User
+import com.stormkid.okhttpkt.core.Okkt
+import com.stormkid.okhttpkt.rule.CallbackRule
 import kotlinx.android.synthetic.main.activity_book.*
 import kotlinx.android.synthetic.main.activity_seat_info.*
 import org.jetbrains.anko.*
@@ -31,15 +34,13 @@ class SeatInfoActivity : AppCompatActivity() {
         var sub = intent.getStringExtra("subject")
         var gender : Boolean? = intent.extras?.get("gender") as Boolean?
         // 获取可用座位list
-        var seat_list : Set<Int>
+        var seat_list = intent.getIntArrayExtra("list")
         if (hour in 8..22) {
             // 当前可用的seat_list
-            seat_list = seatControl.querySeatByTime(hour, hour+1)
+            confirm.visibility = View.GONE
             toast("现在是$hour")
         }
         else {
-            // 请求服务器找到可用的seat_list
-            seat_list = seatControl.querySeatByTime(start, end)
             if (seat_list.isEmpty()) {
                 alert("哎呀，没有可用的匹配座位了！") {
                     positiveButton("放弃匹配") {}

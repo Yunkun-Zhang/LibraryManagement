@@ -26,7 +26,7 @@ class PersonInfoActivity : AppCompatActivity() {
             send_text.visibility = View.GONE
             team_book.visibility = View.GONE
             // 获取userID对应用户的信息，修改显示
-            Okkt.instance.Builder().setUrl("/user/findbyuserid").putBody(hashMapOf("userId" to userID.toString()))
+            Okkt.instance.Builder().setUrl("/user/findbyuserid").putBody(hashMapOf("userid" to userID.toString()))
                 .post(object : CallbackRule<User> {
                     override suspend fun onFailed(error: String) {
                         val alertDialog = AlertDialog.Builder(this@PersonInfoActivity)
@@ -100,7 +100,7 @@ class PersonInfoActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         // 获取userID对应用户的信息，修改显示
         val userID = data?.getIntExtra("userID", 0)
-        Okkt.instance.Builder().setUrl("/user/findbyuserid").putBody(hashMapOf("userId" to userID.toString())).
+        Okkt.instance.Builder().setUrl("/user/findbyuserid").putBody(hashMapOf("userid" to userID.toString())).
         post(object: CallbackRule<User> {
             override suspend fun onFailed(error: String) {
                 val alertDialog = AlertDialog.Builder(this@PersonInfoActivity)

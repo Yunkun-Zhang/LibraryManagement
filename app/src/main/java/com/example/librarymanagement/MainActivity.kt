@@ -22,6 +22,7 @@ import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
 import com.stormkid.okhttpkt.core.Okkt
 import com.stormkid.okhttpkt.rule.CallbackRule
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_mod_info.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.toast
 import java.text.SimpleDateFormat
@@ -42,12 +43,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main) //鼠标点在紫色字体上ctrl+B可以进入xml设置
 
+        Intent(this@MainActivity, StudyActivity::class.java).apply{
+            startActivity(this)
+        }
+
         // 获取userID
         userID = intent.getIntExtra("userID", 0)
         val name = intent.getStringExtra("name")
         // 获取user状态
         if (userID != 0) {
-            Okkt.instance.Builder().setUrl("/user/findbyuserid").putBody(hashMapOf("userId" to userID.toString())).
+            Okkt.instance.Builder().setUrl("/user/findbyuserid").putBody(hashMapOf("userid" to userID.toString())).
             post(object: CallbackRule<User> {
                 override suspend fun onFailed(error: String) {
                     val alertDialog = AlertDialog.Builder(this@MainActivity)
@@ -66,6 +71,18 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         }
+
+        // 获取座位状态
+        Okkt.instance.Builder().setUrl("/seat/getspareseats/now")
+            .post(object : CallbackRule<MutableList<Int>> {
+                override suspend fun onFailed(error: String) {
+                    alert("图书馆未开放！") { positiveButton("确定") {} }.show()
+                    emptynum.text = ""
+                }
+                override suspend fun onSuccess(entity: MutableList<Int>, flag: String) {
+                    emptynum.text = entity.size.toString()
+                }
+            })
 
         // 从预订界面返回
         var seat = intent.getIntExtra("seat", 0)
@@ -165,13 +182,24 @@ class MainActivity : AppCompatActivity() {
         }
         // 去查看座位页面
         main_to_check.setOnClickListener {
-            Intent(this, SeatInfoActivity::class.java).apply {
-                putExtra("check", true)
-                val form = SimpleDateFormat("HH")
-                val hour = form.format(Date()).toInt()
-                putExtra("hour", hour)
-                startActivity(this)
-            }
+            // 请求服务器找到可用的seat_list
+            Okkt.instance.Builder().setUrl("/seat/getspareseats/now")
+                .post(object : CallbackRule<MutableList<Int>> {
+                    override suspend fun onFailed(error: String) {
+                        alert("图书馆未开放！") { positiveButton("确定") {} }.show()
+                    }
+                    override suspend fun onSuccess(entity: MutableList<Int>, flag: String) {
+                        emptynum.text = entity.size.toString()
+                        Intent(this@MainActivity, SeatInfoActivity::class.java).apply {
+                            putExtra("check", true)
+                            val form = SimpleDateFormat("HH")
+                            val hour = form.format(Date()).toInt()
+                            putExtra("hour", hour)
+                            putExtra("list", entity.toIntArray())
+                            startActivity(this)
+                        }
+                    }
+                })
         }
         // 登出
         logout.setOnClickListener {
@@ -244,38 +272,37 @@ class MainActivity : AppCompatActivity() {
                             // 更新座位状态
                         }
                         else {  // 若否，判断扫到座位是否可用，若是，则成功占位
-                            val app = MyApplication.instance()
-                            val seatControl = app.seatControl
-                            val form = SimpleDateFormat("HH")
-                            val hour = form.format(Date()).toInt()
-                            val seat_list = seatControl.querySeatByTime(hour, hour+1)
-                            if (seatID in seat_list) {
-                                val alertDialog = AlertDialog.Builder(this)
-                                alertDialog.setMessage("成功占座")
-                                alertDialog.setNeutralButton("确定", null)
-                                alertDialog.show()
-                                // 更改user状态******************************
-                                Intent(this, MainActivity::class.java).apply {
-                                    putExtra("userID", userID)
-                                    putExtra("seatID", seatID)
-                                    // user状态
-                                    startActivity(this)
-                                }
-                            }
-                            else {
-                                alert("该座位已被占用！") { positiveButton("确定") {} }
-                            }
-
+                            // 查询seat_list
+                            Okkt.instance.Builder().setUrl("/seat/getspareseats/now")
+                                .post(object : CallbackRule<MutableList<Int>> {
+                                    override suspend fun onFailed(error: String) {
+                                        alert("图书馆未开放！") { positiveButton("确定") {} }.show()
+                                    }
+                                    override suspend fun onSuccess(entity: MutableList<Int>, flag: String) {
+                                        val seat_list = entity.toIntArray()
+                                        if (seatID in seat_list) {
+                                            alert("成功占座") { positiveButton("确定") {} }.show()
+                                            // 更改user、seat状态******************************
+                                            Okkt.instance.Builder().setUrl("/user/revisestatusbyid")
+                                                .setParams(hashMapOf("userid" to userID.toString()))
+                                                .putBody(hashMapOf("password" to pwd.text.toString()))
+                                                .post(object: CallbackRule<String> {
+                                                    override suspend fun onFailed(error: String) { }
+                                                    override suspend fun onSuccess(entity: String, flag: String) { }
+                                                })
+                                            Intent(this@MainActivity, StudyActivity::class.java).apply {
+                                                putExtra("userID", userID)
+                                                putExtra("seatID", seatID)
+                                                // user状态
+                                                startActivity(this)
+                                            }
+                                        }
+                                        else {
+                                            alert("该座位已被占用！") { positiveButton("确定") {} }
+                                        }
+                                    }
+                                })
                         }
-
-                        //obj.getOriginalValue()就是扫码出来的信息，类型为String
-                        //如果未占位，查询是否被预定，没预定就占位
-                        //如果已经占了该位置，就改为leave
-                        //这行代码是扫码后的提示框，可以考虑删掉
-
-                        Toast.makeText(this, obj.getOriginalValue(), Toast.LENGTH_SHORT).show()
-                        //这个是在logcat显示相关信息的，可以删掉
-                        Log.i("resultscan",obj.getOriginalValue())
                     }
                 }
                 return

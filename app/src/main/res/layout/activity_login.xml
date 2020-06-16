@@ -65,12 +65,12 @@
 
     <Button
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:id="@+id/login_submit"
             android:text="登录"
             android:textSize="20sp"
             android:textColor="#ffffff"
-            android:background="@drawable/btn_selector"
+            android:backgroundTint="#87e3cf"
             app:layout_constraintTop_toBottomOf="@id/password"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:text="注册"
                 android:textSize="20sp"
-                android:textColor="#55eedd"
+                android:textColor="#87e3cf"
                 android:id="@+id/login_to_signup"/>
 
     </LinearLayout>

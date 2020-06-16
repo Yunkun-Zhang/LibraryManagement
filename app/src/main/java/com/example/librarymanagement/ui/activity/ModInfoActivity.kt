@@ -5,17 +5,12 @@ import android.os.Bundle
 import android.text.Editable
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.text.htmlEncode
 import com.example.librarymanagement.R
 import com.example.librarymanagement.model.User
-import com.example.librarymanagement.others.UserStatus
 import com.stormkid.okhttpkt.core.Okkt
 import com.stormkid.okhttpkt.rule.CallbackRule
-import kotlinx.android.synthetic.main.activity_book.*
 import kotlinx.android.synthetic.main.activity_mod_info.*
 import kotlinx.android.synthetic.main.activity_mod_info.gender
-import java.net.URLDecoder
-import java.net.URLEncoder
 
 class ModInfoActivity : AppCompatActivity() {
 
@@ -25,7 +20,7 @@ class ModInfoActivity : AppCompatActivity() {
 
         val userID = intent.getIntExtra("userID", 0)
         // 获取userID对应用户的信息，修改显示
-        Okkt.instance.Builder().setUrl("/user/findbyuserid").putBody(hashMapOf("userId" to userID.toString())).
+        Okkt.instance.Builder().setUrl("/user/findbyuserid").putBody(hashMapOf("userid" to userID.toString())).
         post(object: CallbackRule<User> {
             override suspend fun onFailed(error: String) {
                 val alertDialog = AlertDialog.Builder(this@ModInfoActivity)
@@ -56,7 +51,7 @@ class ModInfoActivity : AppCompatActivity() {
         // 保存
         save.setOnClickListener {
             // 保存
-            Okkt.instance.Builder().setUrl("/user/revisepasswordbyid").setParams(hashMapOf("userId" to userID.toString()))
+            Okkt.instance.Builder().setUrl("/user/revisepasswordbyid").setParams(hashMapOf("userid" to userID.toString()))
                 .putBody(hashMapOf("password" to pwd.text.toString()))
                 .post(object: CallbackRule<String> {
                     override suspend fun onFailed(error: String) { }
@@ -68,7 +63,7 @@ class ModInfoActivity : AppCompatActivity() {
 
             // 改密码（可做额外接口）
             Okkt.instance.Builder().setUrl("/user/revisepasswordbyid")
-                .setParams(hashMapOf("userId" to userID.toString()))
+                .setParams(hashMapOf("userid" to userID.toString()))
                 .putBody(hashMapOf("password" to pwd.text.toString()))
                 .post(object: CallbackRule<String> {
                     override suspend fun onFailed(error: String) { }
@@ -76,10 +71,10 @@ class ModInfoActivity : AppCompatActivity() {
                 })
             // 其他信息
             Okkt.instance.Builder().setUrl("/user/reviseinfobyid")
-                .setParams(hashMapOf("userId" to userID.toString()))
+                .setParams(hashMapOf("userid" to userID.toString()))
                 .putBody(hashMapOf("gender" to g,
                     "phone" to phone.text.toString(),
-                    "favorsubject" to URLEncoder.encode(favorsubject.text.toString(), "UTF-8"),
+                    "favorsubject" to favorsubject.text.toString(),
                     "email" to email.text.toString()))
                 .post(object: CallbackRule<String> {
                     override suspend fun onFailed(error: String) { }

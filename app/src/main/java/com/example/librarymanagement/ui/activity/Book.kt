@@ -8,7 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.librarymanagement.MainActivity
 import com.example.librarymanagement.R
 import com.example.librarymanagement.control.OrderControl
+import com.stormkid.okhttpkt.core.Okkt
+import com.stormkid.okhttpkt.rule.CallbackRule
 import kotlinx.android.synthetic.main.activity_book.*
+import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk25.coroutines.onFocusChange
 
@@ -76,14 +79,24 @@ class Book : AppCompatActivity() {
                     else if (gender.selectedItem == "女") g = false
                     else g = null
 
-                    Intent(this, SeatInfoActivity::class.java).apply {
-                        putExtra("start", start)
-                        putExtra("end", end)
-                        putExtra("userID", userID)
-                        putExtra("subject", sub)
-                        putExtra("gender", g)
-                        startActivity(this)
-                    }
+                    Okkt.instance.Builder().setUrl("/seat/getspareseats/tomorrow")
+                        .putBody(hashMapOf("starttime" to start.toString(), "endtime" to end.toString()))
+                        .post(object : CallbackRule<MutableList<Int>> {
+                            override suspend fun onFailed(error: String) {}
+                            override suspend fun onSuccess(entity: MutableList<Int>, flag: String) {
+                                Intent(this@Book, SeatInfoActivity::class.java).apply {
+                                    //putExtra("start", start)
+                                    //putExtra("end", end)
+                                    putExtra("userID", userID)
+                                    putExtra("subject", sub)
+                                    putExtra("gender", g)
+                                    putExtra("list", entity.toIntArray())
+                                    startActivity(this)
+                                }
+                            }
+                        })
+
+
                 }
             }
 
