@@ -125,6 +125,7 @@ class MainActivity : AppCompatActivity() {
         //创建新对话
         conversation.setOnClickListener {
             Intent(this, ConversationActivity::class.java).apply {
+                //开始和谁对话就修改那个useid，就可以打开对应的对话界面
                 StartConversation().startConversation("1234",this@MainActivity)
             }
         }
@@ -152,7 +153,7 @@ class MainActivity : AppCompatActivity() {
         permissions: Array<String>,
         grantResults: IntArray
     ) {
-        if (permissions == null || grantResults == null || grantResults.size < 2 || grantResults[0] != PackageManager.PERMISSION_GRANTED || grantResults[1] != PackageManager.PERMISSION_GRANTED
+        if (grantResults.size < 2 || grantResults[0] != PackageManager.PERMISSION_GRANTED || grantResults[1] != PackageManager.PERMISSION_GRANTED
         ) {
             return
         }
@@ -177,11 +178,26 @@ class MainActivity : AppCompatActivity() {
             val obj: Any = data.getParcelableExtra(ScanUtil.RESULT)
             if (obj is HmsScan) {
                 if (!TextUtils.isEmpty(obj.getOriginalValue())) {
-                    //obj.getOriginalValue()就是扫码出来的信息，类型为String
-                    //这行代码是扫码后的提示框，可以考虑删掉
-                    Toast.makeText(this, obj.getOriginalValue(), Toast.LENGTH_SHORT).show()
-                    //这个是在logcat显示相关信息的，可以删掉
-                    Log.i("resultscan",obj.getOriginalValue())
+                    //判断是否登录
+                    if (login_state.text.toString() == "未登录") {
+                        Intent(this, Login::class.java).apply {
+                            startActivity(this)
+                        }
+                    }
+                    else{
+                        //obj.getOriginalValue()就是扫码出来的信息，类型为String
+                        //如果未占位，查询是否被预定，没预定就占位
+                        //如果已经占了该位置，就改为leave
+                        //这行代码是扫码后的提示框，可以考虑删掉
+                        val alertDialog = AlertDialog.Builder(this)
+                        alertDialog.setTitle("扫码结果")
+                        alertDialog.setMessage("成功占座")
+                        alertDialog.setNeutralButton("确定", null)
+                        alertDialog.show()
+                        Toast.makeText(this, obj.getOriginalValue(), Toast.LENGTH_SHORT).show()
+                        //这个是在logcat显示相关信息的，可以删掉
+                        Log.i("resultscan",obj.getOriginalValue())
+                    }
                 }
                 return
             }

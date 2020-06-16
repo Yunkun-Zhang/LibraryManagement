@@ -1,16 +1,24 @@
 package com.example.librarymanagement.ui.activity
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.librarymanagement.MainActivity
 import com.example.librarymanagement.R
+import com.example.librarymanagement.model.Users
+import com.stormkid.okhttpkt.core.Okkt
+import com.stormkid.okhttpkt.rule.CallbackRule
+import com.stormkid.okhttpkt.rule.StringCallback
 import kotlinx.android.synthetic.main.activity_signup.*
 
 
 class Signup : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
@@ -22,27 +30,39 @@ class Signup : AppCompatActivity() {
         signup_submit.setOnClickListener {
             if (username.text.toString() != "" && password.text.toString() != "") {
                 if (password.text.toString() != confirm_password.text.toString()) {
-                    var alertDialog = AlertDialog.Builder(this)
+                    val alertDialog = AlertDialog.Builder(this)
                     alertDialog.setMessage("确认密码与密码不符！")
                     alertDialog.setNeutralButton("确定", null)
                     alertDialog.show()
                 }
                 else {
-                    var sign = Intent(this, Login::class.java)    // 注册完进入登录页面
-                    // 此处应记录注册的用户
-                    sign.putExtra("username", username.text.toString())
-                    sign.putExtra("password", password.text.toString())
-                    startActivity(sign)
+                    Okkt.instance.Builder().setUrl("/user/add").putBody(hashMapOf("name" to username.text.toString(),"password" to password.text.toString())).
+                    postString(object: StringCallback {
+                        override suspend fun onFailed(error: String) {
+                            val alertDialog = AlertDialog.Builder(this@Signup)
+                            alertDialog.setTitle("注册失败")
+                            alertDialog.setMessage("请检查网络！")
+                            alertDialog.setNeutralButton("确定", null)
+                            alertDialog.show()
+                        }
+
+                        override suspend fun onSuccess(entity: String, flag: String) {
+                            // 注册完进入登录页面（addFlags防止回退）
+                            val sign = Intent(this@Signup, Login::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            sign.putExtra("username", username.text.toString())
+                            sign.putExtra("password", password.text.toString())
+                            startActivity(sign)
+                        }
+                    })
+
                 }
             }
             else {
-                var alertDialog = AlertDialog.Builder(this)
+                val alertDialog = AlertDialog.Builder(this)
                 alertDialog.setMessage("用户名或密码不应为空！")
                 alertDialog.setNeutralButton("确定", null)
                 alertDialog.show()
             }
         }
     }
-
-
 }
