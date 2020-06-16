@@ -51,7 +51,7 @@ class MyApplication: Application() {
 
         //初始化连接服务器
         Okkt.instance
-            .setBase("http://192.168.3.161:8080")
+            .setBase("http://192.168.1.5:8080")
             .isLogShow(true)
             .setErr("Bad Internet Connection!")
             .setClientType(Okkt.FACTORY_CLIENT)
