@@ -9,7 +9,7 @@ class SeatControl {
     //添加所有座位
     init {
         for (floor in 1..3) {
-            for (table in 1..12) {
+            for (table in 1..48) {
                 for (seat in 1..4) {
                             allSeats.add((floor*1000 + table*10 + seat))
                 }

@@ -40,7 +40,7 @@ class Book : AppCompatActivity() {
             gender.isEnabled = false
             cancel.isEnabled = true
             cancel.setOnClickListener {
-                // 加入取消订单操作
+                // 加入取消订单操作*****************************
                 Intent(this, MainActivity::class.java).apply {
                     putExtra("orderID", 0)
                     putExtra("userID", userID)
@@ -48,70 +48,50 @@ class Book : AppCompatActivity() {
                 }
             }
         }
-        else {  // 确定
-            val orderControl = OrderControl()
-
+        else {
+            // 取消=返回
+            cancel.setOnClickListener { finish() }
+            // 下一步：选座
             confirm.setOnClickListener {
-                // 跳转回主界面，传递seatID，userID，orderID
                 start = start_time.text.toString().toInt()
                 end = end_time.text.toString().toInt()
-
-                if (subject.text.toString() == "" && seat.text == "") {
+                // 8:00 -- 23:00
+                if (start < 8 || start > 23 || end < 8 || end > 23) {
                     val alertDialog = AlertDialog.Builder(this)
-                    alertDialog.setMessage("请选择座位或添加配对信息！")
+                    alertDialog.setMessage("请输入正确的时间！")
+                    alertDialog.setNeutralButton("确定", null)
+                    alertDialog.show()
+                }
+                else if (start >= end) {
+                    val alertDialog = AlertDialog.Builder(this)
+                    alertDialog.setMessage("至少预订1个小时！")
                     alertDialog.setNeutralButton("确定", null)
                     alertDialog.show()
                 }
                 else {
-                    var sub = subject.text.toString()
-                    var g: Boolean?
+                    val sub = subject.text.toString()
+                    val g: Boolean?
 
                     if (gender.selectedItem == "男") g = true
                     else if (gender.selectedItem == "女") g = false
                     else g = null
 
-                    var valid_seats = orderControl.findPairedSeats(sub, g, start, end)
-                    var order = orderControl.create_order(userID, seatID, start, end, false, sub, g)
-                    orderControl.confirmOrder(order)
-
-                    Intent(this, MainActivity::class.java).apply {
-                        putExtra("seat", seatID)
+                    Intent(this, SeatInfoActivity::class.java).apply {
+                        putExtra("start", start)
+                        putExtra("end", end)
                         putExtra("userID", userID)
-                        putExtra("orderID", 1)
+                        putExtra("subject", sub)
+                        putExtra("gender", g)
                         startActivity(this)
                     }
                 }
-            }        }
+            }
+
+        }
 
         // 取消
         book_back.setOnClickListener { finish() }
 
-        // 选座
-        choose_seat.setOnClickListener {
-            start = start_time.text.toString().toInt()
-            end = end_time.text.toString().toInt()
-            // 8:00 -- 23:00
-            if (start < 8 || start > 23 || end < 8 || end > 23) {
-                val alertDialog = AlertDialog.Builder(this)
-                alertDialog.setMessage("请输入正确的时间！")
-                alertDialog.setNeutralButton("确定", null)
-                alertDialog.show()
-            }
-            else if (start >= end) {
-                val alertDialog = AlertDialog.Builder(this)
-                alertDialog.setMessage("至少预订1个小时！")
-                alertDialog.setNeutralButton("确定", null)
-                alertDialog.show()
-            }
-            else {
-                Intent(this, SeatInfoActivity::class.java).apply {
-                    putExtra("start", start)
-                    putExtra("end", end)
-                    putExtra("userID", userID)
-                    startActivity(this)
-                }
-            }
-        }
 
     }
 

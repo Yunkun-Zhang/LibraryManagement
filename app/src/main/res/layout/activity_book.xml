@@ -103,7 +103,7 @@
             android:id="@+id/choose_seat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="选择座位"
+            android:text="匹配条件："
             android:textSize="20sp"
             app:layout_constraintTop_toBottomOf="@id/time_layout"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -142,6 +142,7 @@
             android:layout_marginLeft="28dp"
             android:layout_marginRight="28dp"
             android:textAlignment="textEnd"
+            android:maxLines="1"
             android:background="@null"/>
 
     <TextView
@@ -169,7 +170,7 @@
             android:id="@+id/confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="确定"
+            android:text="下一步"
             android:textSize="20sp"
             android:textColor="#87e3cf"
             app:layout_constraintBottom_toBottomOf="parent"
