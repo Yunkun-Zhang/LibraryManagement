@@ -5,9 +5,9 @@ import io.rong.imkit.RongIM;
 import io.rong.imkit.userInfoCache.RongUserInfoManager;
 import io.rong.imlib.model.UserInfo;
 
-public class setUserInfo {
+public class SetUserInfo {
 
-    public void setUserInfo(){
+    public void setUserInfo(final String name){
         //清除现有缓存
         RongUserInfoManager.getInstance().uninit();
 
@@ -19,18 +19,7 @@ public class setUserInfo {
              */
             @Override
             public UserInfo getUserInfo(String userId) {
-                //通过userid在数据库中获取到name，url，再写入
-                //接下来只是测试
-                String name;
-                String url;
-                if(userId.equals("123")) {
-                    name = "张三";
-                    url = "https://s1.ax1x.com/2020/06/13/txCi01.th.jpg";
-                }
-                else{
-                    name = "王五";
-                    url = "https://s1.ax1x.com/2020/06/13/tvr7S1.jpg";
-                }
+                String url = "";
                 return new UserInfo(userId, name, Uri.parse(url));
             }
 
