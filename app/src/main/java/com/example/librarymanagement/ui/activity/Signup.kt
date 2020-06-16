@@ -47,6 +47,12 @@ class Signup : AppCompatActivity() {
                         }
 
                         override suspend fun onSuccess(entity: String, flag: String) {
+                            //添加好友表
+                            Okkt.instance.Builder().setUrl("/friend/add").putBody(hashMapOf("userID" to entity)).
+                                    postString(object:StringCallback{
+                                        override suspend fun onFailed(error: String){}
+                                        override suspend fun onSuccess(entity: String, flag: String){}
+                                    })
                             // 注册完进入登录页面（addFlags防止回退）
                             val sign = Intent(this@Signup, Login::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             sign.putExtra("username", username.text.toString())

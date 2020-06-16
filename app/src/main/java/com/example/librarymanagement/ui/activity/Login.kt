@@ -87,13 +87,14 @@ class Login : AppCompatActivity() {
 
                 override suspend fun onSuccess(entity: Users, flag: String) {
                     if(password == entity.password){
+                        //连接融云 taken应该从数据库中获得
+                        IMcontroler().connect(entity.token)
                         val intent = Intent(this@Login, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         intent.putExtra("userID", entity.userID)
                         intent.putExtra("username",entity.name)
                         startActivity(intent)
 
-                        //连接融云 taken应该从数据库中获得
-                        IMcontroler().connect(entity.token)
+
                     }
                     else{
                         val alertDialog = AlertDialog.Builder(this@Login)

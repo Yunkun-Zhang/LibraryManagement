@@ -38,19 +38,6 @@ class MyApplication: Application() {
         //var seatControl: SeatControl = SeatControl()
         // var orderControl: OrderControl = OrderControl()
 
-        Okkt.instance
-            .setBase("http://192.168.1.5:8080")
-            .isLogShow(true)
-            .setErr("Bad Internet Connection!")
-            .setClientType(Okkt.FACTORY_CLIENT)
-            .setNetClientType(Okkt.HTTP_TYPE)
-            .setTimeOut(1000L)
-            .isNeedCookie(false)
-            .initHttpClient()
-
-
-
-
         // testing http connection
         /*
         var s_1 = Order(1, 1, 1101,"5",8,13,false,false,"English", true)
