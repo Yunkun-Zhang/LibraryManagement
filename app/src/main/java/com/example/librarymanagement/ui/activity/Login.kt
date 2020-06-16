@@ -49,6 +49,7 @@ class Login : AppCompatActivity() {
                                     MainActivity::class.java
                                 ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                                 intent.putExtra("userID", entity.userID)
+                                intent.putExtra("name",entity.name)
                                 startActivity(intent)
 
 
@@ -85,10 +86,8 @@ class Login : AppCompatActivity() {
                         IMcontroler().connect(entity.token)
                         val intent = Intent(this@Login, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         intent.putExtra("userID", entity.userID)
-                        intent.putExtra("username",entity.name)
+                        intent.putExtra("name",entity.name)
                         startActivity(intent)
-
-
                     }
                     else{
                         val alertDialog = AlertDialog.Builder(this@Login)

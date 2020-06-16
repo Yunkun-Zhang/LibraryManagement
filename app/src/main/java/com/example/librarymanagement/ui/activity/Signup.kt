@@ -42,7 +42,7 @@ class Signup : AppCompatActivity() {
 
                         override suspend fun onSuccess(entity: String, flag: String) {
                             //添加好友表
-                            Okkt.instance.Builder().setUrl("/friend/add").putBody(hashMapOf("userID" to entity)).
+                            Okkt.instance.Builder().setUrl("/friend/add").putBody(hashMapOf("userID" to entity, "name" to username.text.toString())).
                                     postString(object:StringCallback{
                                         override suspend fun onFailed(error: String){}
                                         override suspend fun onSuccess(entity: String, flag: String){}

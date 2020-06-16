@@ -1,12 +1,13 @@
 package com.example.librarymanagement.ui.activity
 
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,12 +15,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.librarymanagement.R
 import com.example.librarymanagement.adapter.FriendList
 import com.example.librarymanagement.model.Friend
+import com.example.librarymanagement.model.Invitation
 import com.stormkid.okhttpkt.core.Okkt
 import com.stormkid.okhttpkt.rule.CallbackRule
 import io.rong.imkit.fragment.ConversationListFragment
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.activity_friend.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.find
+
 
 class FriendActivity : AppCompatActivity() {
 
@@ -27,9 +30,36 @@ class FriendActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_friend)
         val userID = intent.getIntExtra("userID", 0)
+        val name = intent.getStringExtra("name")
 
         // 返回按钮
         btn_back.setOnClickListener { finish() }
+
+        //判断有没有好友申请
+        Okkt.instance.Builder().setUrl("/invite/getInvitation").putBody(hashMapOf("receiveID" to userID.toString())).
+        post(object: CallbackRule<MutableList<Invitation>> {
+            override suspend fun onFailed(error: String){
+            }
+            override suspend fun onSuccess(entity: MutableList<Invitation>, flag: String) {
+                for(i in entity){
+                    val builder: AlertDialog.Builder = AlertDialog.Builder(this@FriendActivity)
+                    builder.setTitle("好友申请")
+                    builder.setMessage("申请人：${i.sendname}")
+                    builder.setPositiveButton("拒绝") { _, _ ->}
+                    builder.setNegativeButton("接收") { _, _ ->
+                        Okkt.instance.Builder().setUrl("/friend/addfriend").putBody(hashMapOf("userID" to i.sendID.toString(), "name" to name)).
+                        post(object: CallbackRule<MutableList<Invitation>> {
+                            override suspend fun onFailed(error: String){}
+                            override suspend fun onSuccess(entity: MutableList<Invitation>, flag: String) {}})
+                        Okkt.instance.Builder().setUrl("/friend/addfriend").putBody(hashMapOf("userID" to i.receiveID.toString(), "name" to i.sendname)).
+                        post(object: CallbackRule<MutableList<Invitation>> {
+                            override suspend fun onFailed(error: String){}
+                            override suspend fun onSuccess(entity: MutableList<Invitation>, flag: String) {}})
+                    }
+                    builder.show()
+                }
+            }
+        })
 
         // 获取好友列表
         Okkt.instance.Builder().setUrl("/friend/getallfriendnames").putBody(hashMapOf("userID" to userID.toString())).
@@ -44,9 +74,7 @@ class FriendActivity : AppCompatActivity() {
             override suspend fun onSuccess(entity: Friend, flag: String) {
 
                 val friends: MutableList<String> = entity.friend_names.split(',').toMutableList()
-                if(friends[0]==""){
-                    friends.removeAt(0)
-                }
+                friends.removeAt(0)
                 val recyclerView: RecyclerView = find(R.id.friend_list)
                 val list = arrayListOf<String>()
                 val imagelist = arrayListOf<Int>()

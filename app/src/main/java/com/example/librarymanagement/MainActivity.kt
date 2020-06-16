@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         // 获取userID
         userID = intent.getIntExtra("userID", 0)
+        val name = intent.getStringExtra("name")
         // 获取user状态
         if (userID != 0) {
             Okkt.instance.Builder().setUrl("/user/findbyuserid").putBody(hashMapOf("userId" to userID.toString())).
@@ -141,6 +142,7 @@ class MainActivity : AppCompatActivity() {
             else {
                 Intent(this, FriendActivity::class.java).apply {
                     putExtra("userID", userID)
+                    putExtra("name",name)
                     startActivity(this)
                 }
             }
