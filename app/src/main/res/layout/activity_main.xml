@@ -97,7 +97,6 @@
             android:layout_height="wrap_content"
             android:maxHeight="150dp"
             android:src="@drawable/scan"
-            android:onClick="newViewBtnClick"
             app:layout_constraintTop_toBottomOf="@+id/empty_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -117,13 +116,25 @@
             android:layout_marginRight="40dp"/>
 
     <ImageView
+            android:id="@+id/main_to_check"
+            android:adjustViewBounds="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxHeight="84dp"
+            android:src="@drawable/check"
+            app:layout_constraintTop_toBottomOf="@id/empty_text2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="36dp"
+            android:layout_marginLeft="44dp"/>
+
+    <ImageView
             android:layout_width="69dp"
             android:layout_height="78dp"
             app:srcCompat="@drawable/friends"
             android:id="@+id/main_to_friends"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="140dp"
+            android:layout_marginTop="135dp"
             app:layout_constraintTop_toTopOf="@+id/main_to_scan"/>
 
     <ImageView
@@ -133,7 +144,7 @@
             android:id="@+id/main_to_personal"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginRight="40dp"
-            android:layout_marginTop="140dp"
+            android:layout_marginTop="135dp"
             app:layout_constraintTop_toTopOf="@+id/main_to_scan"/>
 
     <LinearLayout
@@ -163,7 +174,7 @@
                 android:text="注册"
                 android:textSize="20sp"
                 android:id="@+id/main_to_signup"
-                android:textColor="#cc77ee"/>
+                android:textColor="#cf87e3"/>
     </LinearLayout>
 
     <TextView
@@ -178,17 +189,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginBottom="10dp"/>
-    <TextView
-            android:id="@+id/conversation"
-            android:visibility="visible"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="对话（登录后使用）"
-            android:textSize="20sp"
-            android:textColor="#fb897a"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginBottom="50dp"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

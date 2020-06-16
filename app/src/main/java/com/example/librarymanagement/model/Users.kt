@@ -7,5 +7,6 @@ data class Users(
     val phone:String?,
     val email:String?,
     val gender:Boolean?,
-    val token:String
+    val token:String,
+    val favorsubject:String?
 )
