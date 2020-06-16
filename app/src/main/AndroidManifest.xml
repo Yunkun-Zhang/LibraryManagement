@@ -22,6 +22,7 @@
         <activity android:name=".ui.activity.GroupBookActivity"/>
         <activity android:name=".ui.activity.PersonInfoActivity"/>
         <activity android:name=".ui.activity.StudyActivity"/>
+        <activity android:name=".ui.activity.ModInfoActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

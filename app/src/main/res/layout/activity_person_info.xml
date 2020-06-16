@@ -100,7 +100,7 @@
                 android:layout_alignParentRight="true"
                 android:background="@null"
                 android:gravity="center_vertical"
-                android:text="男"
+                android:text=""
                 android:textSize="18sp" />
 
         </RelativeLayout>
@@ -128,7 +128,35 @@
                     android:layout_alignParentRight="true"
                     android:background="@null"
                     android:gravity="center_vertical"
-                    android:text="123435534"
+                    android:text=""
+                    android:textSize="18sp"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:layout_marginTop="100dp">
+
+            <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:text="电子邮件"
+                    android:textSize="18sp" />
+
+            <TextView
+                    android:id="@+id/email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:text=""
                     android:textSize="18sp"/>
 
         </RelativeLayout>
@@ -138,7 +166,7 @@
             android:layout_height="50dp"
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
-            android:layout_marginTop="100dp">
+            android:layout_marginTop="150dp">
 
             <TextView
 
@@ -156,7 +184,7 @@
                 android:layout_alignParentRight="true"
                 android:background="@null"
                 android:gravity="center_vertical"
-                android:text="软件工程"
+                android:text=""
                 android:textSize="18sp" />
 
         </RelativeLayout>
@@ -165,7 +193,7 @@
             android:layout_height="50dp"
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
-            android:layout_marginTop="150dp">
+            android:layout_marginTop="200dp">
 
             <TextView
 
@@ -193,7 +221,7 @@
             android:layout_height="50dp"
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
-            android:layout_marginTop="200dp">
+            android:layout_marginTop="250dp">
 
             <TextView
 
@@ -201,7 +229,7 @@
                 android:layout_height="match_parent"
                 android:background="@null"
                 android:gravity="center_vertical"
-                android:text="预定记录"
+                android:text="预订记录"
                 android:textSize="18sp" />
 
             <ImageView

@@ -68,7 +68,7 @@ class FriendActivity : AppCompatActivity() {
                         // toast("点击了$position")
                         val personInfoPage = Intent(this@FriendActivity, PersonInfoActivity::class.java)
                         personInfoPage.apply {
-                            putExtra("friendname",friends[position])
+                            putExtra("friendname", friends[position])
                             startActivity(this)
                         }
                     }

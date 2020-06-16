@@ -53,7 +53,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -66,17 +65,18 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="center_vertical"
-                    android:text="性别"
+                    android:text="密码"
                     android:textSize="18sp" />
 
             <EditText
-                    android:id="@+id/gender"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/pwd"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:background="@null"
-                    android:gravity="center_vertical"
-                    android:text="男"
+                    android:gravity="center_vertical|right"
+                    android:text=""
+                    android:inputType="textPassword"
                     android:textSize="18sp" />
 
         </RelativeLayout>
@@ -94,18 +94,18 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="center_vertical"
-                    android:text="联系方式"
+                    android:text="性别"
                     android:textSize="18sp" />
 
-            <TextView
-                    android:id="@+id/phone"
+            <Spinner
+                    android:id="@+id/gender"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:background="@null"
                     android:gravity="center_vertical"
-                    android:text="123435534"
-                    android:textSize="18sp"/>
+                    android:entries="@array/data"
+                    android:textSize="18sp" />
 
         </RelativeLayout>
 
@@ -122,20 +122,24 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="center_vertical"
-                    android:text="偏好科目"
+                    android:text="联系方式"
                     android:textSize="18sp" />
 
-            <TextView
-                    android:id="@+id/favorsubject"
-                    android:layout_width="wrap_content"
+            <EditText
+                    android:id="@+id/phone"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:background="@null"
-                    android:gravity="center_vertical"
-                    android:text="软件工程"
-                    android:textSize="18sp" />
+                    android:gravity="center_vertical|right"
+                    android:text=""
+                    android:inputType="phone"
+                    android:maxLines="1"
+                    android:maxLength="20"
+                    android:textSize="18sp"/>
 
         </RelativeLayout>
+
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -149,18 +153,20 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="center_vertical"
-                    android:text="占座状态"
+                    android:text="电子邮件"
                     android:textSize="18sp" />
 
-            <TextView
-                    android:id="@+id/status"
-                    android:layout_width="wrap_content"
+            <EditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:background="@null"
-                    android:gravity="center_vertical"
-                    android:text="空闲"
-                    android:textSize="18sp" />
+                    android:gravity="center_vertical|right"
+                    android:text=""
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:textSize="18sp"/>
 
         </RelativeLayout>
 
@@ -177,17 +183,19 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="center_vertical"
-                    android:text="预定记录"
+                    android:text="可以公开的学习兴趣"
                     android:textSize="18sp" />
 
-            <ImageView
-
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+            <EditText
+                    android:id="@+id/favorsubject"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/right"
-                    android:gravity="center_vertical" />
+                    android:background="@null"
+                    android:gravity="center_vertical|right"
+                    android:text=""
+                    android:maxLines="1"
+                    android:textSize="18sp" />
 
         </RelativeLayout>
 
