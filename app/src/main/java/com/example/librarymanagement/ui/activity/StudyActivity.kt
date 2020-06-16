@@ -6,21 +6,27 @@ import android.os.CountDownTimer
 import androidx.appcompat.app.AppCompatActivity
 import com.example.librarymanagement.MainActivity
 import com.example.librarymanagement.R
+import com.example.librarymanagement.others.UserStatus
+import com.stormkid.okhttpkt.core.Okkt
+import com.stormkid.okhttpkt.rule.CallbackRule
+import kotlinx.android.synthetic.main.activity_mod_info.*
 import kotlinx.android.synthetic.main.activity_study.*
+import org.jetbrains.anko.alert
 
 class StudyActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_study)
 
+        alert("成功占座") { positiveButton("确定") {} }.show()
         val userID = intent.getIntExtra("userID", 0)
+        var h = intent.getIntExtra("hour", hour.text.toString().toInt())
+        var m = intent.getIntExtra("min", min.text.toString().toInt())
+        var s = intent.getIntExtra("second", second.text.toString().toInt())
 
         var countDownTimer: CountDownTimer
         countDownTimer = object : CountDownTimer(10000000, 1000) {
             override fun onTick(secondsUntilDone: Long) {
-                var h = hour.text.toString().toInt()
-                var m = min.text.toString().toInt()
-                var s = second.text.toString().toInt()
                 s = s + 1
                 if (s >= 60) {
                     s = 0
@@ -41,14 +47,35 @@ class StudyActivity : AppCompatActivity() {
         }.start()
 
         leave.setOnClickListener {
+            Okkt.instance.Builder().setUrl("/user/revisestatusbyid")
+                .setParams(hashMapOf("userid" to userID.toString()))
+                .putBody(hashMapOf("status" to UserStatus.LEAVE.toString()))
+                .post(object: CallbackRule<String> {
+                    override suspend fun onFailed(error: String) { }
+                    override suspend fun onSuccess(entity: String, flag: String) { }
+                })
             Intent(this, MainActivity::class.java).apply {
                 putExtra("userID", userID)
-                val h = hour.text.toString()
-                val m = min.text.toString()
-                val s = min.text.toString()
+                val h = hour.text.toString().toInt()
+                val m = min.text.toString().toInt()
+                val s = min.text.toString().toInt()
                 putExtra("hour", h)
                 putExtra("min", m)
                 putExtra("second", s)
+                startActivity(this)
+            }
+        }
+
+        finish.setOnClickListener {
+            Okkt.instance.Builder().setUrl("/user/revisestatusbyid")
+                .setParams(hashMapOf("userid" to userID.toString()))
+                .putBody(hashMapOf("status" to UserStatus.FREE.toString()))
+                .post(object: CallbackRule<String> {
+                    override suspend fun onFailed(error: String) { }
+                    override suspend fun onSuccess(entity: String, flag: String) { }
+                })
+            Intent(this, MainActivity::class.java).apply {
+                putExtra("userID", userID)
                 startActivity(this)
             }
         }

@@ -62,8 +62,11 @@ class MainActivity : AppCompatActivity() {
                     //当前用户信息只能获取这些，后续需要等待服务器修改
                     val userStatus = entity.status
                     if (userStatus == UserStatus.FREE) login_state.text = "空闲"
-                    else if (userStatus == UserStatus.ACTIVE) login_state.text = "占座中"
-                    else login_state.text = "暂离"
+                    else {
+                        back_to_seat.visibility = View.VISIBLE
+                        if (userStatus == UserStatus.ACTIVE) login_state.text = "占座中"
+                        else login_state.text = "暂离"
+                    }
                 }
             })
         }
@@ -105,12 +108,20 @@ class MainActivity : AppCompatActivity() {
         main_to_scan.setOnClickListener {
             if (login_state.text == "空闲") { newViewBtnClick(main_to_scan) }
             else {
-                Intent(this, StudyActivity::class.java).apply {
-                    var status: Boolean
-                    status = login_state.text == "占座中"
-                    putExtra("userID", userID)
-                    putExtra("status", status)
-                }
+                alert("正在占座中！点击确定返回占座") { positiveButton("确定") {} }
+            }
+        }
+        // 返回
+        val h = intent.getIntExtra("hour", 0)
+        val m = intent.getIntExtra("min", 0)
+        val s = intent.getIntExtra("second", 0)
+        back_to_seat.setOnClickListener {
+            Intent(this, StudyActivity::class.java).apply {
+                putExtra("userID", userID)
+                putExtra("hour", h)
+                putExtra("min", m)
+                putExtra("second", s)
+                startActivity(this)
             }
         }
 
@@ -277,7 +288,6 @@ class MainActivity : AppCompatActivity() {
                                     override suspend fun onSuccess(entity: MutableList<Int>, flag: String) {
                                         val seat_list = entity.toIntArray()
                                         if (seatID in seat_list) {
-                                            alert("成功占座") { positiveButton("确定") {} }.show()
                                             // 更改user、seat状态******************************
                                             Okkt.instance.Builder().setUrl("/user/revisestatusbyid")
                                                 .setParams(hashMapOf("userid" to userID.toString()))
