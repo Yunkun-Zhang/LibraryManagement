@@ -43,10 +43,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main) //鼠标点在紫色字体上ctrl+B可以进入xml设置
 
-        Intent(this@MainActivity, StudyActivity::class.java).apply{
-            startActivity(this)
-        }
-
         // 获取userID
         userID = intent.getIntExtra("userID", 0)
         val name = intent.getStringExtra("name")
@@ -67,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                     val userStatus = entity.status
                     if (userStatus == UserStatus.FREE) login_state.text = "空闲"
                     else if (userStatus == UserStatus.ACTIVE) login_state.text = "占座中"
-                    else if (userStatus == UserStatus.LEAVE) login_state.text = "暂离"
+                    else login_state.text = "暂离"
                 }
             })
         }
@@ -285,11 +281,18 @@ class MainActivity : AppCompatActivity() {
                                             // 更改user、seat状态******************************
                                             Okkt.instance.Builder().setUrl("/user/revisestatusbyid")
                                                 .setParams(hashMapOf("userid" to userID.toString()))
-                                                .putBody(hashMapOf("password" to pwd.text.toString()))
+                                                .putBody(hashMapOf("status" to UserStatus.ACTIVE.toString()))
                                                 .post(object: CallbackRule<String> {
                                                     override suspend fun onFailed(error: String) { }
                                                     override suspend fun onSuccess(entity: String, flag: String) { }
                                                 })
+                                            Okkt.instance.Builder().setUrl("/seat/setseatoccupied")
+                                                .setParams(hashMapOf("seatid" to seatID.toString()))
+                                                .post(object: CallbackRule<String> {
+                                                    override suspend fun onFailed(error: String) { }
+                                                    override suspend fun onSuccess(entity: String, flag: String) { }
+                                                })
+                                            // 跳转至主页面
                                             Intent(this@MainActivity, StudyActivity::class.java).apply {
                                                 putExtra("userID", userID)
                                                 putExtra("seatID", seatID)

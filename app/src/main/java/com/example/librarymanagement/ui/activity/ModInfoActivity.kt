@@ -83,6 +83,7 @@ class ModInfoActivity : AppCompatActivity() {
 
             var intent = Intent()
             intent.putExtra("userID", userID)
+            onActivityResult(1, 2, intent)
             finish()
         }
 

@@ -34,7 +34,7 @@ class SeatInfoActivity : AppCompatActivity() {
         var sub = intent.getStringExtra("subject")
         var gender : Boolean? = intent.extras?.get("gender") as Boolean?
         // 获取可用座位list
-        var seat_list = intent.getIntArrayExtra("list")
+        val seat_list = intent.getIntArrayExtra("list")
         if (hour in 8..22) {
             // 当前可用的seat_list
             confirm.visibility = View.GONE

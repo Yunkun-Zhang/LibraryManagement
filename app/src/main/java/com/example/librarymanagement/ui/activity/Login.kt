@@ -34,7 +34,7 @@ class Login : AppCompatActivity() {
                     .post(object : CallbackRule<User> {
                         override suspend fun onFailed(error: String) {
                             val alertDialog = AlertDialog.Builder(this@Login)
-                            alertDialog.setTitle("登陆失败")
+                            alertDialog.setTitle("登录失败")
                             alertDialog.setMessage("请检查网络")
                             alertDialog.setNeutralButton("确定", null)
                             alertDialog.show()
@@ -55,7 +55,7 @@ class Login : AppCompatActivity() {
 
                             } else {
                                 val alertDialog = AlertDialog.Builder(this@Login)
-                                alertDialog.setTitle("登陆失败")
+                                alertDialog.setTitle("登录失败")
                                 alertDialog.setMessage("用户名或密码错误！")
                                 alertDialog.setNeutralButton("确定", null)
                                 alertDialog.show()

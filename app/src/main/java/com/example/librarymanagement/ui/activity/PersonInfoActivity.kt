@@ -40,7 +40,8 @@ class PersonInfoActivity : AppCompatActivity() {
                         //显示这些信息
                         name.text = entity.name
                         if (entity.gender == true) gender.text = "男"
-                        else gender.text = "女"
+                        else if (entity.gender == false) gender.text = "女"
+                        else gender.text = ""
                         phone.text = entity.phone
                         email.text = entity.email
                         favorsubject.text = entity.favorsubject
@@ -73,7 +74,8 @@ class PersonInfoActivity : AppCompatActivity() {
                         //显示这些信息
                         name.text = entity.name
                         if (entity.gender == true) gender.text = "男"
-                        else gender.text = "女"
+                        else if (entity.gender == false) gender.text = "女"
+                        else gender.text = ""
                         phone.text = entity.phone
                         email.text = entity.email
                         favorsubject.text = entity.favorsubject

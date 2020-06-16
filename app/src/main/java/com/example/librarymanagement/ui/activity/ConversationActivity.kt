@@ -35,12 +35,13 @@ internal class ConversationActivity : FragmentActivity() {
         transaction.commit()
 
         val targetId:String = getIntent().getData().getQueryParameter("targetId")
-        Okkt.instance.Builder().setUrl("/user/findbyuserid").putBody(hashMapOf("userId" to targetId))
+        Okkt.instance.Builder().setUrl("/user/findbyuserid").putBody(hashMapOf("userid" to targetId))
             .post(object : CallbackRule<User> {
                 override suspend fun onFailed(error: String) {
                 }
                 override suspend fun onSuccess(entity: User, flag: String) {
                     SetUserInfo().setUserInfo(entity.name)
+                    name.text = entity.name
                 }
             })
     }
