@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -42,16 +43,17 @@ class FriendActivity : AppCompatActivity() {
             }
             override suspend fun onSuccess(entity: Friend, flag: String) {
 
-                val friends: List<String> = entity.friend_names.split(',')
-
+                val friends: MutableList<String> = entity.friend_names.split(',').toMutableList()
+                if(friends[0]==""){
+                    friends.removeAt(0)
+                }
                 val recyclerView: RecyclerView = find(R.id.friend_list)
                 val list = arrayListOf<String>()
                 val imagelist = arrayListOf<Int>()
                 for (i in friends) {
-                    if(i != "") {
-                        list.add(i)
-                        imagelist.add(R.drawable.headportrait)
-                    }
+                    list.add(i)
+                    imagelist.add(R.drawable.headportrait)
+
                 }
                 val layoutManager = LinearLayoutManager(this@FriendActivity)
                 layoutManager.orientation = LinearLayoutManager.VERTICAL
@@ -61,12 +63,12 @@ class FriendActivity : AppCompatActivity() {
                 val adapter = FriendList(this@FriendActivity, list, imagelist)
                 friend_list.adapter = adapter
                 // itemClick
-                val personInfoPage = Intent(this@FriendActivity, PersonInfoActivity::class.java)
                 adapter.setOnKotlinItemClickListener(object : FriendList.IKotlinItemClickListener {
                     override fun onItemClickListener(position: Int) {
                         // toast("点击了$position")
+                        val personInfoPage = Intent(this@FriendActivity, PersonInfoActivity::class.java)
                         personInfoPage.apply {
-                            putExtra("friendname",friends[position] )
+                            putExtra("friendname",friends[position])
                             startActivity(this)
                         }
                     }
