@@ -13,7 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.librarymanagement.Application.MyApplication
-import com.example.librarymanagement.model.Users
+import com.example.librarymanagement.model.User
 import com.example.librarymanagement.others.*
 import com.example.librarymanagement.ui.activity.*
 import com.huawei.hms.hmsscankit.ScanUtil
@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     // 必要变量：userID
     var userID = 0
+    // var userStatus: UserStatus = UserStatus.FREE
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,10 +45,9 @@ class MainActivity : AppCompatActivity() {
         // 获取userID
         userID = intent.getIntExtra("userID", 0)
         // 获取user状态
-        var userStatus: UserStatus = UserStatus.FREE
         if (userID != 0) {
             Okkt.instance.Builder().setUrl("/user/findbyuserid").putBody(hashMapOf("userId" to userID.toString())).
-            post(object: CallbackRule<Users> {
+            post(object: CallbackRule<User> {
                 override suspend fun onFailed(error: String) {
                     val alertDialog = AlertDialog.Builder(this@MainActivity)
                     alertDialog.setTitle("个人信息获取失败")
@@ -56,20 +56,12 @@ class MainActivity : AppCompatActivity() {
                     alertDialog.show()
                 }
 
-                override suspend fun onSuccess(entity: Users, flag: String) {
-                    //测试使用,实现时可以删掉
-                    val alertDialog = AlertDialog.Builder(this@MainActivity)
-                    alertDialog.setTitle("个人信息获取成功")
-                    alertDialog.setMessage("Congratulations!!!")
-                    alertDialog.setNeutralButton("确定", null)
-                    alertDialog.show()
-
+                override suspend fun onSuccess(entity: User, flag: String) {
                     //当前用户信息只能获取这些，后续需要等待服务器修改
-                    val name = entity.name
-                    val email = entity.email
-                    val gender = entity.gender
-                    val phone = entity.phone
-                    val favorsubject = entity.favorsubject
+                    val userStatus = entity.status
+                    if (userStatus == UserStatus.FREE) login_state.text = "空闲"
+                    else if (userStatus == UserStatus.ACTIVE) login_state.text = "占座中"
+                    else if (userStatus == UserStatus.LEAVE) login_state.text = "暂离"
                 }
             })
         }
@@ -86,9 +78,6 @@ class MainActivity : AppCompatActivity() {
 
         // 界面的一些显示更改
         if (userID != 0) {
-            if (userStatus == UserStatus.FREE) login_state.text = "空闲"
-            else if (userStatus == UserStatus.ACTIVE) login_state.text = "占座中"
-            else if (userStatus == UserStatus.LEAVE) login_state.text = "暂离"
             log_or_sign.visibility = View.GONE
             logout.visibility = View.VISIBLE
         }
@@ -100,7 +89,15 @@ class MainActivity : AppCompatActivity() {
 
         // 扫码
         main_to_scan.setOnClickListener {
-            if (userStatus == UserStatus.FREE) { newViewBtnClick(main_to_scan) }
+            if (login_state.text == "空闲") { newViewBtnClick(main_to_scan) }
+            else {
+                Intent(this, StudyActivity::class.java).apply {
+                    var status: Boolean
+                    status = login_state.text == "占座中"
+                    putExtra("userID", userID)
+                    putExtra("status", status)
+                }
+            }
         }
 
         // 去登录页面
@@ -237,10 +234,7 @@ class MainActivity : AppCompatActivity() {
                             startActivity(this)
                         }
                     }
-                    else if (false) { // 当前用户是否正在占座
-
-                    }
-                    else{
+                    else if (login_state.text == "空闲"){
                         val seatID = obj.getOriginalValue().toInt()
                         // 先判断扫到的座位是否为当前用户的预订，若是，则更新座位状态
                         val ordered_seat = 1011
@@ -258,7 +252,7 @@ class MainActivity : AppCompatActivity() {
                                 alertDialog.setMessage("成功占座")
                                 alertDialog.setNeutralButton("确定", null)
                                 alertDialog.show()
-                                // 更改user状态
+                                // 更改user状态******************************
                                 Intent(this, MainActivity::class.java).apply {
                                     putExtra("userID", userID)
                                     putExtra("seatID", seatID)

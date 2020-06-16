@@ -1,18 +1,12 @@
 package com.example.librarymanagement.ui.activity
 
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Message
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.example.librarymanagement.MainActivity
 import com.example.librarymanagement.R
-import com.example.librarymanagement.model.Users
 import com.stormkid.okhttpkt.core.Okkt
-import com.stormkid.okhttpkt.rule.CallbackRule
 import com.stormkid.okhttpkt.rule.StringCallback
 import kotlinx.android.synthetic.main.activity_signup.*
 

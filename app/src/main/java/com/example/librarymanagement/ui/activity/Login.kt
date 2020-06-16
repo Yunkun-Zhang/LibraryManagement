@@ -1,19 +1,13 @@
 package com.example.librarymanagement.ui.activity
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.IBinder
-import android.view.MotionEvent
-import android.view.View
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.librarymanagement.MainActivity
 import com.example.librarymanagement.R
 import com.example.librarymanagement.control.IMcontroler
-import com.example.librarymanagement.model.Users
+import com.example.librarymanagement.model.User
 import com.stormkid.okhttpkt.core.Okkt
 import com.stormkid.okhttpkt.rule.CallbackRule
 import kotlinx.android.synthetic.main.activity_login.*
@@ -37,7 +31,7 @@ class Login : AppCompatActivity() {
 
             if (name_signup != "" && password_signup != "") {
                 Okkt.instance.Builder().setUrl("/user/findbyname").putBody(hashMapOf("name" to name_signup))
-                    .post(object : CallbackRule<Users> {
+                    .post(object : CallbackRule<User> {
                         override suspend fun onFailed(error: String) {
                             val alertDialog = AlertDialog.Builder(this@Login)
                             alertDialog.setTitle("登陆失败")
@@ -46,7 +40,7 @@ class Login : AppCompatActivity() {
                             alertDialog.show()
                         }
 
-                        override suspend fun onSuccess(entity: Users, flag: String) {
+                        override suspend fun onSuccess(entity: User, flag: String) {
                             if (password_signup == entity.password) {
                                 //连接融云 taken应该从数据库中获得
                                 IMcontroler().connect(entity.token)
@@ -76,7 +70,7 @@ class Login : AppCompatActivity() {
             val password = password.text.toString()
 
             Okkt.instance.Builder().setUrl("/user/findbyname").putBody(hashMapOf("name" to name)).
-            post(object:CallbackRule<Users> {
+            post(object:CallbackRule<User> {
                 override suspend fun onFailed(error: String) {
                     val alertDialog = AlertDialog.Builder(this@Login)
                     alertDialog.setTitle("登陆失败")
@@ -85,7 +79,7 @@ class Login : AppCompatActivity() {
                     alertDialog.show()
                 }
 
-                override suspend fun onSuccess(entity: Users, flag: String) {
+                override suspend fun onSuccess(entity: User, flag: String) {
                     if(password == entity.password){
                         //连接融云 taken应该从数据库中获得
                         IMcontroler().connect(entity.token)

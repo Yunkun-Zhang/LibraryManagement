@@ -62,6 +62,7 @@
             android:src="@drawable/headportrait" />
 
         <TextView
+                android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
@@ -93,7 +94,7 @@
                 android:textSize="18sp" />
 
             <TextView
-
+                android:id="@+id/gender"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
@@ -121,16 +122,17 @@
                 android:textSize="18sp" />
 
             <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:background="@null"
-                android:gravity="center_vertical"
-                android:text="123435534"
-                android:textSize="18sp" />
+                    android:id="@+id/phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:text="123435534"
+                    android:textSize="18sp"/>
 
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -144,39 +146,11 @@
                 android:layout_height="match_parent"
                 android:background="@null"
                 android:gravity="center_vertical"
-                android:text="生日"
-                android:textSize="18sp" />
-
-            <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:background="@null"
-                android:gravity="center_vertical"
-                android:text="2000年1月1日"
-                android:textSize="18sp" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp"
-            android:layout_marginTop="150dp">
-
-            <TextView
-
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:gravity="center_vertical"
                 android:text="偏好科目"
                 android:textSize="18sp" />
 
             <TextView
-
+                android:id="@+id/favorsubject"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
@@ -191,7 +165,7 @@
             android:layout_height="50dp"
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
-            android:layout_marginTop="200dp">
+            android:layout_marginTop="150dp">
 
             <TextView
 
@@ -203,7 +177,7 @@
                 android:textSize="18sp" />
 
             <TextView
-
+                android:id="@+id/status"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
@@ -219,7 +193,7 @@
             android:layout_height="50dp"
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
-            android:layout_marginTop="250dp">
+            android:layout_marginTop="200dp">
 
             <TextView
 

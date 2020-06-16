@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Message
 import android.util.Log
-import com.example.librarymanagement.model.Users
+import com.example.librarymanagement.model.User
 import com.stormkid.okhttpkt.core.Okkt
 import com.stormkid.okhttpkt.rule.CallbackRule
 import com.stormkid.okhttpkt.rule.TestCallbackRule
@@ -32,12 +32,12 @@ class UserOperations{
 
 
     fun getAllUsers(){
-        Okkt.instance.Builder().setUrl("/user/all").get(object: CallbackRule<MutableList<Users>>{
+        Okkt.instance.Builder().setUrl("/user/all").get(object: CallbackRule<MutableList<User>>{
             override suspend fun onFailed(error: String) {
                 Log.w("response",error)
             }
 
-            override suspend fun onSuccess(entity: MutableList<Users>, flag: String) {
+            override suspend fun onSuccess(entity: MutableList<User>, flag: String) {
                 Log.w("response", entity[0].name)
                 val message: Message = handler.obtainMessage()
                 message.what = 1
@@ -49,13 +49,13 @@ class UserOperations{
     }
 
 
-    fun addUser(user: Users) {
+    fun addUser(user: User) {
         Okkt.instance.Builder().setUrl("/user/add").putBody(hashMapOf("name" to user.name, "psd" to user.password)).
-        post(object:CallbackRule<Users> {
+        post(object:CallbackRule<User> {
             override suspend fun onFailed(error: String) {
             }
 
-            override suspend fun onSuccess(entity: Users, flag: String) {
+            override suspend fun onSuccess(entity: User, flag: String) {
                 Log.w("result", "success")
             }
 

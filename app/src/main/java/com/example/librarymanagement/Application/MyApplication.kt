@@ -1,16 +1,9 @@
 package com.example.librarymanagement.Application
 
 import android.app.Application
-import android.os.Message
-import android.util.Log
 import androidx.multidex.MultiDex
-import com.example.librarymanagement.adapter.OrderDao
 import com.example.librarymanagement.control.IMcontroler
 import com.example.librarymanagement.control.SeatControl
-import com.example.librarymanagement.database.AppDataBase
-import com.example.librarymanagement.httputil.UserOperations
-import com.example.librarymanagement.model.Order
-import com.example.librarymanagement.model.Users
 import com.stormkid.okhttpkt.core.Okkt
 import kotlin.properties.Delegates
 
@@ -58,7 +51,7 @@ class MyApplication: Application() {
 
         //初始化连接服务器
         Okkt.instance
-            .setBase("http://192.168.3.161:8080")
+            .setBase("http://192.168.1.5:8080")
             .isLogShow(true)
             .setErr("Bad Internet Connection!")
             .setClientType(Okkt.FACTORY_CLIENT)
