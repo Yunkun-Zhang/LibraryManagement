@@ -1,21 +1,16 @@
 package com.example.librarymanagement.model
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-
-@Entity(tableName = "Seat")
 data class Seat(
-
-    @PrimaryKey(autoGenerate = true)
-    var seatID: Int,
-    @ColumnInfo(name = "seat_status")
-    var seatStatus: String?,
-    @ColumnInfo(name = "is_free")
-    var isFree: Boolean,
-    @ColumnInfo(name = "order_start_time")
-    var orderStartTime: String?,
-    @ColumnInfo(name = "order_end_time")
-    var orderEndTime: String?
-
+    val free: Boolean,
+    val seatID: Int,
+    val status: String,
+    val todayend1: Int,
+    val todayend2: Int,
+    val todaystart1: Int,
+    val todaystart2: Int,
+    val tomorrowend1: Int,
+    val tomorrowend2: Int,
+    val tomorrowstart1: Int,
+    val tomorrowstart2: Int,
+    val wait: Boolean
 )

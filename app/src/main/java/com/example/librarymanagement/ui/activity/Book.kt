@@ -9,7 +9,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.librarymanagement.MainActivity
 import com.example.librarymanagement.R
-import com.example.librarymanagement.control.OrderControl
 import com.example.librarymanagement.model.User
 import com.example.librarymanagement.others.UserStatus
 import com.google.gson.Gson
@@ -111,25 +110,22 @@ class Book : AppCompatActivity() {
                     else {
                         Okkt.instance.Builder().setUrl("/user/findbyuserid")
                             .putBody(hashMapOf("userid" to userID.toString())).post(object : CallbackRule<User> {
-                            override suspend fun onFailed(error: String) {
-                                toast("failed")
-                            }
+                                override suspend fun onFailed(error: String) {
+                                    toast("failed")
+                                }
 
-                            override suspend fun onSuccess(entity: User, flag: String) {
-                                val sg = entity.gender
-                                Okkt.instance.Builder().setUrl("/seatwithreservation/findseatwithadjacentreservation?starttime=8&endtime=13&subject=soft")
-                                    .putBody(
-                                        hashMapOf(
-                                            "starttime" to start.toString(), "endtime" to end.toString(),
-                                            "targetgender" to g.toString(), "selfgender" to sg.toString(),
-                                            "subject" to sub.toString()
-                                        )
-                                    )
-                                    .post(object : CallbackRule<HashMap<Int, List<Int>>> {
-                                        override suspend fun onFailed(error: String) { Log.w("bobbob", "failed") }
-                                        override suspend fun onSuccess(entity: HashMap<Int, List<Int>>, flag: String) {
-                                            Log.w("bobbob", entity.keys.toIntArray()[0].toString())
-                                            if (entity.isEmpty()) { // 希望匹配的无座位
+                                override suspend fun onSuccess(entity: User, flag: String) {
+                                    val sg = entity.gender
+                                    Okkt.instance.Builder().setUrl("/seatwithreservation/findseatwithadjacentreservation?starttime=8&endtime=13&subject=soft")
+                                        /*.putBody(
+                                            hashMapOf(
+                                                "starttime" to start.toString(), "endtime" to end.toString(),
+                                                "targetgender" to g.toString(), "selfgender" to sg.toString(),
+                                                "subject" to sub.toString()
+                                            )
+                                        )*/
+                                        .post(object : CallbackRule<HashMap<Int, List<Int>>> {
+                                            override suspend fun onFailed(error: String) {
                                                 Okkt.instance.Builder().setUrl("/seat/getspareseat/withspareadjacent")
                                                     .putBody(
                                                         hashMapOf(
@@ -155,33 +151,69 @@ class Book : AppCompatActivity() {
                                                                     putExtra("subject", sub)
                                                                     putExtra("targetgender", g)
                                                                     putExtra("list", entity.toIntArray())
+                                                                    putExtra("wait", true)
                                                                     startActivity(this)
                                                                 }
                                                             }
                                                         }
                                                     })
+                                                Log.w("bobbob", "failed") }
+                                            override suspend fun onSuccess(entity: HashMap<Int, List<Int>>, flag: String) {
+                                                Log.w("bobbob", entity.keys.toIntArray()[0].toString())
+                                                if (entity.isEmpty()) { // 希望匹配的无座位
+                                                    Okkt.instance.Builder().setUrl("/seat/getspareseat/withspareadjacent")
+                                                        .putBody(
+                                                            hashMapOf(
+                                                                "starttime" to start.toString(),
+                                                                "endtime" to end.toString()
+                                                            )
+                                                        )
+                                                        .post(object : CallbackRule<MutableList<Int>> {
+                                                            override suspend fun onFailed(error: String) {}
+                                                            override suspend fun onSuccess(
+                                                                entity: MutableList<Int>,
+                                                                flag: String
+                                                            ) {
+                                                                if (entity.isEmpty()) {  // 没有座位
+                                                                    alert("哎呀，没有可用的座位了！") {
+                                                                        positiveButton("修改时间段") { }
+                                                                    }.show()
+                                                                } else { // 有边上有空的座位
+                                                                    Intent(this@Book, SeatInfoActivity::class.java).apply {
+                                                                        putExtra("start", start)
+                                                                        putExtra("end", end)
+                                                                        putExtra("userID", userID)
+                                                                        putExtra("subject", sub)
+                                                                        putExtra("targetgender", g)
+                                                                        putExtra("list", entity.toIntArray())
+                                                                        putExtra("wait", true)
+                                                                        startActivity(this)
+                                                                    }
+                                                                }
+                                                            }
+                                                        })
+                                                }
+                                                else {
+                                                    Log.w("bobbob", "interesting")
+                                                    val intent = Intent(this@Book, SeatInfoActivity::class.java)
+                                                    val bundle = Bundle()
+                                                    bundle.putSerializable("order", entity as Serializable)
+                                                    intent.putExtra("pair", true)
+                                                    intent.putExtra("start", start)
+                                                    intent.putExtra("end", end)
+                                                    intent.putExtra("userID", userID)
+                                                    intent.putExtra("subject", sub)
+                                                    intent.putExtra("targetender", g)
+                                                    intent.putExtra("list", entity.keys.toIntArray())
+                                                    //    val gson = Gson()
+                                                    //    val order = gson.toJson(entity)
+                                                    intent.putExtras(bundle)
+                                                    startActivity(intent)
+                                                }
                                             }
-                                            else {
-                                                Log.w("bobbob", "interesting")
-                                                val intent = Intent(this@Book, SeatInfoActivity::class.java)
-                                                val bundle = Bundle()
-                                                bundle.putSerializable("order", entity as Serializable)
-                                                intent.putExtra("pair", true)
-                                                intent.putExtra("start", start)
-                                                intent.putExtra("end", end)
-                                                intent.putExtra("userID", userID)
-                                                intent.putExtra("subject", sub)
-                                                intent.putExtra("targetender", g)
-                                                intent.putExtra("list", entity.keys.toIntArray())
-                                                //    val gson = Gson()
-                                                //    val order = gson.toJson(entity)
-                                                intent.putExtras(bundle)
-                                                startActivity(intent)
-                                            }
-                                        }
-                                    })
-                            }
-                        })
+                                        })
+                                }
+                            })
                     }
 
                 }

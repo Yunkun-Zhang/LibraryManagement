@@ -3,13 +3,10 @@ package com.example.librarymanagement.Application
 import android.app.Application
 import androidx.multidex.MultiDex
 import com.example.librarymanagement.control.IMcontroler
-import com.example.librarymanagement.control.SeatControl
 import com.stormkid.okhttpkt.core.Okkt
 import kotlin.properties.Delegates
 
 class MyApplication: Application() {
-    var seatControl:SeatControl = SeatControl()
-    // var orderControl: OrderControl = OrderControl()
     companion object {
 
         var instance: MyApplication by Delegates.notNull()
@@ -22,7 +19,6 @@ class MyApplication: Application() {
         super.onCreate()
         //multiDex
         MultiDex.install(this)
-        seatControl = SeatControl()
         instance = this
 
         //初始化融云

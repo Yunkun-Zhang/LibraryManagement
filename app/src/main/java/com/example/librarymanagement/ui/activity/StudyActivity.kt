@@ -9,6 +9,7 @@ import com.example.librarymanagement.R
 import com.example.librarymanagement.others.UserStatus
 import com.stormkid.okhttpkt.core.Okkt
 import com.stormkid.okhttpkt.rule.CallbackRule
+import com.stormkid.okhttpkt.rule.StringCallback
 import kotlinx.android.synthetic.main.activity_mod_info.*
 import kotlinx.android.synthetic.main.activity_study.*
 import org.jetbrains.anko.alert
@@ -70,7 +71,7 @@ class StudyActivity : AppCompatActivity() {
             Okkt.instance.Builder().setUrl("/user/revisestatusbyid")
                 .setParams(hashMapOf("userid" to userID.toString()))
                 .putBody(hashMapOf("status" to UserStatus.FREE.toString()))
-                .post(object: CallbackRule<String> {
+                .post(object: StringCallback {
                     override suspend fun onFailed(error: String) { }
                     override suspend fun onSuccess(entity: String, flag: String) {
                         Intent(this@StudyActivity, MainActivity::class.java).apply {
