@@ -72,12 +72,14 @@ class StudyActivity : AppCompatActivity() {
                 .putBody(hashMapOf("status" to UserStatus.FREE.toString()))
                 .post(object: CallbackRule<String> {
                     override suspend fun onFailed(error: String) { }
-                    override suspend fun onSuccess(entity: String, flag: String) { }
+                    override suspend fun onSuccess(entity: String, flag: String) {
+                        Intent(this@StudyActivity, MainActivity::class.java).apply {
+                            putExtra("userID", userID)
+                            startActivity(this)
+                        }
+                    }
                 })
-            Intent(this, MainActivity::class.java).apply {
-                putExtra("userID", userID)
-                startActivity(this)
-            }
+
         }
     }
 }
