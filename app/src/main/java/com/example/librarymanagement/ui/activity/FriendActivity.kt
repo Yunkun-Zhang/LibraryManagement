@@ -46,7 +46,7 @@ class FriendActivity : AppCompatActivity() {
                     builder.setTitle("好友申请")
                     builder.setMessage("申请人：${i.sendname}")
                     builder.setPositiveButton("拒绝") { _, _ ->}
-                    builder.setNegativeButton("接收") { _, _ ->
+                    builder.setNegativeButton("接受") { _, _ ->
                         Okkt.instance.Builder().setUrl("/friend/addfriend").putBody(hashMapOf("userID" to i.sendID.toString(), "name" to name)).
                         post(object: CallbackRule<MutableList<Invitation>> {
                             override suspend fun onFailed(error: String){}
