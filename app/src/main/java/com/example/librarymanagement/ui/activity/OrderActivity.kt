@@ -28,9 +28,9 @@ class OrderActivity : AppCompatActivity() {
         // 返回按钮
         btn_back.setOnClickListener { finish() }
 
-        Okkt.instance.Builder().setUrl("/reservation/findbyuserid")
+        Okkt.instance.Builder().setUrl("/reservation/findcompanionsbyuserid")
             .setParams(hashMapOf("userid" to userID.toString()))
-            .post(object: CallbackRule<MutableList<Reservation>> {
+            .post(object: CallbackRule<MutableList<Int>> {
                 override suspend fun onFailed(error: String) {
                     val alertDialog = AlertDialog.Builder(this@OrderActivity)
                     alertDialog.setTitle("获取订单列表失败")
@@ -39,11 +39,11 @@ class OrderActivity : AppCompatActivity() {
                     alertDialog.show()
                 }
 
-                override suspend fun onSuccess(entity: MutableList<Reservation>, flag: String) {
+                override suspend fun onSuccess(entity: MutableList<Int>, flag: String) {
                     val recyclerView: RecyclerView = find(R.id.order_list)
                     val list = arrayListOf<String>()
                     for (i in entity) {
-                        list.add(i.ordertime)
+                        list.add("和 ${i} 一起")
                     }
                     val layoutManager = LinearLayoutManager(this@OrderActivity)
                     layoutManager.orientation = LinearLayoutManager.VERTICAL
@@ -67,7 +67,7 @@ class OrderActivity : AppCompatActivity() {
                                                 hashMapOf(
                                                     "sendID" to userID.toString(),
                                                     "sendname" to user.name,
-                                                    "receivedID" to entity[position].companion.toString()
+                                                    "receivedID" to entity[position].toString()
                                                 )
                                             )
                                             .post(object : CallbackRule<MutableList<Reservation>> {

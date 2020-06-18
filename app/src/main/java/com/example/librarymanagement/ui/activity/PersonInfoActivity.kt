@@ -56,6 +56,12 @@ class PersonInfoActivity : AppCompatActivity() {
                     startActivity(this)
                 }
             }
+            to_order.setOnClickListener {
+                Intent(this@PersonInfoActivity, OrderActivity::class.java).apply {
+                    putExtra("userID", userID)
+                    startActivity(this)
+                }
+            }
         }
         else {  // 好友
             val friendname = intent.getStringExtra("friendname")

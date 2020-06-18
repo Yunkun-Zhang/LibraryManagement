@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         // 获取userID
         userID = intent.getIntExtra("userID", 0)
+        val seatID = intent.getIntExtra("seatID", 0)
         val name = intent.getStringExtra("name")
         // 获取user状态
         if (userID != 0) {
@@ -118,6 +119,7 @@ class MainActivity : AppCompatActivity() {
         back_to_seat.setOnClickListener {
             Intent(this, StudyActivity::class.java).apply {
                 putExtra("userID", userID)
+                putExtra("seatID", seatID)
                 putExtra("hour", h)
                 putExtra("min", m)
                 putExtra("second", s)
@@ -302,7 +304,7 @@ class MainActivity : AppCompatActivity() {
                                                     override suspend fun onFailed(error: String) { }
                                                     override suspend fun onSuccess(entity: String, flag: String) { }
                                                 })
-                                            // 跳转至主页面
+                                            // 跳转至占座页面
                                             Intent(this@MainActivity, StudyActivity::class.java).apply {
                                                 putExtra("userID", userID)
                                                 putExtra("seatID", seatID)
@@ -318,7 +320,6 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 }
-                return
             }
         }
 

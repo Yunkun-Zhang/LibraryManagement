@@ -21,6 +21,7 @@ class StudyActivity : AppCompatActivity() {
 
         alert("成功占座") { positiveButton("确定") {} }.show()
         val userID = intent.getIntExtra("userID", 0)
+        val seatID = intent.getIntExtra("seatID", 0)
         var h = intent.getIntExtra("hour", hour.text.toString().toInt())
         var m = intent.getIntExtra("min", min.text.toString().toInt())
         var s = intent.getIntExtra("second", second.text.toString().toInt())
@@ -69,18 +70,21 @@ class StudyActivity : AppCompatActivity() {
 
         finish.setOnClickListener {
             Okkt.instance.Builder().setUrl("/user/revisestatusbyid")
-                .setParams(hashMapOf("userid" to userID.toString()))
-                .putBody(hashMapOf("status" to UserStatus.FREE.toString()))
-                .post(object: StringCallback {
-                    override suspend fun onFailed(error: String) { }
-                    override suspend fun onSuccess(entity: String, flag: String) {
-                        Intent(this@StudyActivity, MainActivity::class.java).apply {
-                            putExtra("userID", userID)
-                            startActivity(this)
-                        }
-                    }
+                .setParams(hashMapOf("userid" to userID.toString(), "status" to UserStatus.FREE.toString()))
+                .post(object : StringCallback {
+                    override suspend fun onFailed(error: String) {}
+                    override suspend fun onSuccess(entity: String, flag: String) {}
                 })
-
+            Okkt.instance.Builder().setUrl("/seat/setseat/finish")
+                .setParams(hashMapOf("seatid" to seatID.toString()))
+                .post(object : StringCallback {
+                    override suspend fun onFailed(error: String) {}
+                    override suspend fun onSuccess(entity: String, flag: String) {}
+                })
+            Intent(this@StudyActivity, MainActivity::class.java).apply {
+                putExtra("userID", userID)
+                startActivity(this)
+            }
         }
     }
 }

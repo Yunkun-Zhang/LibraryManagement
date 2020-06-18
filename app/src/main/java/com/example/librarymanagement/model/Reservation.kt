@@ -1,5 +1,7 @@
 package com.example.librarymanagement.model
 
+import java.util.*
+
 data class Reservation(
     val companion: Int?,
     val endtime: Int,

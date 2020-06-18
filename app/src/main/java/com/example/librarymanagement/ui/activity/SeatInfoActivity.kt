@@ -95,6 +95,8 @@ class SeatInfoActivity : AppCompatActivity() {
                                                     else this.setImageResource(R.drawable.shape_red)
                                                     setOnClickListener {
                                                         if (this.id in seat_list) {
+
+                                                            Log.w("checkid", this.id.toString())
                                                             if (seatID != this.id) {
                                                                 if (seatID != 0) toast("只能选择一个座位！")
                                                                 else {

@@ -43,6 +43,7 @@
                         android:scheme="rong" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.activity.OrderActivity"/>
 
 
     </application>
