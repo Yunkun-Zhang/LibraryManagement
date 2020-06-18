@@ -3,12 +3,15 @@ package com.example.librarymanagement.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Base64
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.librarymanagement.R
 import com.stormkid.okhttpkt.core.Okkt
 import com.stormkid.okhttpkt.rule.StringCallback
 import kotlinx.android.synthetic.main.activity_signup.*
+import java.security.KeyFactory
+import java.security.spec.X509EncodedKeySpec
 
 
 class Signup : AppCompatActivity() {
@@ -30,9 +33,17 @@ class Signup : AppCompatActivity() {
                     alertDialog.show()
                 }
                 else {
-                    Okkt.instance.Builder().setUrl("/user/add").putBody(hashMapOf("name" to username.text.toString(),"password" to password.text.toString())).
+                    val password = password.text.toString()
+                    val name = username.text.toString()
+
+                    val publicKeyStr = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiEpz2w6VaIAkuqO6p2pGUF7VndsbhrBXeohMaFbVngIs+gSpWUZtMfhTTogkZNwxv3FRy0NophPOBY+LI0dBH8wKpNsqeLhqUkEVQeQGbL1xzxKKfoO1H0NnYrSsaYGNzcAMMoifFi0hdTOw7qT0WpO61EFWy3ZzUSKI4PLFVtNmcqwWgkL1lwtoo9MhhSZItsQe9HGzv8FR0Amh0epfEJq+XVWUAnvbzj3w60nYW8cTMVdowOrYQBLMH2ZQoZ+KNLEJvmGe44wAgRk6+V8UZpxFG2Emj6diJohcG7ajv+7EN5Nh2ym6QhqVNA6SJBagVJmsgUXmRs3kQkqevaqpYQIDAQAB"
+                    val keyFactory = KeyFactory.getInstance("RSA")
+                    val publicKey = keyFactory.generatePublic(X509EncodedKeySpec(Base64.decode(publicKeyStr,Base64.DEFAULT)))
+                    val encryptedPassword = RSACrypt.encryptByPublicKey(password,publicKey)
+
+                    Okkt.instance.Builder().setUrl("/user/add").putBody(hashMapOf("name" to name,"password" to encryptedPassword)).
                     postString(object: StringCallback {
-                        override suspend fun onFailed(error: String) {
+                        override suspend fun onFailed(error: String){
                             val alertDialog = AlertDialog.Builder(this@Signup)
                             alertDialog.setTitle("注册失败")
                             alertDialog.setMessage("请检查网络！")
@@ -49,14 +60,12 @@ class Signup : AppCompatActivity() {
                                     })
                             // 注册完进入登录页面（addFlags防止回退）
                             val sign = Intent(this@Signup, Login::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                            sign.putExtra("username", username.text.toString())
-                            sign.putExtra("password", password.text.toString())
+                            sign.putExtra("username", name)
+                            sign.putExtra("password", password)
                             startActivity(sign)
                         }
                     })
-
-                }
-            }
+            }}
             else {
                 val alertDialog = AlertDialog.Builder(this)
                 alertDialog.setMessage("用户名或密码不应为空！")
