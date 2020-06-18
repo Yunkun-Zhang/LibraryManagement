@@ -81,8 +81,8 @@ class Book : AppCompatActivity() {
                     if (gender.selectedItem == "男") g = true
                     else if (gender.selectedItem == "女") g = false
                     else g = null
-
-                    if (sub == "" && g == null) {// 没有匹配信息
+                    // 没有匹配信息
+                    if (sub == "" && g == null) {
                         Okkt.instance.Builder().setUrl("/seat/getspareseats/tomorrow")
                             .putBody(hashMapOf("starttime" to start.toString(), "endtime" to end.toString()))
                             .post(object : CallbackRule<MutableList<Int>> {
@@ -107,25 +107,31 @@ class Book : AppCompatActivity() {
                                 }
                             })
                     }
+                    // 进行匹配
                     else {
+                        // 先寻找自己的性别
                         Okkt.instance.Builder().setUrl("/user/findbyuserid")
-                            .putBody(hashMapOf("userid" to userID.toString())).post(object : CallbackRule<User> {
+                            .setParams(hashMapOf("userid" to userID.toString())).get(object : CallbackRule<User> {
                                 override suspend fun onFailed(error: String) {
                                     toast("failed")
                                 }
 
                                 override suspend fun onSuccess(entity: User, flag: String) {
                                     val sg = entity.gender
-                                    Okkt.instance.Builder().setUrl("/seatwithreservation/findseatwithadjacentreservation?starttime=8&endtime=13&subject=soft")
-                                        /*.putBody(
-                                            hashMapOf(
-                                                "starttime" to start.toString(), "endtime" to end.toString(),
-                                                "targetgender" to g.toString(), "selfgender" to sg.toString(),
-                                                "subject" to sub.toString()
-                                            )
-                                        )*/
-                                        .post(object : CallbackRule<HashMap<Int, List<Int>>> {
+                                    Log.w("my gender", sg.toString())
+                                    var map: HashMap<String, String> = hashMapOf()
+                                    map["starttime"] = start.toString()
+                                    map["endtime"] = end.toString()
+                                    if (sg != null) map["selfgender"] = sg.toString()
+                                    if (g != null) map["targetgender"] = g.toString()
+                                    if (sub != "") map["subject"] = sub.toString()
+                                    //成功，先进行对匹配位置的第一次搜索
+                                    Okkt.instance.Builder().setUrl("/seatwithreservation/findseatwithadjacentreservation")
+                                        .setParams(map)
+                                        .get(object : CallbackRule<HashMap<Int, List<Int>>> {
                                             override suspend fun onFailed(error: String) {
+                                                // 如果为空究竟返回哪个地方？
+                                                alert("这说明最大的寻找尝试失败了") {positiveButton("修改时间段") { } }.show()
                                                 Okkt.instance.Builder().setUrl("/seat/getspareseat/withspareadjacent")
                                                     .putBody(
                                                         hashMapOf(
@@ -159,6 +165,7 @@ class Book : AppCompatActivity() {
                                                     })
                                                 Log.w("bobbob", "failed") }
                                             override suspend fun onSuccess(entity: HashMap<Int, List<Int>>, flag: String) {
+                                                alert("这说明最大的寻找尝试成功了") {positiveButton("修改时间段") { } }.show()
                                                 Log.w("bobbob", entity.keys.toIntArray()[0].toString())
                                                 if (entity.isEmpty()) { // 希望匹配的无座位
                                                     Okkt.instance.Builder().setUrl("/seat/getspareseat/withspareadjacent")
