@@ -19,13 +19,13 @@ class StudyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_study)
 
-        alert("成功占座") { positiveButton("确定") {} }.show()
         val userID = intent.getIntExtra("userID", 0)
-        val seatID = intent.getIntExtra("seatID", 0)
+        val seatID = intent.getIntExtra("now_seat", 0)
         var h = intent.getIntExtra("hour", hour.text.toString().toInt())
         var m = intent.getIntExtra("min", min.text.toString().toInt())
         var s = intent.getIntExtra("second", second.text.toString().toInt())
 
+        // 设置计时功能
         var countDownTimer: CountDownTimer
         countDownTimer = object : CountDownTimer(10000000, 1000) {
             override fun onTick(secondsUntilDone: Long) {
@@ -56,11 +56,18 @@ class StudyActivity : AppCompatActivity() {
                     override suspend fun onFailed(error: String) { }
                     override suspend fun onSuccess(entity: String, flag: String) { }
                 })
+            Okkt.instance.Builder().setUrl("/seat/setseat/leave")
+                .setParams(hashMapOf("seatid" to seatID.toString()))
+                .post(object: CallbackRule<String> {
+                    override suspend fun onFailed(error: String) { }
+                    override suspend fun onSuccess(entity: String, flag: String) { }
+                })
             Intent(this, MainActivity::class.java).apply {
                 putExtra("userID", userID)
+                putExtra("now_seat", seatID)
                 val h = hour.text.toString().toInt()
                 val m = min.text.toString().toInt()
-                val s = min.text.toString().toInt()
+                val s = second.text.toString().toInt()
                 putExtra("hour", h)
                 putExtra("min", m)
                 putExtra("second", s)
@@ -71,18 +78,20 @@ class StudyActivity : AppCompatActivity() {
         finish.setOnClickListener {
             Okkt.instance.Builder().setUrl("/user/revisestatusbyid")
                 .setParams(hashMapOf("userid" to userID.toString(), "status" to UserStatus.FREE.toString()))
-                .post(object : StringCallback {
+                .get(object : StringCallback {
                     override suspend fun onFailed(error: String) {}
                     override suspend fun onSuccess(entity: String, flag: String) {}
                 })
             Okkt.instance.Builder().setUrl("/seat/setseat/finish")
                 .setParams(hashMapOf("seatid" to seatID.toString()))
-                .post(object : StringCallback {
+                .post(object : CallbackRule<String> {
                     override suspend fun onFailed(error: String) {}
                     override suspend fun onSuccess(entity: String, flag: String) {}
                 })
+            // 可以做出去加好友的界面
             Intent(this@StudyActivity, MainActivity::class.java).apply {
                 putExtra("userID", userID)
+                putExtra("now_seat", 0) // 清除现在占座
                 startActivity(this)
             }
         }

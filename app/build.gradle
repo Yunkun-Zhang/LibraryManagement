@@ -36,6 +36,10 @@ dependencies {
     testImplementation "androidx.room:room-testing:$room_version"
     implementation "org.jetbrains.anko:anko:0.10.5"
     implementation "org.jetbrains.anko:anko-sdk25:0.10.5"
+    implementation 'androidx.navigation:navigation-ui:2.0.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.0.0'
+    implementation 'androidx.navigation:navigation-fragment:2.0.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.0.0'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

@@ -33,18 +33,21 @@ class SeatInfoActivity : AppCompatActivity() {
         val userID = intent.getIntExtra("userID", 0)
         val start = intent.getIntExtra("start", 8)
         val end = intent.getIntExtra("end", 23)
+        // 用于选择
         var seatID = 0
+        // 正在占用的座位
+        val now_seat = intent.getIntExtra("now_seat", 0)
         var sub = intent.getStringExtra("subject")
         val tg : Boolean? = intent.extras?.get("targetgender") as Boolean?
         val pair = intent.getBooleanExtra("pair", false)
-        var wait = intent.getBooleanExtra("wait", false)
+        val wait = intent.getBooleanExtra("wait", false)
         // 获取可用座位list
         val seat_list = intent.getIntArrayExtra("list")
 
 
         if (check) {
             // 当前可用的seat_list
-            toast("现在是$hour")
+            toast("现在是 $hour 点")
         }
 
         // 布局
@@ -68,98 +71,117 @@ class SeatInfoActivity : AppCompatActivity() {
                                             verticalPadding = dip(5)
                                             // 以下是一桌：左侧两位，右侧两位
                                             relativeLayout {
+                                                // seat 1
                                                 imageView {
                                                     id = floor * 1000 + line * 120 + col * 10 + 1
-                                                    if (this.id in seat_list) this.setImageResource(R.drawable.shape_green)
-                                                    else this.setImageResource(R.drawable.shape_red)
-                                                    setOnClickListener {
-                                                        if (this.id in seat_list) {
+                                                    if (this.id == now_seat) this.setImageResource(R.drawable.shape_chosen)
+                                                    else {
+                                                        if (this.id in seat_list) this.setImageResource(R.drawable.shape_green)
+                                                        else { this.setImageResource(R.drawable.shape_red) }
+                                                        setOnClickListener {
+                                                            if (this.id in seat_list) {
 
-                                                            Log.w("checkid", this.id.toString())
-                                                            if (seatID != this.id) {
-                                                                if (seatID != 0) toast("只能选择一个座位！")
-                                                                else {
-                                                                    this.setImageResource(R.drawable.shape_chosen)
-                                                                    seatID = this.id
+                                                                Log.w("checkid", this.id.toString())
+                                                                if (seatID != this.id) {
+                                                                    if (seatID != 0) toast("只能选择一个座位！")
+                                                                    else {
+                                                                        this.setImageResource(R.drawable.shape_chosen)
+                                                                        seatID = this.id
+                                                                    }
+                                                                } else {
+                                                                    this.setImageResource(R.drawable.shape_green)
+                                                                    seatID = 0
                                                                 }
-                                                            } else {
-                                                                this.setImageResource(R.drawable.shape_green)
-                                                                seatID = 0
-                                                            }
-                                                        } else toast("该座位已被占用！")
+                                                            } else toast("该座位已被占用！")
+                                                        }
                                                     }
                                                 }.lparams { topMargin = dip(10) }
+                                                // seat 2
                                                 imageView {
                                                     id = floor * 1000 + line * 120 + col * 10 + 2
-                                                    if (this.id in seat_list) this.setImageResource(R.drawable.shape_green)
-                                                    else this.setImageResource(R.drawable.shape_red)
-                                                    setOnClickListener {
-                                                        if (this.id in seat_list) {
+                                                    if (this.id == now_seat) this.setImageResource(R.drawable.shape_chosen)
+                                                    else {
+                                                        if (this.id in seat_list) this.setImageResource(R.drawable.shape_green)
+                                                        else { this.setImageResource(R.drawable.shape_red) }
+                                                        setOnClickListener {
+                                                            if (this.id in seat_list) {
 
-                                                            Log.w("checkid", this.id.toString())
-                                                            if (seatID != this.id) {
-                                                                if (seatID != 0) toast("只能选择一个座位！")
-                                                                else {
-                                                                    this.setImageResource(R.drawable.shape_chosen)
-                                                                    seatID = this.id
+                                                                Log.w("checkid", this.id.toString())
+                                                                if (seatID != this.id) {
+                                                                    if (seatID != 0) toast("只能选择一个座位！")
+                                                                    else {
+                                                                        this.setImageResource(R.drawable.shape_chosen)
+                                                                        seatID = this.id
+                                                                    }
+                                                                } else {
+                                                                    this.setImageResource(R.drawable.shape_green)
+                                                                    seatID = 0
                                                                 }
-                                                            } else {
-                                                                this.setImageResource(R.drawable.shape_green)
-                                                                seatID = 0
-                                                            }
-                                                        } else toast("该座位已被占用！")
+                                                            } else toast("该座位已被占用！")
+                                                        }
                                                     }
                                                 }.lparams {
                                                     alignParentBottom()
                                                     bottomMargin = dip(10)
                                                 }
                                             }.lparams(width = wrapContent, height = matchParent)
-
+                                            // table
                                             button {
                                                 backgroundResource = R.drawable.rect
                                                 isClickable = false
-                                                text = "${line * 12 + col}"
+                                                text = "${floor*100 + line*12 + col}"
                                             }.lparams(width = dip(40), height = dip(60)) {
                                                 horizontalMargin = dip(10)
                                             }
-
                                             relativeLayout {
+                                                // seat 3
                                                 imageView {
                                                     id = floor * 1000 + line * 120 + col * 10 + 3
-                                                    if (this.id in seat_list) this.setImageResource(R.drawable.shape_green)
-                                                    else this.setImageResource(R.drawable.shape_red)
-                                                    setOnClickListener {
-                                                        if (this.id in seat_list) {
-                                                            if (seatID != this.id) {
-                                                                if (seatID != 0) toast("只能选择一个座位！")
-                                                                else {
-                                                                    this.setImageResource(R.drawable.shape_chosen)
-                                                                    seatID = this.id
+                                                    if (this.id == now_seat) this.setImageResource(R.drawable.shape_chosen)
+                                                    else {
+                                                        if (this.id in seat_list) this.setImageResource(R.drawable.shape_green)
+                                                        else { this.setImageResource(R.drawable.shape_red) }
+                                                        setOnClickListener {
+                                                            if (this.id in seat_list) {
+
+                                                                Log.w("checkid", this.id.toString())
+                                                                if (seatID != this.id) {
+                                                                    if (seatID != 0) toast("只能选择一个座位！")
+                                                                    else {
+                                                                        this.setImageResource(R.drawable.shape_chosen)
+                                                                        seatID = this.id
+                                                                    }
+                                                                } else {
+                                                                    this.setImageResource(R.drawable.shape_green)
+                                                                    seatID = 0
                                                                 }
-                                                            } else {
-                                                                this.setImageResource(R.drawable.shape_green)
-                                                                seatID = 0
-                                                            }
-                                                        } else toast("该座位已被占用！")
+                                                            } else toast("该座位已被占用！")
+                                                        }
                                                     }
                                                 }.lparams { topMargin = dip(10) }
+                                                // seat 4
                                                 imageView {
                                                     id = floor * 1000 + line * 120 + col * 10 + 4
-                                                    if (this.id in seat_list) this.setImageResource(R.drawable.shape_green)
-                                                    else this.setImageResource(R.drawable.shape_red)
-                                                    setOnClickListener {
-                                                        if (this.id in seat_list) {
-                                                            if (seatID != this.id) {
-                                                                if (seatID != 0) toast("只能选择一个座位！")
-                                                                else {
-                                                                    this.setImageResource(R.drawable.shape_chosen)
-                                                                    seatID = this.id
+                                                    if (this.id == now_seat) this.setImageResource(R.drawable.shape_chosen)
+                                                    else {
+                                                        if (this.id in seat_list) this.setImageResource(R.drawable.shape_green)
+                                                        else { this.setImageResource(R.drawable.shape_red) }
+                                                        setOnClickListener {
+                                                            if (this.id in seat_list) {
+
+                                                                Log.w("checkid", this.id.toString())
+                                                                if (seatID != this.id) {
+                                                                    if (seatID != 0) toast("只能选择一个座位！")
+                                                                    else {
+                                                                        this.setImageResource(R.drawable.shape_chosen)
+                                                                        seatID = this.id
+                                                                    }
+                                                                } else {
+                                                                    this.setImageResource(R.drawable.shape_green)
+                                                                    seatID = 0
                                                                 }
-                                                            } else {
-                                                                this.setImageResource(R.drawable.shape_green)
-                                                                seatID = 0
-                                                            }
-                                                        } else toast("该座位已被占用！")
+                                                            } else toast("该座位已被占用！")
+                                                        }
                                                     }
                                                 }.lparams {
                                                     alignParentBottom()
@@ -198,139 +220,161 @@ class SeatInfoActivity : AppCompatActivity() {
         if (hour in 8..22) conf.visibility = View.GONE
         else {
             conf.setOnClickListener {
-                // 跳转回主界面，传递seatID，userID，orderID
-                // 先找到user
-                Okkt.instance.Builder().setUrl("/user/findbyuserid").putBody(hashMapOf("userid" to userID.toString())).
-                post(object: CallbackRule<User> {
-                    override suspend fun onFailed(error: String) { toast("failed") }
-                    override suspend fun onSuccess(entity: User, flag: String) {
-                        // 开始生成reservation
+                // 未选座位
+                if (seatID == 0) alert("请选择一个座位！") { positiveButton("确定") {} }.show()
+                else {
+                    // 跳转回主界面，传递seatID，userID，orderID
+                    // 先找到user
+                    Okkt.instance.Builder().setUrl("/user/findbyuserid")
+                        .putBody(hashMapOf("userid" to userID.toString())).post(object : CallbackRule<User> {
+                        override suspend fun onFailed(error: String) {
+                            toast("failed")
+                        }
 
-                        if (pair) {
-                            if (!wait) {
-                                val order = intent.getSerializableExtra("order") as HashMap<Int, List<Int>>
-                                val map: HashMap<String, String> = hashMapOf(
-                                    "userid" to userID.toString(),
-                                    "seatid" to seatID.toString(),
-                                    "starttime" to start.toString(),
-                                    "endtime" to end.toString(),
-                                    "pair" to pair.toString(),
-                                    "hang" to false.toString()
-                                )
-                                if (tg != null) map["targetgender"] = tg.toString()
-                                if (entity.gender != null) map["selfgender"] = entity.gender.toString()
-                                if (order[seatID]!![0] != null) map["companion"] = order[seatID]!![0].toString()
-                                Okkt.instance.Builder().setUrl("/reservation/add")
-                                    .putBody(map)
-                                    .post(object : CallbackRule<Int> {
-                                        override suspend fun onFailed(error: String) {}
-                                        override suspend fun onSuccess(entity: Int, flag: String) {
-                                            alert("预订成功！") { positiveButton("确定") {} }.show()
-                                            Okkt.instance.Builder().setUrl("/seat/setseat/book").putBody(
-                                                hashMapOf(
-                                                    "seatid" to seatID.toString(),
-                                                    "starttime" to start.toString(),
-                                                    "endtime" to end.toString()
-                                                )
-                                            ).post(object : CallbackRule<String> {
-                                                override suspend fun onFailed(error: String) {}
-                                                override suspend fun onSuccess(entity: String, flag: String) {}
-                                            })
-                                            Okkt.instance.Builder().setUrl("/reservation/release")
-                                                .setParams(
-                                                    hashMapOf(
-                                                        "reservationid" to order[seatID]!![1].toString(),
-                                                        "companion" to userID.toString()
-                                                    )
-                                                ).post(object : StringCallback {
-                                                    override suspend fun onFailed(error: String) {}
-                                                    override suspend fun onSuccess(entity: String, flag: String) {}
-                                                })
+                        override suspend fun onSuccess(entity: User, flag: String) {
+                            // 开始生成reservation
 
-                                            Intent(this@SeatInfoActivity, MainActivity::class.java).apply {
-                                                putExtra("seat", seatID)
-                                                putExtra("userID", userID)
-                                                putExtra("orderID", entity)
-                                                startActivity(this)
-                                            }
-                                        }
-                                    })
-                            }
-                            // 没有找到合适的配对
-                            else {
-                            val map: HashMap<String, String> = hashMapOf(
-                                "userid" to userID.toString(),
-                                "seatid" to seatID.toString(),
-                                "starttime" to start.toString(),
-                                "endtime" to end.toString(),
-                                "pair" to pair.toString()
-                            )
-                            if (tg != null) map["targetgender"] = tg.toString()
-                            if (entity.gender != null) map["selfgender"] = entity.gender.toString()
-                                Okkt.instance.Builder().setUrl("/reservation/add").putBody(map)
-                                    .post(object : CallbackRule<Int> {
-                                        override suspend fun onFailed(error: String) {}
-                                        override suspend fun onSuccess(entity: Int, flag: String) {
-                                            alert("预订成功！") { positiveButton("确定") {} }.show()
-                                            Okkt.instance.Builder().setUrl("/seat/setseat/book").putBody(
-                                                hashMapOf(
-                                                    "seatid" to seatID.toString(),
-                                                    "starttime" to start.toString(),
-                                                    "endtime" to end.toString()
-                                                )
-                                            ).post(object : CallbackRule<String> {
-                                                override suspend fun onFailed(error: String) {}
-                                                override suspend fun onSuccess(entity: String, flag: String) {}
-                                            })
-                                            Intent(this@SeatInfoActivity, MainActivity::class.java).apply {
-                                                putExtra("seat", seatID)
-                                                putExtra("userID", userID)
-                                                putExtra("orderID", entity)
-                                                startActivity(this)
-                                            }
-                                        }
-                                    })
-
-                                }
-                            }
-                        else {// 无配对
-                            Okkt.instance.Builder().setUrl("/reservation/add")
-                                .putBody(
-                                    hashMapOf(
+                            if (pair) {
+                                if (!wait) {
+                                    val order = intent.getSerializableExtra("order") as HashMap<Int, List<Int>>
+                                    val map: HashMap<String, String> = hashMapOf(
                                         "userid" to userID.toString(),
                                         "seatid" to seatID.toString(),
                                         "starttime" to start.toString(),
                                         "endtime" to end.toString(),
                                         "pair" to pair.toString(),
-                                        "hang" to false.toString())
-                                )
-                                .post(object : CallbackRule<Int> {
-                                    override suspend fun onFailed(error: String) {
-                                        alert("预订失败！") { positiveButton("确定") {} }.show()
-                                    }
-                                    override suspend fun onSuccess(entity: Int, flag: String) {
-                                        alert("预订成功！") { positiveButton("确定") {} }.show()
-                                        // 更改座位信息
-                                        Okkt.instance.Builder().setUrl("/seat/setseat/book").
-                                        putBody(hashMapOf("seatid" to seatID.toString(),
-                                            "starttime" to start.toString(),
-                                            "endtime" to end.toString())).
-                                        post(object: CallbackRule<String> {
+                                        "hang" to false.toString()
+                                    )
+                                    if (sub != "") map["subject"] = sub.toString()
+                                    if (tg != null) map["targetgender"] = tg.toString()
+                                    if (entity.gender != null) map["selfgender"] = entity.gender.toString()
+                                    if (order[seatID]!![0] != null) map["companion"] = order[seatID]!![0].toString()
+                                    Okkt.instance.Builder().setUrl("/reservation/add")
+                                        .putBody(map)
+                                        .post(object : CallbackRule<Int> {
                                             override suspend fun onFailed(error: String) {}
-                                            override suspend fun onSuccess(entity: String, flag: String) { }
+                                            override suspend fun onSuccess(entity: Int, flag: String) {
+                                                Okkt.instance.Builder().setUrl("/seat/setseat/book").putBody(
+                                                    hashMapOf(
+                                                        "seatid" to seatID.toString(),
+                                                        "starttime" to start.toString(),
+                                                        "endtime" to end.toString()
+                                                    )
+                                                ).post(object : CallbackRule<String> {
+                                                    override suspend fun onFailed(error: String) {}
+                                                    override suspend fun onSuccess(entity: String, flag: String) {}
+                                                })
+                                                Okkt.instance.Builder().setUrl("/reservation/release")
+                                                    .setParams(
+                                                        hashMapOf(
+                                                            "reservationid" to order[seatID]!![1].toString(),
+                                                            "companion" to userID.toString()
+                                                        )
+                                                    ).post(object : StringCallback {
+                                                        override suspend fun onFailed(error: String) {}
+                                                        override suspend fun onSuccess(entity: String, flag: String) {}
+                                                    })
+                                                alert("预订座位 $seatID 成功！") {
+                                                    positiveButton("确定") {
+                                                        Intent(this@SeatInfoActivity, MainActivity::class.java).apply {
+                                                            putExtra("bookseat", seatID)
+                                                            putExtra("now_seat", now_seat)
+                                                            putExtra("userID", userID)
+                                                            putExtra("orderID", entity)
+                                                            startActivity(this)
+                                                        }
+                                                    }
+                                                }.show()
+                                            }
+                                        })
+                                }
+                                // 没有找到合适的配对
+                                else {
+                                    val map: HashMap<String, String> = hashMapOf(
+                                        "userid" to userID.toString(),
+                                        "seatid" to seatID.toString(),
+                                        "starttime" to start.toString(),
+                                        "endtime" to end.toString(),
+                                        "pair" to pair.toString(),
+                                        "hang" to true.toString()
+                                    )
+                                    if (sub != "") map["subject"] = sub
+                                    if (tg != null) map["targetgender"] = tg.toString()
+                                    if (entity.gender != null) map["selfgender"] = entity.gender.toString()
+                                    Okkt.instance.Builder().setUrl("/reservation/add").putBody(map)
+                                        .post(object : CallbackRule<Int> {
+                                            override suspend fun onFailed(error: String) {}
+                                            override suspend fun onSuccess(entity: Int, flag: String) {
+                                                Okkt.instance.Builder().setUrl("/seat/setseat/book").putBody(
+                                                    hashMapOf(
+                                                        "seatid" to seatID.toString(),
+                                                        "starttime" to start.toString(),
+                                                        "endtime" to end.toString()
+                                                    )
+                                                ).post(object : CallbackRule<String> {
+                                                    override suspend fun onFailed(error: String) {}
+                                                    override suspend fun onSuccess(entity: String, flag: String) {}
+                                                })
+                                                alert("预订座位 $seatID 成功！") {
+                                                    positiveButton("确定") {
+                                                        Intent(this@SeatInfoActivity, MainActivity::class.java).apply {
+                                                            putExtra("userID", userID)
+                                                            putExtra("orderID", entity)
+                                                            putExtra("now_seat", now_seat)
+                                                            startActivity(this)
+                                                        }
+                                                    }
+                                                }.show()
+
+                                            }
                                         })
 
-                                        Intent(this@SeatInfoActivity, MainActivity::class.java).apply {
-                                            putExtra("seat", seatID)
-                                            putExtra("userID", userID)
-                                            putExtra("orderID", entity)
-                                            startActivity(this)
+                                }
+                            } else {// 无配对
+                                Okkt.instance.Builder().setUrl("/reservation/add")
+                                    .putBody(
+                                        hashMapOf(
+                                            "userid" to userID.toString(),
+                                            "seatid" to seatID.toString(),
+                                            "starttime" to start.toString(),
+                                            "endtime" to end.toString(),
+                                            "pair" to pair.toString(),
+                                            "hang" to false.toString()
+                                        )
+                                    )
+                                    .post(object : CallbackRule<Int> {
+                                        override suspend fun onFailed(error: String) {
+                                            alert("预订失败！") { positiveButton("确定") {} }.show()
                                         }
-                                    }
-                                })
+
+                                        override suspend fun onSuccess(entity: Int, flag: String) {
+                                            // 更改座位信息
+                                            Okkt.instance.Builder().setUrl("/seat/setseat/book").putBody(
+                                                hashMapOf(
+                                                    "seatid" to seatID.toString(),
+                                                    "starttime" to start.toString(),
+                                                    "endtime" to end.toString()
+                                                )
+                                            ).post(object : CallbackRule<String> {
+                                                override suspend fun onFailed(error: String) {}
+                                                override suspend fun onSuccess(entity: String, flag: String) {}
+                                            })
+                                            alert("预订座位 $seatID 成功！") {
+                                                positiveButton("确定") {
+                                                    Intent(this@SeatInfoActivity, MainActivity::class.java).apply {
+                                                        putExtra("userID", userID)
+                                                        putExtra("orderID", entity)
+                                                        putExtra("now_seat", now_seat)
+                                                        startActivity(this)
+                                                    }
+                                                }
+                                            }.show()
+                                        }
+                                    })
+                            }
                         }
-                    }
-                })
+                    })
+                }
 
             }
         }

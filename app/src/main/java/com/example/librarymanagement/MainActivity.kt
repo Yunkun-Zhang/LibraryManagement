@@ -8,11 +8,14 @@ import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.view.Menu
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.example.librarymanagement.Application.MyApplication
+import com.example.librarymanagement.model.Seat
 import com.example.librarymanagement.model.User
 import com.example.librarymanagement.others.*
 import com.example.librarymanagement.ui.activity.*
@@ -24,6 +27,7 @@ import com.stormkid.okhttpkt.rule.CallbackRule
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_mod_info.*
 import org.jetbrains.anko.alert
+import org.jetbrains.anko.cancelButton
 import org.jetbrains.anko.toast
 import java.text.SimpleDateFormat
 import java.util.*
@@ -45,20 +49,19 @@ class MainActivity : AppCompatActivity() {
 
         // 获取userID
         userID = intent.getIntExtra("userID", 0)
-        val seatID = intent.getIntExtra("seatID", 0)
+        // 获取当前占座seatID
+        val now_seat = intent.getIntExtra("now_seat", 0)
         val name = intent.getStringExtra("name")
         // 获取user状态
         if (userID != 0) {
             Okkt.instance.Builder().setUrl("/user/findbyuserid").putBody(hashMapOf("userid" to userID.toString())).
             post(object: CallbackRule<User> {
                 override suspend fun onFailed(error: String) {
-                    val alertDialog = AlertDialog.Builder(this@MainActivity)
-                    alertDialog.setTitle("个人信息获取失败")
-                    alertDialog.setMessage("请检查网络")
-                    alertDialog.setNeutralButton("确定", null)
-                    alertDialog.show()
+                    alert("请检查网络") {
+                        setTitle("个人信息获取失败")
+                        positiveButton("确定") {}
+                    }.show()
                 }
-
                 override suspend fun onSuccess(entity: User, flag: String) {
                     //当前用户信息只能获取这些，后续需要等待服务器修改
                     val userStatus = entity.status
@@ -84,16 +87,6 @@ class MainActivity : AppCompatActivity() {
                 }
             })
 
-        // 从预订界面返回
-        var seat = intent.getIntExtra("seat", 0)
-        if (seat != 0) {
-            var alertDialog = AlertDialog.Builder(this)
-            alertDialog.setMessage("预订 $seat 座位成功！")
-            alertDialog.setNeutralButton("确定", null)
-            alertDialog.show()
-        }
-        var orderID = intent.getIntExtra("orderID", 0)
-
         // 界面的一些显示更改
         if (userID != 0) {
             log_or_sign.visibility = View.GONE
@@ -107,19 +100,39 @@ class MainActivity : AppCompatActivity() {
 
         // 扫码
         main_to_scan.setOnClickListener {
-            if (login_state.text == "空闲") { newViewBtnClick(main_to_scan) }
+            // 先判断是否登录
+            if (userID == 0) {
+                toast("请先登录！")
+                Intent(this, Login::class.java).apply {
+                    startActivity(this)
+                }
+            }
+            else if (login_state.text == "空闲") { newViewBtnClick(main_to_scan) }
             else {
-                alert("正在占座中！点击确定返回占座") { positiveButton("确定") {} }
+                alert("正在占座中！点击确定返回占座") { positiveButton("确定") {
+                    // 返回，功能同back_to_seat按钮
+                    val h = intent.getIntExtra("hour", 0)
+                    val m = intent.getIntExtra("min", 0)
+                    val s = intent.getIntExtra("second", 0)
+                    Intent(this@MainActivity, StudyActivity::class.java).apply {
+                        putExtra("userID", userID)
+                        putExtra("now_seat", now_seat)
+                        putExtra("hour", h)
+                        putExtra("min", m)
+                        putExtra("second", s)
+                        startActivity(this)
+                    }
+                } }.show()
             }
         }
-        // 返回
+        //
         val h = intent.getIntExtra("hour", 0)
         val m = intent.getIntExtra("min", 0)
         val s = intent.getIntExtra("second", 0)
         back_to_seat.setOnClickListener {
             Intent(this, StudyActivity::class.java).apply {
                 putExtra("userID", userID)
-                putExtra("seatID", seatID)
+                putExtra("now_seat", now_seat)
                 putExtra("hour", h)
                 putExtra("min", m)
                 putExtra("second", s)
@@ -151,7 +164,7 @@ class MainActivity : AppCompatActivity() {
             else {
                 Intent(this, Book::class.java).apply {
                     putExtra("userID", userID)
-                    putExtra("orderID", orderID)
+                    putExtra("now_seat", now_seat)
                     startActivity(this)
                 }
             }
@@ -169,6 +182,7 @@ class MainActivity : AppCompatActivity() {
                 Intent(this, FriendActivity::class.java).apply {
                     putExtra("userID", userID)
                     putExtra("name",name)
+                    putExtra("now_seat", now_seat)
                     startActivity(this)
                 }
             }
@@ -185,6 +199,7 @@ class MainActivity : AppCompatActivity() {
             else {
                 Intent(this, PersonInfoActivity::class.java).apply {
                     putExtra("userID", userID)
+                    putExtra("now_seat", now_seat)
                     startActivity(this)
                 }
             }
@@ -212,8 +227,11 @@ class MainActivity : AppCompatActivity() {
         }
         // 登出
         logout.setOnClickListener {
-            Intent(this, MainActivity::class.java).apply {
-                startActivity(this)
+            if (now_seat != 0) alert("占座中请不要退出账号哦！") { positiveButton("确定") {} }.show()
+            else {
+                Intent(this, MainActivity::class.java).apply {
+                    startActivity(this)
+                }
             }
         }
 
@@ -274,7 +292,60 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                     else if (login_state.text == "空闲"){
+                        // 当前扫码结果记为seatID
                         val seatID = obj.getOriginalValue().toInt()
+                        val form = SimpleDateFormat("HH")
+                        val hour = form.format(Date()).toInt()
+                        Okkt.instance.Builder().setUrl("/seatwithreservation/tryoccupyseat")
+                            .setParams(hashMapOf("userid" to userID.toString(),
+                                "seatid" to seatID.toString(), "now" to hour.toString()))
+                            .post(object: CallbackRule<String> {
+                                override suspend fun onFailed(error: String) {
+                                    alert("请检查网络") {
+                                        setTitle("扫码失败")
+                                        positiveButton("确定") {}
+                                    }.show()
+                                }
+                                override suspend fun onSuccess(entity: String, flag: String) {
+                                    if (entity == "Succeed") { // 成功
+                                        // 跳转至占座页面
+                                        alert("享受学习的乐趣吧！") {
+                                            title = "占座成功"
+                                            positiveButton("确定") {
+                                                Intent(this@MainActivity, StudyActivity::class.java).apply {
+                                                    putExtra("userID", userID)
+                                                    putExtra("now_seat", seatID)
+                                                    startActivity(this)
+                                                }
+                                            }
+                                        }.show()
+                                    }
+                                    else if (entity == "Occupied") { // 座位被占
+                                        alert("座位被占用了，请联系管理员") { positiveButton("确定") {} }.show()
+                                    }
+                                    else if (entity == "Booked") {
+                                        alert("座位被预订了") { positiveButton("确定") {} }.show()
+                                    }
+                                    else if (entity == "Leave") {
+                                        alert("座位的主人暂时离开了") {
+                                            positiveButton("换个座位") { newViewBtnClick(main_to_scan) }
+                                        }.show()
+                                    }
+                                    else {
+                                        alert("注意：该座位在 $entity 点被预订！") {
+                                            title = "占座成功"
+                                            positiveButton("确定"){
+                                                Intent(this@MainActivity, StudyActivity::class.java).apply {
+                                                    putExtra("userID", userID)
+                                                    putExtra("now_seat", seatID)
+                                                    startActivity(this)
+                                                }
+                                            }
+                                        }.show()
+                                    }
+                                }
+                            })
+                        /*
                         // 先判断扫到的座位是否为当前用户的预订，若是，则更新座位状态
                         val ordered_seat = 1011
                         if (seatID == ordered_seat) {
@@ -289,8 +360,8 @@ class MainActivity : AppCompatActivity() {
                                     }
                                     override suspend fun onSuccess(entity: MutableList<Int>, flag: String) {
                                         val seat_list = entity.toIntArray()
-                                        if (seatID in seat_list) {
-                                            // 更改user、seat状态******************************
+                                        if (seatID in seat_list) { // 成功找到空位，占座
+                                            // 更改user、seat状态
                                             Okkt.instance.Builder().setUrl("/user/revisestatusbyid")
                                                 .setParams(hashMapOf("userid" to userID.toString()))
                                                 .putBody(hashMapOf("status" to UserStatus.ACTIVE.toString()))
@@ -305,19 +376,41 @@ class MainActivity : AppCompatActivity() {
                                                     override suspend fun onSuccess(entity: String, flag: String) { }
                                                 })
                                             // 跳转至占座页面
-                                            Intent(this@MainActivity, StudyActivity::class.java).apply {
-                                                putExtra("userID", userID)
-                                                putExtra("seatID", seatID)
-                                                // user状态
-                                                startActivity(this)
-                                            }
+                                            alert("成功占座") { positiveButton("确定") {
+                                                Intent(this@MainActivity, StudyActivity::class.java).apply {
+                                                    putExtra("userID", userID)
+                                                    putExtra("seatID", seatID)
+                                                    // user状态
+                                                    startActivity(this)
+                                                }
+                                            } }.show()
                                         }
-                                        else {
-                                            alert("该座位已被占用！") { positiveButton("确定") {} }
+                                        else {// 检查是否暂离
+                                            Okkt.instance.Builder().setUrl("/findbyid")
+                                                .setParams(hashMapOf("seatid" to seatID.toString()))
+                                                .get(object: CallbackRule<Seat> {
+                                                    override suspend fun onFailed(error: String) {
+                                                        toast("查询失败，请检查网络")
+                                                    }
+                                                    override suspend fun onSuccess(entity: Seat, flag: String) {
+                                                        if (entity.status == SeatStatus.LEAVE.toString()) { // 暂离
+                                                            alert("座位的主人暂时离开了！") {
+                                                                positiveButton("换一个座位") { newViewBtnClick(main_to_scan) }
+                                                            }.show()
+                                                        }
+                                                        else {
+                                                            alert("该座位已被占用！") {
+                                                                positiveButton("重新扫码") { newViewBtnClick(main_to_scan) }
+                                                            }.show()
+                                                        }
+                                                    }
+                                                })
                                         }
                                     }
                                 })
                         }
+
+                         */
                     }
                 }
             }

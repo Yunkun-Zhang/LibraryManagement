@@ -27,8 +27,9 @@ class Book : AppCompatActivity() {
         setContentView(R.layout.activity_book)
 
         // 进入该页面前一定处于登录状态
-        var userID = intent.getIntExtra("userID", 0)
-        var seatID = intent.getIntExtra("seatID", 0)
+        val userID = intent.getIntExtra("userID", 0)
+        val seatID = intent.getIntExtra("seatID", 0)
+        val now_seat = intent.getIntExtra("now_seat", 0)
         val orderID = intent.getIntExtra("orderID", 0)
 
         //start_time.text = Editable.Factory.getInstance().newEditable(start.toString())
@@ -98,8 +99,7 @@ class Book : AppCompatActivity() {
                                             putExtra("start", start)
                                             putExtra("end", end)
                                             putExtra("userID", userID)
-                                            //putExtra("subject", sub)
-                                            //putExtra("gender", g)
+                                            putExtra("now_seat", now_seat)
                                             putExtra("list", entity.toIntArray())
                                             startActivity(this)
                                         }
@@ -156,6 +156,7 @@ class Book : AppCompatActivity() {
                                                                     putExtra("userID", userID)
                                                                     putExtra("subject", sub)
                                                                     putExtra("targetgender", g)
+                                                                    putExtra("pair", true)
                                                                     putExtra("list", entity.toIntArray())
                                                                     putExtra("wait", true)
                                                                     startActivity(this)
