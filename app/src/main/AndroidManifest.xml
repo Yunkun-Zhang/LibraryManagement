@@ -19,7 +19,6 @@
         <activity android:name=".ui.activity.SeatInfoActivity"/>
         <activity android:name=".ui.activity.ConversationListActivity"/>
         <activity android:name=".ui.activity.FriendActivity"/>
-        <activity android:name=".ui.activity.GroupBookActivity"/>
         <activity android:name=".ui.activity.PersonInfoActivity"/>
         <activity android:name=".ui.activity.StudyActivity"/>
         <activity android:name=".ui.activity.ModInfoActivity"/>

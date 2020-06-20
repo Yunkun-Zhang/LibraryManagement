@@ -1,8 +1,7 @@
 package com.example.librarymanagement.ui.activity
 
-import android.net.Uri
+
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -11,13 +10,9 @@ import com.example.librarymanagement.control.SetUserInfo
 import com.example.librarymanagement.model.User
 import com.stormkid.okhttpkt.core.Okkt
 import com.stormkid.okhttpkt.rule.CallbackRule
-import io.rong.imkit.RongIM
 import io.rong.imkit.fragment.ConversationFragment
-import io.rong.imkit.userInfoCache.RongUserInfoManager
-import io.rong.imlib.model.Conversation
-import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_conversation.*
-import kotlinx.android.synthetic.main.activity_login.*
+
 
 internal class ConversationActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -2,26 +2,18 @@ package com.example.librarymanagement.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
 import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.librarymanagement.MainActivity
 import com.example.librarymanagement.R
 import com.example.librarymanagement.model.Reservation
 import com.example.librarymanagement.model.User
-import com.example.librarymanagement.others.UserStatus
-import com.google.gson.Gson
 import com.stormkid.okhttpkt.core.Okkt
 import com.stormkid.okhttpkt.rule.CallbackRule
 import kotlinx.android.synthetic.main.activity_book.*
-import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
-import org.jetbrains.anko.sdk25.coroutines.onFocusChange
 import java.io.Serializable
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.HashMap
 
 
@@ -32,21 +24,15 @@ class Book : AppCompatActivity() {
 
         // 进入该页面前一定处于登录状态
         val userID = intent.getIntExtra("userID", 0)
-        val seatID = intent.getIntExtra("seatID", 0)
         val now_seat = intent.getIntExtra("now_seat", 0)
         val state = intent.getStringExtra("state")
 
         // 先查看是否有今天的订单
         if (state == "已预订") {
-            // 获取订单信息，如start=13,end=18
-            //start_time.text = Editable.Factory.getInstance().newEditable(start.toString())
-            //end_time.text = Editable.Factory.getInstance().newEditable(end.toString())
             start_time.isEnabled = false
             end_time.isEnabled = false
-            choose_seat.isEnabled = false
             subject.isEnabled = false
             gender.isEnabled = false
-            // cancel.isEnabled = true
             alert("明天您有一个订单还未完成，不可预订！") {
                 negativeButton("取消该预订") {
                     // 取消订单
@@ -245,8 +231,6 @@ class Book : AppCompatActivity() {
                                                     if (g != null) intent.putExtra("targetgender", g)
                                                     if (sg != null) intent.putExtra("selfgender", sg)
                                                     intent.putExtra("list", entity.keys.toIntArray())
-                                                    //    val gson = Gson()
-                                                    //    val order = gson.toJson(entity)
                                                     intent.putExtras(bundle)
                                                     startActivity(intent)
                                                 }

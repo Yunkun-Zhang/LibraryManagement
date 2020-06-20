@@ -10,6 +10,7 @@ import com.example.librarymanagement.R
 import com.stormkid.okhttpkt.core.Okkt
 import com.stormkid.okhttpkt.rule.StringCallback
 import kotlinx.android.synthetic.main.activity_signup.*
+import org.jetbrains.anko.alert
 import java.security.KeyFactory
 import java.security.spec.X509EncodedKeySpec
 
@@ -26,15 +27,18 @@ class Signup : AppCompatActivity() {
 
         signup_submit.setOnClickListener {
             if (username.text.toString() != "" && password.text.toString() != "") {
-                if (password.text.toString() != confirm_password.text.toString()) {
+                val password = password.text.toString()
+                val name = username.text.toString()
+                // 一些合法性判断
+                if (name == "") alert("用户名不能为空！").show()
+                else if (password == "") alert("密码不能为空！").show()
+                else if (password.length < 6) alert("密码至少六位！").show()
+                else if (password != confirm_password.text.toString()) {
                     val alertDialog = AlertDialog.Builder(this)
                     alertDialog.setMessage("确认密码与密码不符！")
-                    alertDialog.setNeutralButton("确定", null)
                     alertDialog.show()
                 }
                 else {
-                    val password = password.text.toString()
-                    val name = username.text.toString()
 
                     val publicKeyStr = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiEpz2w6VaIAkuqO6p2pGUF7VndsbhrBXeohMaFbVngIs+gSpWUZtMfhTTogkZNwxv3FRy0NophPOBY+LI0dBH8wKpNsqeLhqUkEVQeQGbL1xzxKKfoO1H0NnYrSsaYGNzcAMMoifFi0hdTOw7qT0WpO61EFWy3ZzUSKI4PLFVtNmcqwWgkL1lwtoo9MhhSZItsQe9HGzv8FR0Amh0epfEJq+XVWUAnvbzj3w60nYW8cTMVdowOrYQBLMH2ZQoZ+KNLEJvmGe44wAgRk6+V8UZpxFG2Emj6diJohcG7ajv+7EN5Nh2ym6QhqVNA6SJBagVJmsgUXmRs3kQkqevaqpYQIDAQAB"
                     val keyFactory = KeyFactory.getInstance("RSA")

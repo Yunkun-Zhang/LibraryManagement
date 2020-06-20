@@ -1,6 +1,5 @@
 package com.example.librarymanagement.ui.activity
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -9,10 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.librarymanagement.R
 import com.example.librarymanagement.adapter.OrderList
 import com.example.librarymanagement.model.Reservation
-import com.example.librarymanagement.model.User
 import com.stormkid.okhttpkt.core.Okkt
 import com.stormkid.okhttpkt.rule.CallbackRule
-import kotlinx.android.synthetic.main.activity_friend.*
 import kotlinx.android.synthetic.main.activity_friend.btn_back
 import kotlinx.android.synthetic.main.activity_order.*
 import org.jetbrains.anko.*
@@ -111,6 +108,7 @@ class OrderActivity : AppCompatActivity() {
             })
     }
 
+    // 判断de组成的时间是否晚于now
     fun isLater(d: String, e: Int): Boolean {
         val calendar: Calendar = Calendar.getInstance()
         val t = "${d} $e:00:00"

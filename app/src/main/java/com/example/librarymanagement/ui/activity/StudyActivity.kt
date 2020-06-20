@@ -10,9 +10,7 @@ import com.example.librarymanagement.others.UserStatus
 import com.stormkid.okhttpkt.core.Okkt
 import com.stormkid.okhttpkt.rule.CallbackRule
 import com.stormkid.okhttpkt.rule.StringCallback
-import kotlinx.android.synthetic.main.activity_mod_info.*
 import kotlinx.android.synthetic.main.activity_study.*
-import org.jetbrains.anko.alert
 
 class StudyActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,6 +71,7 @@ class StudyActivity : AppCompatActivity() {
                 putExtra("second", s)
                 startActivity(this)
             }
+            finish()
         }
 
         finish.setOnClickListener {
@@ -94,6 +93,7 @@ class StudyActivity : AppCompatActivity() {
                 putExtra("now_seat", 0) // 清除现在占座
                 startActivity(this)
             }
+            finish()
         }
     }
 }

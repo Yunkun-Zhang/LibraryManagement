@@ -1,27 +1,22 @@
 package com.example.librarymanagement.ui.activity
 
+
 import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import com.example.librarymanagement.MainActivity
 import com.example.librarymanagement.R
-import com.example.librarymanagement.model.User
-import com.example.librarymanagement.others.UserStatus
-import com.google.gson.Gson
 import com.stormkid.okhttpkt.core.Okkt
 import com.stormkid.okhttpkt.rule.CallbackRule
-import kotlinx.android.synthetic.main.activity_book.*
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_seat_info.*
 import org.jetbrains.anko.*
 import splitties.views.dsl.core.lParams
 import splitties.views.gravityCenter
 import android.util.Log
-import com.stormkid.okhttpkt.rule.StringCallback
+
 
 class SeatInfoActivity : AppCompatActivity() {
 
@@ -37,6 +32,7 @@ class SeatInfoActivity : AppCompatActivity() {
         var seatID = 0
         // 正在占用的座位
         val now_seat = intent.getIntExtra("now_seat", 0)
+        // 匹配信息
         var sub = intent.getStringExtra("subject")
         val tg: Boolean?
         if (intent.hasExtra("targetgender")) {
@@ -54,10 +50,7 @@ class SeatInfoActivity : AppCompatActivity() {
         val seat_list = intent.getIntArrayExtra("list")
 
 
-        if (check) {
-            // 当前可用的seat_list
-            toast("现在是 $hour 点")
-        }
+        if (check) toast("现在是 $hour 点")
 
         // 布局
         verticalLayout {
@@ -265,160 +258,7 @@ class SeatInfoActivity : AppCompatActivity() {
                                 }.show()
                             }
                         })
-                    /*
-                    // 跳转回主界面，传递seatID，userID，orderID
-                    // 先找到user
-                    Okkt.instance.Builder().setUrl("/user/findbyuserid")
-                        .putBody(hashMapOf("userid" to userID.toString())).post(object : CallbackRule<User> {
-                        override suspend fun onFailed(error: String) {
-                            toast("failed")
-                        }
 
-                        override suspend fun onSuccess(entity: User, flag: String) {
-                            // 开始生成reservation
-
-                            if (pair) {
-                                if (!wait) {
-                                    val order = intent.getSerializableExtra("order") as HashMap<Int, List<Int>>
-                                    val map: HashMap<String, String> = hashMapOf(
-                                        "userid" to userID.toString(),
-                                        "seatid" to seatID.toString(),
-                                        "starttime" to start.toString(),
-                                        "endtime" to end.toString(),
-                                        "pair" to pair.toString(),
-                                        "hang" to false.toString()
-                                    )
-                                    if (sub != "") map["subject"] = sub.toString()
-                                    if (tg != null) map["targetgender"] = tg.toString()
-                                    if (entity.gender != null) map["selfgender"] = entity.gender.toString()
-                                    if (order[seatID]!![0] != null) map["companion"] = order[seatID]!![0].toString()
-                                    Okkt.instance.Builder().setUrl("/reservation/add")
-                                        .putBody(map)
-                                        .post(object : CallbackRule<Int> {
-                                            override suspend fun onFailed(error: String) {}
-                                            override suspend fun onSuccess(entity: Int, flag: String) {
-                                                Okkt.instance.Builder().setUrl("/seat/setseat/book").putBody(
-                                                    hashMapOf(
-                                                        "seatid" to seatID.toString(),
-                                                        "starttime" to start.toString(),
-                                                        "endtime" to end.toString()
-                                                    )
-                                                ).post(object : CallbackRule<String> {
-                                                    override suspend fun onFailed(error: String) {}
-                                                    override suspend fun onSuccess(entity: String, flag: String) {}
-                                                })
-                                                Okkt.instance.Builder().setUrl("/reservation/release")
-                                                    .setParams(
-                                                        hashMapOf(
-                                                            "reservationid" to order[seatID]!![1].toString(),
-                                                            "companion" to userID.toString()
-                                                        )
-                                                    ).post(object : StringCallback {
-                                                        override suspend fun onFailed(error: String) {}
-                                                        override suspend fun onSuccess(entity: String, flag: String) {}
-                                                    })
-                                                alert("预订座位 $seatID 成功！") {
-                                                    positiveButton("确定") {
-                                                        Intent(this@SeatInfoActivity, MainActivity::class.java).apply {
-                                                            putExtra("bookseat", seatID)
-                                                            putExtra("now_seat", now_seat)
-                                                            putExtra("userID", userID)
-                                                            putExtra("orderID", entity)
-                                                            startActivity(this)
-                                                        }
-                                                    }
-                                                }.show()
-                                            }
-                                        })
-                                }
-                                // 没有找到合适的配对
-                                else {
-                                    val map: HashMap<String, String> = hashMapOf(
-                                        "userid" to userID.toString(),
-                                        "seatid" to seatID.toString(),
-                                        "starttime" to start.toString(),
-                                        "endtime" to end.toString(),
-                                        "pair" to pair.toString(),
-                                        "hang" to true.toString()
-                                    )
-                                    if (sub != "") map["subject"] = sub
-                                    if (tg != null) map["targetgender"] = tg.toString()
-                                    if (entity.gender != null) map["selfgender"] = entity.gender.toString()
-                                    Okkt.instance.Builder().setUrl("/reservation/add").putBody(map)
-                                        .post(object : CallbackRule<Int> {
-                                            override suspend fun onFailed(error: String) {}
-                                            override suspend fun onSuccess(entity: Int, flag: String) {
-                                                Okkt.instance.Builder().setUrl("/seat/setseat/book").putBody(
-                                                    hashMapOf(
-                                                        "seatid" to seatID.toString(),
-                                                        "starttime" to start.toString(),
-                                                        "endtime" to end.toString()
-                                                    )
-                                                ).post(object : CallbackRule<String> {
-                                                    override suspend fun onFailed(error: String) {}
-                                                    override suspend fun onSuccess(entity: String, flag: String) {}
-                                                })
-                                                alert("预订座位 $seatID 成功！") {
-                                                    positiveButton("确定") {
-                                                        Intent(this@SeatInfoActivity, MainActivity::class.java).apply {
-                                                            putExtra("userID", userID)
-                                                            putExtra("orderID", entity)
-                                                            putExtra("now_seat", now_seat)
-                                                            startActivity(this)
-                                                        }
-                                                    }
-                                                }.show()
-
-                                            }
-                                        })
-
-                                }
-                            } else {// 无配对
-                                Okkt.instance.Builder().setUrl("/reservation/add")
-                                    .putBody(
-                                        hashMapOf(
-                                            "userid" to userID.toString(),
-                                            "seatid" to seatID.toString(),
-                                            "starttime" to start.toString(),
-                                            "endtime" to end.toString(),
-                                            "pair" to pair.toString(),
-                                            "hang" to false.toString()
-                                        )
-                                    )
-                                    .post(object : CallbackRule<Int> {
-                                        override suspend fun onFailed(error: String) {
-                                            alert("预订失败！") { positiveButton("确定") {} }.show()
-                                        }
-
-                                        override suspend fun onSuccess(entity: Int, flag: String) {
-                                            // 更改座位信息
-                                            Okkt.instance.Builder().setUrl("/seat/setseat/book").putBody(
-                                                hashMapOf(
-                                                    "seatid" to seatID.toString(),
-                                                    "starttime" to start.toString(),
-                                                    "endtime" to end.toString()
-                                                )
-                                            ).post(object : CallbackRule<String> {
-                                                override suspend fun onFailed(error: String) {}
-                                                override suspend fun onSuccess(entity: String, flag: String) {}
-                                            })
-                                            alert("预订座位 $seatID 成功！") {
-                                                positiveButton("确定") {
-                                                    Intent(this@SeatInfoActivity, MainActivity::class.java).apply {
-                                                        putExtra("userID", userID)
-                                                        putExtra("orderID", entity)
-                                                        putExtra("now_seat", now_seat)
-                                                        startActivity(this)
-                                                    }
-                                                }
-                                            }.show()
-                                        }
-                                    })
-                            }
-                        }
-                    })
-
-                     */
                 }
 
             }

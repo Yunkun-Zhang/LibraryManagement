@@ -7,15 +7,8 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
-import android.view.Menu
 import android.view.View
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import com.example.librarymanagement.Application.MyApplication
-import com.example.librarymanagement.model.Seat
 import com.example.librarymanagement.model.User
 import com.example.librarymanagement.others.*
 import com.example.librarymanagement.ui.activity.*
@@ -25,9 +18,7 @@ import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
 import com.stormkid.okhttpkt.core.Okkt
 import com.stormkid.okhttpkt.rule.CallbackRule
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_mod_info.*
 import org.jetbrains.anko.alert
-import org.jetbrains.anko.cancelButton
 import org.jetbrains.anko.toast
 import java.text.SimpleDateFormat
 import java.util.*
