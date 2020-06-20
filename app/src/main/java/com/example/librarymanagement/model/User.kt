@@ -11,5 +11,6 @@ data class User(
     val gender:Boolean?,
     val token:String,
     val favorsubject:String?,
-    val status:UserStatus
+    val status:UserStatus,
+    val reserved:Boolean
 )

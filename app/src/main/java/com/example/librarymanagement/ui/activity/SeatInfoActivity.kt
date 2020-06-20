@@ -38,7 +38,16 @@ class SeatInfoActivity : AppCompatActivity() {
         // 正在占用的座位
         val now_seat = intent.getIntExtra("now_seat", 0)
         var sub = intent.getStringExtra("subject")
-        val tg : Boolean? = intent.extras?.get("targetgender") as Boolean?
+        val tg: Boolean?
+        if (intent.hasExtra("targetgender")) {
+            tg = intent.extras.getBoolean("targetgender")
+        }
+        else tg = null
+        val sg: Boolean?
+        if (intent.hasExtra("selfgender")) {
+            sg = intent.extras.getBoolean("selfgender")
+        }
+        else sg = null
         val pair = intent.getBooleanExtra("pair", false)
         val wait = intent.getBooleanExtra("wait", false)
         // 获取可用座位list
@@ -92,7 +101,7 @@ class SeatInfoActivity : AppCompatActivity() {
                                                                     this.setImageResource(R.drawable.shape_green)
                                                                     seatID = 0
                                                                 }
-                                                            } else toast("该座位已被占用！")
+                                                            } else toast("座位 $id 已被占用！")
                                                         }
                                                     }
                                                 }.lparams { topMargin = dip(10) }
@@ -117,7 +126,7 @@ class SeatInfoActivity : AppCompatActivity() {
                                                                     this.setImageResource(R.drawable.shape_green)
                                                                     seatID = 0
                                                                 }
-                                                            } else toast("该座位已被占用！")
+                                                            } else toast("座位 $id 已被占用！")
                                                         }
                                                     }
                                                 }.lparams {
@@ -155,7 +164,7 @@ class SeatInfoActivity : AppCompatActivity() {
                                                                     this.setImageResource(R.drawable.shape_green)
                                                                     seatID = 0
                                                                 }
-                                                            } else toast("该座位已被占用！")
+                                                            } else toast("座位 $id 已被占用！")
                                                         }
                                                     }
                                                 }.lparams { topMargin = dip(10) }
@@ -180,7 +189,7 @@ class SeatInfoActivity : AppCompatActivity() {
                                                                     this.setImageResource(R.drawable.shape_green)
                                                                     seatID = 0
                                                                 }
-                                                            } else toast("该座位已被占用！")
+                                                            } else toast("座位 $id 已被占用！")
                                                         }
                                                     }
                                                 }.lparams {
@@ -223,6 +232,39 @@ class SeatInfoActivity : AppCompatActivity() {
                 // 未选座位
                 if (seatID == 0) alert("请选择一个座位！") { positiveButton("确定") {} }.show()
                 else {
+                    val map: HashMap<String, String> = hashMapOf(
+                        "userid" to userID.toString(),
+                        "seatid" to seatID.toString(),
+                        "starttime" to start.toString(),
+                        "endtime" to end.toString(),
+                        "pair" to pair.toString(),
+                        "hang" to wait.toString()
+                    )
+                    if (pair && !wait) {
+                        val order = intent.getSerializableExtra("order") as HashMap<Int, List<Int>>
+                        if (order[seatID]!![0] != null) map["companion"] = order[seatID]!![0].toString()
+                    }
+                    if (sub != null) map["subject"] = sub.toString()
+                    if (tg != null) map["targetgender"] = tg.toString()
+                    if (sg != null) map["selfgender"] = sg.toString()
+                    // 开始加载订单
+                    Okkt.instance.Builder().setUrl("/seatwithreservation/book")
+                        .setParams(map).get(object: CallbackRule<String> {
+                            override suspend fun onFailed(error: String) { toast("add failed") }
+                            override suspend fun onSuccess(entity: String, flag: String) {
+                                alert("明天 $start 点至 $end 点，座位 $seatID ，不见不散！") {
+                                    title = "预订成功"
+                                    positiveButton("确定") {
+                                        Intent(this@SeatInfoActivity, MainActivity::class.java).apply {
+                                            putExtra("userID", userID)
+                                            putExtra("now_seat", now_seat)
+                                            startActivity(this)
+                                        }
+                                    }
+                                }.show()
+                            }
+                        })
+                    /*
                     // 跳转回主界面，传递seatID，userID，orderID
                     // 先找到user
                     Okkt.instance.Builder().setUrl("/user/findbyuserid")
@@ -374,15 +416,15 @@ class SeatInfoActivity : AppCompatActivity() {
                             }
                         }
                     })
+
+                     */
                 }
 
             }
         }
 
         // 返回按钮
-        btn_back.setOnClickListener {
-            finish()
-        }
+        btn_back.setOnClickListener { finish() }
 
         // 楼层
         val a = findViewById<HorizontalScrollView>(1)

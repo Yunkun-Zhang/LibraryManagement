@@ -13,12 +13,14 @@ import kotlin.collections.ArrayList
 
 class OrderList : RecyclerView.Adapter<OrderList.MyHolder> {
     private var list: ArrayList<String>? = null
+    private var status: ArrayList<String>? = null
     private var context: Context? = null
     private var itemClickListener: IKotlinItemClickListener? = null
 
-    constructor (mContext: Context, list: ArrayList<String>?) {
+    constructor (mContext: Context, list: ArrayList<String>?, status: ArrayList<String>?) {
         this.context = mContext
         this.list = list
+        this.status = status
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
@@ -31,6 +33,7 @@ class OrderList : RecyclerView.Adapter<OrderList.MyHolder> {
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
 
         holder?.text?.text = list!![position]
+        holder?.status?.text = status!![position]
 
         // 点击事件
         holder.itemView.setOnClickListener {
@@ -42,6 +45,7 @@ class OrderList : RecyclerView.Adapter<OrderList.MyHolder> {
     class MyHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         // !! 断言
         var text: TextView = itemView!!.findViewById(R.id.date)
+        var status: TextView = itemView!!.findViewById(R.id.status)
     }
 
     // 提供set方法

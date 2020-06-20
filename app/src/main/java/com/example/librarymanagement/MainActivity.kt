@@ -65,7 +65,8 @@ class MainActivity : AppCompatActivity() {
                 override suspend fun onSuccess(entity: User, flag: String) {
                     //当前用户信息只能获取这些，后续需要等待服务器修改
                     val userStatus = entity.status
-                    if (userStatus == UserStatus.FREE) login_state.text = "空闲"
+                    if (entity.reserved) helper.text = "已预订"
+                    else if (userStatus == UserStatus.FREE) login_state.text = "空闲"
                     else {
                         back_to_seat.visibility = View.VISIBLE
                         if (userStatus == UserStatus.ACTIVE) login_state.text = "占座中"
@@ -152,7 +153,7 @@ class MainActivity : AppCompatActivity() {
                 startActivity(this)
             }
         }
-
+        // 去预订界面
         main_to_book.setOnClickListener {
             // 先判断是否登录
             if (userID == 0) {
@@ -164,6 +165,7 @@ class MainActivity : AppCompatActivity() {
             else {
                 Intent(this, Book::class.java).apply {
                     putExtra("userID", userID)
+                    putExtra("state", helper.text.toString())
                     putExtra("now_seat", now_seat)
                     startActivity(this)
                 }

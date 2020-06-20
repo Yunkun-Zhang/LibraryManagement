@@ -76,6 +76,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:hint="开始"
+                android:text="08"
                 android:inputType="number"
                 android:maxLength="2"/>
         <TextView
@@ -88,6 +89,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:hint="结束"
+                android:text="23"
                 android:inputType="number"
                 android:maxLength="2"
                 app:layout_constraintTop_toBottomOf="@id/start_time"
@@ -110,15 +112,6 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="10dp"/>
 
-    <TextView
-            android:id="@+id/seat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@id/time_layout"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="10dp"/>
 
     <TextView
             android:layout_width="match_parent"

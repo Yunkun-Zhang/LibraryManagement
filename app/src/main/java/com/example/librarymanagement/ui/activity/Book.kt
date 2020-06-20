@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.librarymanagement.MainActivity
 import com.example.librarymanagement.R
+import com.example.librarymanagement.model.Reservation
 import com.example.librarymanagement.model.User
 import com.example.librarymanagement.others.UserStatus
 import com.google.gson.Gson
@@ -19,6 +20,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk25.coroutines.onFocusChange
 import java.io.Serializable
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.HashMap
 
 
 class Book : AppCompatActivity() {
@@ -30,13 +34,10 @@ class Book : AppCompatActivity() {
         val userID = intent.getIntExtra("userID", 0)
         val seatID = intent.getIntExtra("seatID", 0)
         val now_seat = intent.getIntExtra("now_seat", 0)
-        val orderID = intent.getIntExtra("orderID", 0)
+        val state = intent.getStringExtra("state")
 
-        //start_time.text = Editable.Factory.getInstance().newEditable(start.toString())
-        //end_time.text = Editable.Factory.getInstance().newEditable(end.toString())
-        if (seatID != 0) seat.text = seatID.toString()
-
-        if (orderID != 0) {
+        // 先查看是否有今天的订单
+        if (state == "已预订") {
             // 获取订单信息，如start=13,end=18
             //start_time.text = Editable.Factory.getInstance().newEditable(start.toString())
             //end_time.text = Editable.Factory.getInstance().newEditable(end.toString())
@@ -45,15 +46,37 @@ class Book : AppCompatActivity() {
             choose_seat.isEnabled = false
             subject.isEnabled = false
             gender.isEnabled = false
-            cancel.isEnabled = true
-            cancel.setOnClickListener {
-                // 加入取消订单操作*****************************
-                Intent(this, MainActivity::class.java).apply {
-                    putExtra("orderID", 0)
-                    putExtra("userID", userID)
-                    startActivity(this)
+            // cancel.isEnabled = true
+            alert("明天您有一个订单还未完成，不可预订！") {
+                negativeButton("取消该预订") {
+                    // 取消订单
+                    Okkt.instance.Builder().setUrl("/reservation/findbyuserid")
+                        .setParams(hashMapOf("userid" to userID.toString()))
+                        .get(object: CallbackRule<MutableList<Reservation>> {
+                            override suspend fun onFailed(error: String) { }
+                            override suspend fun onSuccess(entity: MutableList<Reservation>, flag: String) {
+                                Okkt.instance.Builder().setUrl("/seatwithreservation/deletereservation")
+                                    .setParams(
+                                        hashMapOf(
+                                            "userid" to userID.toString(),
+                                            "reservationid" to entity[0].reservationid.toString()
+                                        )
+                                    )
+                                    .post(object : CallbackRule<String> {
+                                        override suspend fun onFailed(error: String) { }
+                                        override suspend fun onSuccess(entity: String, flag: String) {
+                                            Intent(this@Book, MainActivity::class.java).apply {
+                                                putExtra("now_seat", now_seat)
+                                                putExtra("userID", userID)
+                                                startActivity(this)
+                                            }
+                                        }
+                                    })
+                            }
+                        })
                 }
-            }
+                positiveButton("返回") { finish() }
+            }.show()
         }
         else {
             // 取消=返回
@@ -64,10 +87,10 @@ class Book : AppCompatActivity() {
                 var end = end_time.text.toString().toInt()
                 // 8:00 -- 23:00
                 if (start < 8 || start > 23 || end < 8 || end > 23) {
-                    val alertDialog = AlertDialog.Builder(this)
-                    alertDialog.setMessage("请输入正确的时间！")
-                    alertDialog.setNeutralButton("确定", null)
-                    alertDialog.show()
+                    alert("图书馆在8点至23点开放") {
+                        title = "时间错误"
+                        positiveButton("确定") {}
+                    }.show()
                 }
                 else if (start >= end) {
                     val alertDialog = AlertDialog.Builder(this)
@@ -115,7 +138,6 @@ class Book : AppCompatActivity() {
                                 override suspend fun onFailed(error: String) {
                                     toast("failed")
                                 }
-
                                 override suspend fun onSuccess(entity: User, flag: String) {
                                     val sg = entity.gender
                                     Log.w("my gender", sg.toString())
@@ -131,7 +153,7 @@ class Book : AppCompatActivity() {
                                         .get(object : CallbackRule<HashMap<Int, List<Int>>> {
                                             override suspend fun onFailed(error: String) {
                                                 // 如果为空究竟返回哪个地方？
-                                                alert("这说明最大的寻找尝试失败了") {positiveButton("修改时间段") { } }.show()
+                                                // alert("这说明最大的寻找尝试失败了") {positiveButton("修改时间段") { } }.show()
                                                 Okkt.instance.Builder().setUrl("/seat/getspareseat/withspareadjacent")
                                                     .putBody(
                                                         hashMapOf(
@@ -154,8 +176,10 @@ class Book : AppCompatActivity() {
                                                                     putExtra("start", start)
                                                                     putExtra("end", end)
                                                                     putExtra("userID", userID)
+                                                                    putExtra("now_seat", now_seat)
                                                                     putExtra("subject", sub)
-                                                                    putExtra("targetgender", g)
+                                                                    if (g != null) putExtra("targetgender", g)
+                                                                    if (sg != null) putExtra("selfgender", sg)
                                                                     putExtra("pair", true)
                                                                     putExtra("list", entity.toIntArray())
                                                                     putExtra("wait", true)
@@ -166,7 +190,7 @@ class Book : AppCompatActivity() {
                                                     })
                                                 Log.w("bobbob", "failed") }
                                             override suspend fun onSuccess(entity: HashMap<Int, List<Int>>, flag: String) {
-                                                alert("这说明最大的寻找尝试成功了") {positiveButton("修改时间段") { } }.show()
+                                                // alert("这说明最大的寻找尝试成功了") {positiveButton("修改时间段") { } }.show()
                                                 Log.w("bobbob", entity.keys.toIntArray()[0].toString())
                                                 if (entity.isEmpty()) { // 希望匹配的无座位
                                                     Okkt.instance.Builder().setUrl("/seat/getspareseat/withspareadjacent")
@@ -191,8 +215,10 @@ class Book : AppCompatActivity() {
                                                                         putExtra("start", start)
                                                                         putExtra("end", end)
                                                                         putExtra("userID", userID)
+                                                                        putExtra("now_seat", now_seat)
                                                                         putExtra("subject", sub)
-                                                                        putExtra("targetgender", g)
+                                                                        if (g != null) putExtra("targetgender", g)
+                                                                        if (sg != null) putExtra("selfgender", sg)
                                                                         putExtra("list", entity.toIntArray())
                                                                         putExtra("wait", true)
                                                                         startActivity(this)
@@ -210,8 +236,10 @@ class Book : AppCompatActivity() {
                                                     intent.putExtra("start", start)
                                                     intent.putExtra("end", end)
                                                     intent.putExtra("userID", userID)
+                                                    intent.putExtra("now_seat", now_seat)
                                                     intent.putExtra("subject", sub)
-                                                    intent.putExtra("targetender", g)
+                                                    if (g != null) intent.putExtra("targetgender", g)
+                                                    if (sg != null) intent.putExtra("selfgender", sg)
                                                     intent.putExtra("list", entity.keys.toIntArray())
                                                     //    val gson = Gson()
                                                     //    val order = gson.toJson(entity)
