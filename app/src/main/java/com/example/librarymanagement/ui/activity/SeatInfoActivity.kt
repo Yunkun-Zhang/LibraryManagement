@@ -249,10 +249,10 @@ class SeatInfoActivity : AppCompatActivity() {
                     if (sg != null) map["selfgender"] = sg.toString()
                     // 开始加载订单
                     Okkt.instance.Builder().setUrl("/seatwithreservation/book")
-                        .setParams(map).get(object: CallbackRule<String> {
+                        .setParams(map).post(object: CallbackRule<String> {
                             override suspend fun onFailed(error: String) { toast("add failed") }
                             override suspend fun onSuccess(entity: String, flag: String) {
-                                alert("明天 $start 点至 $end 点，座位 $seatID ，不见不散！") {
+                                alert("明天 $start 点至 $end 点，座位 $seatID，不见不散！") {
                                     title = "预订成功"
                                     positiveButton("确定") {
                                         Intent(this@SeatInfoActivity, MainActivity::class.java).apply {
@@ -260,6 +260,7 @@ class SeatInfoActivity : AppCompatActivity() {
                                             putExtra("now_seat", now_seat)
                                             startActivity(this)
                                         }
+                                        finish()
                                     }
                                 }.show()
                             }

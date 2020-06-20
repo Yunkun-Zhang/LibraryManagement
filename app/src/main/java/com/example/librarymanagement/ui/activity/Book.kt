@@ -69,6 +69,7 @@ class Book : AppCompatActivity() {
                                                 putExtra("now_seat", now_seat)
                                                 putExtra("userID", userID)
                                                 startActivity(this)
+                                                finish()
                                             }
                                         }
                                     })
@@ -126,6 +127,7 @@ class Book : AppCompatActivity() {
                                             putExtra("list", entity.toIntArray())
                                             startActivity(this)
                                         }
+                                        finish()
                                     }
                                 }
                             })
@@ -185,6 +187,7 @@ class Book : AppCompatActivity() {
                                                                     putExtra("wait", true)
                                                                     startActivity(this)
                                                                 }
+                                                                finish()
                                                             }
                                                         }
                                                     })
@@ -223,6 +226,7 @@ class Book : AppCompatActivity() {
                                                                         putExtra("wait", true)
                                                                         startActivity(this)
                                                                     }
+                                                                    finish()
                                                                 }
                                                             }
                                                         })
@@ -246,6 +250,7 @@ class Book : AppCompatActivity() {
                                                     intent.putExtras(bundle)
                                                     startActivity(intent)
                                                 }
+                                                finish()
                                             }
                                         })
                                 }

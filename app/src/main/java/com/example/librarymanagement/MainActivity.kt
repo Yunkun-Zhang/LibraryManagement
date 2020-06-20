@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                     //当前用户信息只能获取这些，后续需要等待服务器修改
                     val userStatus = entity.status
                     if (entity.reserved) helper.text = "已预订"
-                    else if (userStatus == UserStatus.FREE) login_state.text = "空闲"
+                    if (userStatus == UserStatus.FREE) login_state.text = "空闲"
                     else {
                         back_to_seat.visibility = View.VISIBLE
                         if (userStatus == UserStatus.ACTIVE) login_state.text = "占座中"
@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
                     startActivity(this)
                 }
             }
-            else if (login_state.text == "空闲") { newViewBtnClick(main_to_scan) }
+            else if (now_seat == 0) { newViewBtnClick(main_to_scan) }
             else {
                 alert("正在占座中！点击确定返回占座") { positiveButton("确定") {
                     // 返回，功能同back_to_seat按钮
@@ -237,7 +237,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
     }
 
     /**
@@ -304,7 +303,7 @@ class MainActivity : AppCompatActivity() {
                             .post(object: CallbackRule<String> {
                                 override suspend fun onFailed(error: String) {
                                     alert("请检查网络") {
-                                        setTitle("扫码失败")
+                                        title = "扫码失败"
                                         positiveButton("确定") {}
                                     }.show()
                                 }
@@ -347,72 +346,7 @@ class MainActivity : AppCompatActivity() {
                                     }
                                 }
                             })
-                        /*
-                        // 先判断扫到的座位是否为当前用户的预订，若是，则更新座位状态
-                        val ordered_seat = 1011
-                        if (seatID == ordered_seat) {
-                            // 更新座位状态
-                        }
-                        else {  // 若否，判断扫到座位是否可用，若是，则成功占位
-                            // 查询seat_list
-                            Okkt.instance.Builder().setUrl("/seat/getspareseats/now")
-                                .post(object : CallbackRule<MutableList<Int>> {
-                                    override suspend fun onFailed(error: String) {
-                                        alert("图书馆未开放！") { positiveButton("确定") {} }.show()
-                                    }
-                                    override suspend fun onSuccess(entity: MutableList<Int>, flag: String) {
-                                        val seat_list = entity.toIntArray()
-                                        if (seatID in seat_list) { // 成功找到空位，占座
-                                            // 更改user、seat状态
-                                            Okkt.instance.Builder().setUrl("/user/revisestatusbyid")
-                                                .setParams(hashMapOf("userid" to userID.toString()))
-                                                .putBody(hashMapOf("status" to UserStatus.ACTIVE.toString()))
-                                                .post(object: CallbackRule<String> {
-                                                    override suspend fun onFailed(error: String) { }
-                                                    override suspend fun onSuccess(entity: String, flag: String) { }
-                                                })
-                                            Okkt.instance.Builder().setUrl("/seat/setseatoccupied")
-                                                .setParams(hashMapOf("seatid" to seatID.toString()))
-                                                .post(object: CallbackRule<String> {
-                                                    override suspend fun onFailed(error: String) { }
-                                                    override suspend fun onSuccess(entity: String, flag: String) { }
-                                                })
-                                            // 跳转至占座页面
-                                            alert("成功占座") { positiveButton("确定") {
-                                                Intent(this@MainActivity, StudyActivity::class.java).apply {
-                                                    putExtra("userID", userID)
-                                                    putExtra("seatID", seatID)
-                                                    // user状态
-                                                    startActivity(this)
-                                                }
-                                            } }.show()
-                                        }
-                                        else {// 检查是否暂离
-                                            Okkt.instance.Builder().setUrl("/findbyid")
-                                                .setParams(hashMapOf("seatid" to seatID.toString()))
-                                                .get(object: CallbackRule<Seat> {
-                                                    override suspend fun onFailed(error: String) {
-                                                        toast("查询失败，请检查网络")
-                                                    }
-                                                    override suspend fun onSuccess(entity: Seat, flag: String) {
-                                                        if (entity.status == SeatStatus.LEAVE.toString()) { // 暂离
-                                                            alert("座位的主人暂时离开了！") {
-                                                                positiveButton("换一个座位") { newViewBtnClick(main_to_scan) }
-                                                            }.show()
-                                                        }
-                                                        else {
-                                                            alert("该座位已被占用！") {
-                                                                positiveButton("重新扫码") { newViewBtnClick(main_to_scan) }
-                                                            }.show()
-                                                        }
-                                                    }
-                                                })
-                                        }
-                                    }
-                                })
-                        }
 
-                         */
                     }
                 }
             }
